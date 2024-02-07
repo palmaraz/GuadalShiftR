@@ -232,7 +232,7 @@ Distributed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 I
 
 ## Contact
 
-Pablo Almaraz - [\@palmaraz_Eco](https://twitter.com/palmaraz_Eco) - [palmaraz\@gmail.com](mailto:pablo.almaraz@csic.es)
+Pablo Almaraz - [\@palmaraz_Eco](https://twitter.com/palmaraz_Eco) - [pablo.almaraz\@csic.es](mailto:pablo.almaraz@csic.es)
 
 Personal webpage: <https://palmaraz.github.io/>
 
