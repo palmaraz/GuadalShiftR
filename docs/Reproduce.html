@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Reproducible workflow</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GuadalShiftR</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Reproduce.html">Reproduce</a>
+</li>
+<li>
+  <a href="rpackages.html">R packages</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/palmaraz/GuadalShiftR">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Reproducible workflow</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-02-07
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>GuadalShiftR/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20240207code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20240207)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20240207code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20240207)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongc4037f1">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> c4037f1
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongc4037f1"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version c4037f1.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    output/figures/
+
+Untracked files:
+    Untracked:  CITATION
+    Untracked:  LICENCE
+    Untracked:  MAKEFILE.R
+    Untracked:  Makefile
+    Untracked:  analysis/rpackages-refs.bib
+    Untracked:  code/SSRDLVR_model.JAGS
+    Untracked:  code/SSRDLVR_script.R
+    Untracked:  code/functions.R
+    Untracked:  data/Aerial_count_data.csv
+    Untracked:  data/Environmental_data.csv
+    Untracked:  manuscript/
+    Untracked:  output/BDFA_model/
+    Untracked:  output/Cusp_fit.Rdata
+    Untracked:  output/SSRDLVR_model/
+    Untracked:  pipeline.R
+
+Unstaged changes:
+    Modified:   GuadalShiftR.Rproj
+    Modified:   README.md
+    Modified:   analysis/_site.yml
+    Deleted:    analysis/about.Rmd
+    Deleted:    code/README.md
+    Deleted:    data/README.md
+    Deleted:    output/README.md
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/Reproduce.Rmd</code>) and HTML
+(<code>docs/Reproduce.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+c4037f1
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-07
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>The simplest way to reproduce the analyses is to run the
+<code>MAKEFILE.R</code> file. Executing this chunck will perform all the
+statistical analyses and produce all the figures for the main and
+supplementary files.</p>
+<pre class="r"><code>source(&#39;MAKEFILE.R&#39;)</code></pre>
+<div id="warning" class="section level2">
+<h2><strong>WARNING</strong></h2>
+<p>As with all Bayesian <a
+href="https://epubs.siam.org/doi/10.1137/1116083">numerical integration
+techniques</a>, either using <a
+href="https://www.tandfonline.com/doi/abs/10.1080/01621459.2000.10474335">Gibbs
+sampling</a>, (<a
+href="https://sourceforge.net/projects/mcmc-jags/">JAGS</a>), <a
+href="https://www.jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf">HMC-NUTS</a>,
+(<a href="https://mc-stan.org/">Stan</a>) or other sampling methods, the
+posterior distribution will always be an approximation to the target
+distribution, up to a constant and accounting for <a
+href="https://epubs.siam.org/doi/10.1137/1125052">MC error</a>. In this
+case, both the <a href="https://fate-ewi.github.io/bayesdfa/">Bayesian
+DFA</a> (using HMC-NUTS), and the SSRDLVR model (using Gibbs MCMC
+sampling), are very high-dimensional approaches, yielding very
+high-dimensional posterior distributions. As a consequence, <strong>the
+values of summaries from the posterior distributions will be somewhat
+sensitive not only to prior specification, but also to initial values of
+the MC chains</strong>. In particular, providing informative initial
+values for the MC chains (that is, abusing of language, values that are
+within the basin of attraction of the target distribution), can greatly
+speed up the convergence and provide meaningful posterior values. Keep
+this in mind when modifying the prior or the initial values of these or
+other models!</p>
+<p>The following code is structured with these issues in mind:</p>
+<ol style="list-style-type: decimal">
+<li><p>Depending on your computing architecture, the fitting of the
+Bayesian DFA and the SSRDLVR model can take up to several hours (most
+likely), or even days (unlikely). Therefore, the essential output from
+the fitted posterior distributions is already saved in the
+<code>output</code> folder, and the analyses from this file and the
+<code>MAKEFILE.R</code> and <code>Makefile</code> files use this default
+procedure for quickly producing the figures and compiling the
+manuscript.</p></li>
+<li><p>If you decide to re-fit all the models, set
+<code>fit_DFA=TRUE</code> and <code>fit_SSRDLVR=TRUE</code> here and
+elsewhere. Keep in mind the issue with initial and prior values
+described above! In particular, do not modify the random seeds used in
+this project. If you do, expect slightly diverging numerical results. In
+particular, the estimation of the empirical probability of feasibility
+from the SSRDLVR is particularly sensitive to these issues. Even
+depending on the particular version of R, Stan, JAGS, gcc, etc.,
+slightly different results are expected. This is
+<strong>annoying</strong>.</p></li>
+<li><p>Finally, keep in mind that the chunks of this Rmarkdown are set
+to <code>eval=FALSE</code>, if you want to run the chuncks, set to
+<code>eval=TRUE</code>.</p></li>
+</ol>
+<p><br /></p>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Please look the <code>README</code> file for further details on
+reproducing the results of this project. Note that the following chunks
+are supposed to run sequentially.</p>
+</div>
+<div id="load-libraries" class="section level2">
+<h2>Load libraries</h2>
+<p>Check that the <a
+href="https://github.com/DesiQuintans/librarian">librarian</a> package
+is installed. Alternatively, note that you can use the <a
+href="https://github.com/RevolutionAnalytics/checkpoint">checkpoint</a>
+package to build an environment identical to the date of completion of
+the present project. Look at the <code>Session information</code> tab
+below. After <a
+href="https://github.com/DesiQuintans/librarian">librarian</a> is
+installed, the <code>shelf</code> function will check that the selected
+packages are installed. If they are, it will load them; if not, it will
+first install them and then load them.</p>
+<pre class="r"><code># Load libraries ####
+
+# You can choose to make a checkpoint to reproduce all the analyses with a
+# CRAN snapshot of the day of acceptance of the paper. If so, uncomment the
+# two following lines:
+
+# if (!require(checkpoint)) install.packages(&#39;checkpoint&#39;)
+# checkpoint::checkpoint(&quot;2024-01-20&quot;)
+
+if (!require(librarian)) install.packages(&#39;librarian&#39;) # Install, if necessary, the &#39;librarian&#39; package</code></pre>
+<pre><code>Loading required package: librarian</code></pre>
+<pre class="r"><code># Automatically install, if necessary, from whichever source (CRAN, Bioconductor...), the necessary
+# packages to conduct the analyses, and load them
+
+librarian::shelf(tidyverse,readr,runjags,rstan,bayesdfa,coda,ggmcmc,bayesplot,qgraph,
+                 imputeTS,ggridges,viridis,bayestestR,cusp,mvtnorm,ggbreak,psych,data.table,
+                 reshape2,patchwork,ggrepel)</code></pre>
+</div>
+<div id="load-functions" class="section level2">
+<h2>Load functions</h2>
+<pre class="r"><code>source(&#39;code/functions.R&#39;)</code></pre>
+</div>
+<div id="conduct-the-analyes" class="section level2">
+<h2>Conduct the analyes</h2>
+<p>This will run the analyses in a temporal sequence.</p>
+<div id="load-data" class="section level3">
+<h3>Load data</h3>
+<pre class="r"><code># Load data ####
+message(&#39;\nLoad data\n&#39;)
+
+Count_data = read_delim(&quot;data/Aerial_count_data.csv&quot;,delim = &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+
+Sp_names_long = c(&quot;Pintail&quot;,&quot;Shoveler&quot;,&quot;Common teal&quot;,&quot;Eurasian wigeon&quot;,&quot;Mallard&quot;,
+                  &quot;Gadwall&quot;,&quot;Greylag goose&quot;,&quot;Common pochard&quot;,&quot;Red-crested pochard&quot;,&quot;Shelduck&quot;)
+
+Sp_names_short = c(&quot;Pintail&quot;,&quot;Shoveler&quot;,&quot;C. teal&quot;,&quot;E. wigeon&quot;,&quot;Mallard&quot;,
+                   &quot;Gadwall&quot;,&quot;G. goose&quot;,&quot;C. pochard&quot;,&quot;R-c. pochard&quot;,&quot;Shelduck&quot;)
+
+Env_data = read_delim(&quot;data/Environmental_data.csv&quot;,delim = &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)</code></pre>
+<pre class="r"><code># Bayesian DFA ####
+
+message(&#39;\nBegin the fitting of the Bayesian Dynamic Factor Analysis:\n&#39;)
+
+set.seed(498468)
+
+options(mc.cores = parallel::detectCores()) # Use all the available cores (if using a multi-core processor)
+
+## Long format for the waterfowl dataset
+
+years = 1978:2013
+
+WaterfowlData = Count_data[-nrow(Count_data),] %&gt;%
+  dplyr::mutate(time=rep(1:length(years), each=2)) %&gt;%
+  dplyr::select(time,
+                Anas_acuta,
+                Anas_clypeata,
+                Anas_crecca,
+                Anas_penelope,
+                Anas_platyrhynchos,
+                Anas_strepera,
+                Anser_anser,
+                Aythya_ferina,
+                Netta_rufina,
+                Tadorna_tadorna) %&gt;%
+  reshape2::melt(., id=c(&quot;time&quot;)) %&gt;%
+  dplyr::mutate(obs=log(value+1),
+                ts=as.numeric(variable),
+                time=time) %&gt;%
+  dplyr::select(obs,ts,time)
+
+# Specify some items
+
+chains = 3
+iter = 6000
+n_knots = 16
+
+fit_DFA=FALSE
+
+if(fit_DFA==TRUE){
+
+  ## DFA with 1 trend ####
+
+    message(&#39;\nFit a Bayesian DFA with 1 trend\n&#39;)
+
+    DFA_1trend_PS = fit_dfa(
+      y = WaterfowlData, num_trends = 1, data_shape = &quot;long&quot;, estimation = &quot;sampling&quot;,
+      scale=&quot;zscore&quot;, trend_model=&quot;ps&quot;, n_knots = n_knots,
+      iter = iter, chains = chains, thin = 1, refresh = 100, verbose = T, expansion_prior=T,
+      seed = 1083941809)
+
+    save(DFA_1trend_PS, file = &#39;output/BDFA_model/DFA_1trend_PS.Rdata&#39;)
+
+    # LOO cross-validation
+    loocv_DFA_1trend_PS = loo(DFA_1trend_PS)
+
+    rotate_DFA_1trend_PS &lt;- rotate_trends(DFA_1trend_PS, conf_level=0.9, invert = F)
+    plot_trends(rotate_DFA_1trend_PS, years=years) +
+      xlab(&quot;Year&quot;) + ylab(&quot;Dynamic factor&quot;) + theme_bw() + theme(panel.grid = element_blank())
+
+
+  # DFA with 2 trends ####
+
+    message(&#39;\nFit a Bayesian DFA with 2 trends\n&#39;)
+
+    DFA_2trends_PS = fit_dfa(
+      y = WaterfowlData, num_trends = 2, data_shape = &quot;long&quot;, estimation = &quot;sampling&quot;,
+      scale=&quot;zscore&quot;, trend_model=&quot;ps&quot;, n_knots = n_knots,
+      iter = iter, chains = chains, thin = 1, refresh = 100, verbose = T, expansion_prior=T,
+      seed=4128785653)
+
+    save(DFA_2trends_PS, file = &#39;output/BDFA_model/DFA_2trends_PS.Rdata&#39;)
+
+    # LOO cross-validation
+    loocv_DFA_2trends_PS = loo(DFA_2trends_PS)
+
+    rotate_DFA_2trends &lt;- rotate_trends(DFA_2trends_PS, conf_level=0.9, invert = F)
+
+    # Make some changes to display the major trend first
+    trends &lt;- dfa_trends(rotate_DFA_2trends)
+
+    trends$trend_number = as.factor(trends$trend_number)
+    levels(trends$trend_number) &lt;- c(&quot;Trend 2&quot;,&quot;Trend 1&quot;)
+    trends$trend_number = as.character(trends$trend_number)
+
+    trends$trend_number = factor(trends$trend_number, labels = c(&quot;Trend 1&quot;,&quot;Trend 2&quot;))
+    trends$year = rep(years,2)
+
+    plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = &quot;year&quot;, y = &quot;estimate&quot;)) +
+      geom_ribbon(aes_string(ymin = &quot;lower&quot;, ymax = &quot;upper&quot;),
+                  alpha = 0.4) + geom_line() + facet_wrap(&quot;trend_number&quot;) +
+      xlab(&quot;Year&quot;) + ylab(&quot;Dynamic factor&quot;) + theme_bw() + theme(panel.grid = element_blank())
+
+    # Plot the major common trends of the community
+    pdf(&quot;output/figures/Common_Trends_raw.pdf&quot;,height=4,width=8)
+    plot_rotate_DFA_2trends
+    dev.off()
+
+    pdf(&quot;output/figures/Common_Trends_by_Species.pdf&quot;,height=6,width=7)
+    plot_fitted(DFA_2trends_PS, conf_level = 0.9, names=Sp_names_long, time_labels=years, spaghetti=F) +
+      geom_point(aes_string(x = &quot;time&quot;,
+                            y = &quot;y&quot;), col = &quot;royalblue&quot;, size = 1, alpha = 1) +
+      theme_bw() +
+      ylab(&#39;Abdundance (standardised)&#39;) + xlab(&#39;Year&#39;) + theme(panel.grid = element_blank())
+    dev.off()
+
+    # Plot the factor loadings
+    FacLoad = dfa_loadings(rotate_DFA_2trends, summary = FALSE, names = Sp_names_long, conf_level = 0.95)
+    levels(FacLoad$trend) &lt;- c(&quot;Trend 2&quot;,&quot;Trend 1&quot;)
+    FacLoad$loading = 1*FacLoad$loading
+    FacLoad$trend = relevel(FacLoad$trend, &quot;Trend 1&quot;)
+
+    FacLoad_plot = ggplot(FacLoad, aes_string(x = &quot;name&quot;, y = &quot;loading&quot;, fill = &quot;trend&quot;, alpha = &quot;prob_diff0&quot;)) +
+      geom_violin(color = NA) +
+      scale_fill_manual(values = c(&quot;royalblue&quot;, &quot;orange2&quot;)) +
+      scale_y_continuous(limits = c(-2.5, 5)) +
+      geom_hline(yintercept = 0, lty = 2) +
+      coord_flip() +
+      xlab(&quot;Species&quot;) + ylab(&quot;Loading&quot;)
+    FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = &quot;free_x&quot;)
+
+    pdf(&quot;output/figures/Factor_loadings.pdf&quot;,height=5,width=7)
+    FacLoad_plot
+    dev.off()
+
+    # Fit a Hidden Markov Model to identify regime shifts in the dynamic common trends
+
+    message(&#39;\nFit a Hidden Markov Model to identify regime shifts in the dynamic common trends:\n&#39;)
+
+    # HMM with 1 regime
+
+    HMM_model_DFA_1trend = fit_regimes(
+      y = rotate_DFA_2trends$trends_mean[2, ],
+      sds = (rotate_DFA_2trends$trends_upper - rotate_DFA_2trends$trends_mean)[2, ] / 1.96,
+      n_regimes = 1,
+      iter = iter, chains = chains, refresh=iter, verbose = F)
+
+    # HMM with 2 regimes
+
+    HMM_model_DFA_2trends &lt;- fit_regimes(
+      y = rotate_DFA_2trends$trends_mean[2, ],
+      sds = (rotate_DFA_2trends$trends_upper - rotate_DFA_2trends$trends_mean)[2, ] / 1.96,
+      n_regimes = 2,
+      iter = iter, chains = chains, refresh=iter, verbose = F)
+
+    message(paste0(&#39;\nThe looic for the HMM with 1 regime is &#39;,
+                   round(HMM_model_DFA_1trend$looic,3), &#39;\n&#39;,
+                   &#39;The looic for the HMM with 2 regimes is &#39;,
+                   round(HMM_model_DFA_2trends$looic,3), &#39;\n&#39;,
+                   &#39;The difference is of &#39;, round(HMM_model_DFA_1trend$looic,3) -
+                     round(HMM_model_DFA_2trends$looic,3),&#39;\n&#39;,
+                   sep=&#39;&#39;))
+
+    # Plot the regimes
+
+    pdf(&quot;output/figures/Regime_shift.pdf&quot;,height=5,width=5)
+    plot_hmm_regimes(HMM_model_DFA_2trends,years=years)
+    dev.off()
+
+    # save(DFA_1trend_PS,DFA_2trends_PS,HMM_model_DFA_1trend,HMM_model_DFA_2trends,
+    #      file=&#39;output/BDFA_model/BayesDFA_results.Rdata&#39;)
+
+}
+
+
+if(fit_DFA==FALSE) {
+
+  load(&#39;output/BDFA_model/BDFA_results.Rdata&#39;)
+
+}
+
+# Plot the major common trends of the community
+plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = &quot;year&quot;, y = &quot;estimate&quot;)) +
+  geom_ribbon(aes_string(ymin = &quot;lower&quot;, ymax = &quot;upper&quot;),
+              alpha = 0.4) + geom_line() + facet_wrap(&quot;trend_number&quot;) +
+  xlab(&quot;Year&quot;) + ylab(&quot;Dynamic factor&quot;) + theme_bw() + theme(panel.grid = element_blank())
+pdf(&quot;output/figures/Common_Trends_raw.pdf&quot;,height=4,width=8)
+plot_rotate_DFA_2trends
+dev.off()
+
+# Difference in looic between models
+
+message(paste0(&#39;\nThe looic for the DFA with 1 trend is &#39;,
+               round(loocv_DFA_1trend_PS$estimates[&#39;looic&#39;,&#39;Estimate&#39;],3), &#39;\n&#39;,
+               &#39;The looic for the DFA with 2 trends is &#39;,
+               round(loocv_DFA_2trends_PS$estimates[&#39;looic&#39;,&#39;Estimate&#39;],3), &#39;\n&#39;,
+               &#39;The difference is of &#39;, round(loocv_DFA_1trend_PS$estimates[&#39;looic&#39;,&#39;Estimate&#39;],3) -
+                 round(loocv_DFA_2trends_PS$estimates[&#39;looic&#39;,&#39;Estimate&#39;],3),&#39;\n&#39;,
+               sep=&#39;&#39;))
+
+pdf(&quot;output/figures/Common_Trends_by_Species.pdf&quot;,height=6,width=7)
+ggplot(trends_by_sp) +
+  geom_ribbon(aes_string(x = &quot;time&quot;, ymin = &quot;lower&quot;, ymax = &quot;upper&quot;), alpha = 0.4) +
+  geom_line(aes_string(x = &quot;time&quot;, y = &quot;estimate&quot;)) +
+  geom_point(col = &quot;royalblue&quot;, size = 1, alpha = 1, aes_string(x = &quot;time&quot;,                                                                                                                                                    y = &quot;y&quot;), col = &quot;red&quot;, size = 0.5, alpha = 0.4) +
+  facet_wrap(&quot;ID&quot;, scales = &quot;free_y&quot;) + xlab(&quot;Time&quot;) +
+  ylab(&quot;&quot;) +
+  theme_bw() +
+  ylab(&#39;Abdundance (standardised)&#39;) + xlab(&#39;Year&#39;) +
+  theme(panel.grid = element_blank())
+dev.off()
+
+
+# Plot the factor loadings
+
+FacLoad_plot = ggplot(FacLoad, aes_string(x = &quot;name&quot;, y = &quot;loading&quot;, fill = &quot;trend&quot;, alpha = &quot;prob_diff0&quot;)) +
+  geom_violin(color = NA) +
+  scale_fill_manual(values = c(&quot;royalblue&quot;, &quot;orange2&quot;)) +
+  scale_y_continuous(limits = c(-2.5, 5)) +
+  geom_hline(yintercept = 0, lty = 2) +
+  coord_flip() +
+  xlab(&quot;Species&quot;) + ylab(&quot;Loading&quot;)
+FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = &quot;free_x&quot;)
+
+pdf(&quot;output/figures/Factor_loadings.pdf&quot;,height=5,width=7)
+FacLoad_plot
+dev.off()
+
+
+# HMM with 2 regimes
+
+HMM_model_DFA_2trends &lt;- fit_regimes(
+  y = rotate_DFA_2trends_trends_mean,
+  sds = sds,
+  n_regimes = 2,
+  iter = iter, chains = chains, refresh=iter, verbose = F)
+
+message(paste0(&#39;\nThe looic for the HMM with 1 regime is &#39;,
+               round(HMM_model_DFA_1trend_looic,3), &#39;\n&#39;,
+               &#39;The looic for the HMM with 2 regimes is &#39;,
+               round(HMM_model_DFA_2trends_looic,3), &#39;\n&#39;,
+               &#39;The difference is of &#39;, round(HMM_model_DFA_1trend_looic,3) -
+                 round(HMM_model_DFA_2trends_looic,3),&#39;\n&#39;,
+               sep=&#39;&#39;))
+
+# Plot the regimes
+
+pdf(&quot;output/figures/Regime_shift.pdf&quot;,height=5,width=5)
+plot_hmm_regimes(HMM_model_DFA_2trends,years=years)
+dev.off()
+
+# END Bayesian DFA ####
+
+# State-space regime-dependent LVR model ####
+
+seed=827545
+set.seed(seed)
+
+runjags.options(inits.warning=F,
+                rng.warning=F,
+                blockignore.warning=F,
+                blockcombine.warning=F,
+                nodata.warning=F,
+                silent.jags=F,
+                silent.runjags=F)
+testjags()
+
+scal_Fact=1000 # Scaling factor for abundance data
+NSpecies = 10
+
+WaterfowlData = Count_data[-nrow(Count_data),] %&gt;%
+  dplyr::mutate(time=rep(1:36, each=2)) %&gt;%
+  dplyr::select(time,
+                Anas_acuta,
+                Anas_clypeata,
+                Anas_crecca,
+                Anas_penelope,
+                Anas_platyrhynchos,
+                Anas_strepera,
+                Anser_anser,
+                Aythya_ferina,
+                Netta_rufina,
+                Tadorna_tadorna) %&gt;%
+  reshape2::melt(., id=c(&quot;time&quot;)) %&gt;%
+  dplyr::mutate(obs=value,
+                ts=as.numeric(variable),
+                time=time) %&gt;%
+  dplyr::select(obs,ts,time)
+
+Period = c(&#39;PrePinatubo&#39;, &#39;PostPinatubo&#39;)
+
+## Loop ####
+
+for(period in Period) {
+
+  message(paste0(&#39;\nFit the regime-dependent SSLVR model to the &#39;, period, &#39; period\n&#39;))
+
+  ## Data ####
+
+  if(period==&#39;PrePinatubo&#39;) NYears=length(1978:1991)
+
+  if(period==&#39;PostPinatubo&#39;) {
+    FirstYear = 21
+    FinalYear = max(WaterfowlData$time)
+    NYears = FinalYear-FirstYear
+  }
+
+  if(period==&#39;PrePinatubo&#39;) {
+    est.k = WaterfowlData %&gt;% dplyr::filter(time &lt; NYears) %&gt;% group_by(ts) %&gt;% summarise_all(mean, na.rm=T) %&gt;% select(-ts, -time)
+    est.k.var = WaterfowlData %&gt;% dplyr::filter(time &lt; NYears) %&gt;% group_by(ts) %&gt;% mutate(obs.var = obs/scal_Fact) %&gt;% select(-obs) %&gt;% summarise_all(var, na.rm=T) %&gt;% select(-ts, -time)
+    data_list_SSLVR_regime = list(
+      NSpecies = NSpecies,
+      NYears = NYears,
+      n1 = as.matrix((log((Count_data[-1,] %&gt;% dplyr::filter(Month == 12) %&gt;% dplyr::select(-Year, -Month))/scal_Fact + 1)))[1:NYears,],
+      n2 = as.matrix((log((Count_data[-1,] %&gt;% dplyr::filter(Month == 1) %&gt;% dplyr::select(-Year, -Month))/scal_Fact + 1)))[1:NYears,],
+      flood = scale(Env_data[1:NYears,&#39;Flood&#39;])[,1],
+      est.k = est.k$obs/scal_Fact,
+      est.k.var = est.k.var$obs.var)
+  }
+
+  if(period==&#39;PostPinatubo&#39;) {
+    est.k = WaterfowlData %&gt;% dplyr::filter(time &gt; FirstYear) %&gt;% group_by(ts) %&gt;% summarise_all(mean, na.rm=T) %&gt;% select(-ts, -time)
+    est.k.var = WaterfowlData %&gt;% dplyr::filter(time &gt; FirstYear) %&gt;% group_by(ts) %&gt;% mutate(obs.var = obs/scal_Fact) %&gt;% select(-obs) %&gt;% summarise_all(var, na.rm=T) %&gt;% select(-ts, -time)
+    data_list_SSLVR_regime = list(
+      NSpecies = NSpecies,
+      NYears = NYears,
+      n1 = as.matrix((log((Count_data[-1,] %&gt;% dplyr::filter(Month == 12) %&gt;% dplyr::select(-Year, -Month))/scal_Fact + 1)))[(FirstYear+1):FinalYear,],
+      n2 = as.matrix((log((Count_data[-1,] %&gt;% dplyr::filter(Month == 1) %&gt;% dplyr::select(-Year, -Month))/scal_Fact + 1)))[(FirstYear+1):FinalYear,],
+      flood = scale(Env_data[(FirstYear+1):FinalYear,&#39;Flood&#39;])[,1],
+      est.k = est.k$obs/scal_Fact,
+      est.k.var = est.k.var$obs.var)
+  }
+
+  parameter_list_SSLVR_regime = c(&quot;prob_inter&quot;,&quot;g.alpha&quot;,&quot;alpha&quot;,&quot;k&quot;,&quot;r&quot;,&quot;b&quot;,&quot;gamma&quot;,
+                                  &quot;Corr.sigma&quot;,&quot;Corr.tau&quot;,&quot;state&quot;,&quot;n1_ppc&quot;,&quot;n2_ppc&quot;)
+
+  ## Inits for the SSLVR model  ####
+
+  if(period==&#39;PrePinatubo&#39;){
+
+    # Informative initial conditions, to speed up convergence
+    b_mean=c(-0.8544,-1.05,0.6868,0.03144,0.3442,-0.06122,-0.3627,-1.763,-3.054,-1.235)
+
+    n1 = matrix(NA, NYears, NSpecies)
+    n1[12,] = unname(data_list_SSLVR_regime$n1[11,]+data_list_SSLVR_regime$n1[13,])/2
+
+    n2 = matrix(NA, NYears, NSpecies)
+    n2[7,] = unname(data_list_SSLVR_regime$n1[6,]+data_list_SSLVR_regime$n1[8,])/2
+
+    inits_list_SSLVR_regime=function(){
+      list(
+        prob_inter=rbeta(1,2,8),
+        active_alpha=replicate(NSpecies,rnorm(NSpecies,0,0.1)) + diag(NA, NSpecies),
+        g.alpha=replicate(NSpecies,rbinom(NSpecies,1,0.5)) + diag(NA, NSpecies),
+        Obs.prec.mat=diag(0.1,NSpecies),
+        Sys.prec.mat=diag(0.1,NSpecies),
+        k=pmax(rnorm(NSpecies, data_list_SSLVR_regime$est.k, 1), 0.1),
+        b=rnorm(NSpecies, b_mean,0.1),
+        gamma=rnorm(NSpecies, b_mean, 0.1),
+        n1=n1,
+        n2=n2,
+        state=matrix(c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
+                       1.54,3.06,2.76,3.54,1.99,1.36,3.77,0.87,2,1.15,
+                       1.99,3.82,2.88,3.78,1.8,1.52,4.1,1.49,2.74,1.09,
+                       1.66,2.77,2.44,3.31,1.29,0.76,4.02,0.76,0.9,1.1,
+                       2.49,3.61,2.6,3.89,1.03,0.94,4,1.35,2.03,0.92,
+                       2.37,3.65,3.34,3.66,0.9,0.99,4.08,1.45,2.13,0.96,
+                       2.78,3.41,3.48,3.88,1.41,1.19,4.04,1.78,2.08,1.01,
+                       2.58,3.53,3.47,3.89,1.75,1.5,4.1,1.55,1.95,1.1,
+                       2.5,3.65,3.63,3.61,1.83,1.39,4.07,1.7,2.46,1.07,
+                       2.59,3.41,3.88,3.94,1.6,1.07,3.97,1.65,2.32,1.12,
+                       2.84,3.48,4.23,3.72,2.16,1.53,4,1.67,2.11,1.32,
+                       2.26,3.74,4.06,3.97,2.29,1.85,4.14,1.04,2.42,1.39,
+                       2.73,3.4,4.22,3.72,2.34,1.36,3.79,0.93,2.01,1.25,
+                       2.41,3.92,4.15,3.81,2.24,1.44,3.98,1.07,2.68,1.13),
+                     NYears,NSpecies,byrow = T),
+        .RNG.seed=seed)
+    }
+  }
+
+  if(period==&#39;PostPinatubo&#39;){
+
+    # Informative initial conditions, to speed up convergence
+    b_mean=c(-0.8544,-1.05,0.6868,0.03144,0.3442,-0.06122,-0.3627,-1.763,-3.054,-1.235)
+
+    inits_list_SSLVR_regime=function(){
+      list(
+        prob_inter=rbeta(1,2,8),
+        active_alpha=replicate(NSpecies,rnorm(NSpecies,0,0.1)) + diag(NA, NSpecies),
+        g.alpha=replicate(NSpecies,rbinom(NSpecies,1,0.5)) + diag(NA, NSpecies),
+        Obs.prec.mat=diag(0.1,NSpecies),
+        Sys.prec.mat=diag(0.1,NSpecies),
+        k=pmax(rnorm(NSpecies, data_list_SSLVR_regime$est.k, 1), 0.1),
+        b=rnorm(NSpecies, b_mean,0.1),
+        gamma=rnorm(NSpecies, b_mean, 0.1),
+        state=matrix(c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
+                       0.5,2.25,1.97,0.91,1.47,0.9,3.08,0.98,3.24,0.77,
+                       1.18,2.87,2.83,1.17,1.69,-2.06,3.62,0.77,0.99,0.47,
+                       2.1,3.09,2.73,1.66,1.91,-2.04,3.85,0.8,0.54,0.37,
+                       2.6,3,2.71,1.92,1.7,-2.24,4.09,0.75,0.8,0.5,
+                       3.12,3.22,2.8,1.93,1.96,-2.19,3.94,0.63,0.86,0.4,
+                       3.47,3.15,2.71,2.03,1.88,-2.21,3.88,0.71,0.59,0.19,
+                       2.63,3.58,2.07,1.96,1.47,-1.86,4.09,0.5,2.3,0.74,
+                       2.42,3.98,2.64,2.09,1.2,-2.24,3.95,0.47,3.11,0.74,
+                       3.09,3.87,2.91,2.12,1.98,-5.99,3.92,0.64,0.6,0.58,
+                       3.23,3.79,2.71,2.19,1.78,-5.95,4.15,0.7,0.68,0.49,
+                       3.33,3.77,2.79,2.15,1.94,-5.94,3.95,0.68,0.89,0.57,
+                       3.39,3.57,2.59,2.2,1.8,-5.98,4.08,0.83,0.64,0.72,
+                       3.64,3.58,2.92,2.24,1.73,-6,3.81,0.88,0.58,0.85,
+                       3.31,3.82,2.57,2.1,1.75,-5.87,4,0.81,0.98,0.8),
+                     NYears,NSpecies,byrow = T),
+        .RNG.seed=seed)
+    }
+  }
+
+
+  ## Model fit  ####
+
+  fit_SSRDLVR=FALSE
+
+  if(fit_SSRDLVR==TRUE) {
+
+    SSRDLVR_mcmc_analysis = runjags::run.jags(
+      data=data_list_SSLVR_regime,
+      inits=inits_list_SSLVR_regime,
+      monitor=parameter_list_SSLVR_regime,
+      model=read.jagsfile(&quot;code/SSRDLVR_model.JAGS&quot;),
+      n.chains = 3,
+      adapt = 5000,
+      burnin = 100000,
+      sample = 1000,
+      thin = 50,
+      method=&#39;parallel&#39;,
+      modules = &#39;glm&#39;,
+      keep.jags.files=file.path(paste0(&quot;output/SSRDLVR_model/&quot;,&quot;mcmc_run_&quot;,period,sep = &quot;&quot;)),
+      summarise=TRUE)
+
+    save(SSRDLVR_mcmc_analysis, file = paste0(&#39;output/SSRDLVR_model/SSRDLVR_model_results_&#39;,period,&#39;.Rdata&#39;))
+
+    # Convert the posterior object
+    post_vars = as.data.frame(combine.mcmc(as.mcmc.list(SSRDLVR_mcmc_analysis)))
+    nloops = nrow(post_vars)
+
+  }
+
+  if(fit_SSRDLVR==FALSE) {
+
+    load(paste0(&#39;output/SSRDLVR_model/SSRDLVR_model_results_&#39;,period,&#39;.Rdata&#39;))
+
+    if(period==&#39;PrePinatubo&#39;) post_vars = as.data.frame(combine.mcmc(as.mcmc.list(SSRDLVR_model_results_PrePinatubo)))
+
+    if(period==&#39;PostPinatubo&#39;) post_vars = as.data.frame(combine.mcmc(as.mcmc.list(SSRDLVR_model_results_PostPinatubo)))
+
+    nloops = nrow(post_vars)
+
+  }
+
+  ## MCMC diagnostics ####
+
+  plot=FALSE
+
+  if(plot){
+
+    if(period==&#39;PrePinatubo&#39;) ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PrePinatubo))
+
+    if(period==&#39;PostPinatubo&#39;) ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PostPinatubo))
+
+    ggmcmc(ggs_object,family=&quot;prob_inter&quot;,
+           file = paste0(&quot;output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_prob_inter_&quot;,period,&quot;.pdf&quot;),
+           param_page = 5, width=6, height=6)
+
+    ggmcmc(ggs_object,family=&quot;b&quot;,
+           file = paste0(&quot;output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_b_&quot;,period,&quot;.pdf&quot;),
+           param_page = 11, width=5, height=12)
+
+    ggmcmc(ggs_object,family=&quot;k&quot;,
+           file = paste0(&quot;output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_k_&quot;,period,&quot;.pdf&quot;),
+           param_page = 10, width=5, height=12)
+
+    ggmcmc(ggs_object,family=&quot;r&quot;,
+           file = paste0(&quot;output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_r_&quot;,period,&quot;.pdf&quot;),
+           param_page = 10, width=5, height=12)
+
+    ggmcmc(ggs_object,family=&quot;alpha&quot;,
+           file = paste0(&quot;output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_alpha_&quot;,period,&quot;.pdf&quot;),
+           param_page = 10, width=5, height=12)
+
+  }
+
+  ## Plot prior vs. posterior ####
+  nu=dplyr::select(post_vars,starts_with(&quot;prob_inter&quot;))
+
+  pdf(file=paste0(&#39;output/figures/Prior_post_&#39;,period,&#39;.pdf&#39;), height = 6, width = 6)
+  prior_vs_posterior(nu$prob_inter, dist = &quot;beta&quot;, xlim = c(0, 1), alpha=2, beta=8, pos.legend=&quot;right&quot;,
+                     title = &quot;Prior vs. posterior distribution&quot;)
+  dev.off()
+
+
+  ## PPC plot ####
+
+  Obs_mean_Dec = data_list_SSLVR_regime$n1
+  Obs_mean_Jan = data_list_SSLVR_regime$n2
+
+  colnames(Obs_mean_Dec) = colnames(Obs_mean_Jan) = Sp_names_long
+
+  yobs_n1_ppc_mcmc = dplyr::select(post_vars, starts_with(&quot;n1_ppc&quot;))
+  yobs_n2_ppc_mcmc = dplyr::select(post_vars, starts_with(&quot;n2_ppc&quot;))
+
+  ppc_n1_mcmc = array(NA, dim = c(nloops, NYears-1, NSpecies))
+
+  for(j in 1:NSpecies){
+
+    ppc_n1_mcmc[,,j] = yobs_n1_ppc_mcmc %&gt;%
+      dplyr::select(bayesplot::param_glue(&quot;n1_ppc[{time},{type}]&quot;, type = j, time = 2:NYears)) %&gt;%
+      as.matrix()
+
+  }
+
+  ppc_n1_yobs = array(NA, dim = c(3, NYears-1, NSpecies))
+
+  for(l in 1:NSpecies){
+    ppc_n1_yobs[,,l] = apply(ppc_n1_mcmc[,,l], 2 , quantile , probs = c(0.10, 0.5, 0.9) , na.rm = TRUE )
+  }
+
+  ppc_n2_mcmc = array(NA, dim = c(nloops, NYears-1, NSpecies))
+
+  for(j in 1:NSpecies){
+
+    ppc_n2_mcmc[,,j] = yobs_n2_ppc_mcmc %&gt;%
+      dplyr::select(bayesplot::param_glue(&quot;n2_ppc[{time},{type}]&quot;, type = j, time = 2:NYears)) %&gt;%
+      as.matrix()
+
+  }
+
+  ppc_n2_yobs = array(NA, dim = c(3, NYears-1, NSpecies))
+
+  for(l in 1:NSpecies){
+    ppc_n2_yobs[,,l] = apply(ppc_n2_mcmc[,,l], 2 , quantile , probs = c(0.025, 0.5, 0.975) , na.rm = TRUE )
+  }
+
+  # for December counts
+  Yobs_n1 = array(NA, dim=c((NYears-1)*NSpecies, 4))
+  temp = array(NA, dim=c((NYears-1)*NSpecies, 4))
+
+  for(l in 1:NSpecies){
+    if(l==1){
+      temp = as.data.frame(t(ppc_n1_yobs[,,l])) %&gt;%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %&gt;%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n1 = temp
+    }
+    else{
+      temp = as.data.frame(t(ppc_n1_yobs[,,l])) %&gt;%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %&gt;%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n1 = rbind.data.frame(Yobs_n1, temp)
+    }
+  }
+
+  # for January counts
+  Yobs_n2 = array(NA, dim=c((NYears-1)*NSpecies, 4))
+  temp = array(NA, dim=c((NYears-1)*NSpecies, 4))
+
+  for(l in 1:NSpecies){
+    if(l==1){
+      temp = as.data.frame(t(ppc_n2_yobs[,,l])) %&gt;%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %&gt;%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n2 = temp
+    }
+    else{
+      temp = as.data.frame(t(ppc_n2_yobs[,,l])) %&gt;%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %&gt;%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n2 = rbind.data.frame(Yobs_n2, temp)
+    }
+  }
+
+  # Latent states
+
+  latent_state_mcmc = dplyr::select(post_vars, starts_with(&quot;state&quot;))
+
+  state_mcmc = array(NA, dim = c(nloops, NYears-1, NSpecies))
+
+  for(j in 1:NSpecies){
+
+    state_mcmc[,,j] = latent_state_mcmc %&gt;%
+      dplyr::select(bayesplot::param_glue(&quot;state[{time},{type}]&quot;, type = j, time = 2:NYears)) %&gt;%
+      as.matrix()
+
+  }
+
+  latent_state = array(NA, dim = c(3, NYears-1, NSpecies))
+
+  for(l in 1:NSpecies){
+    latent_state[,,l] = apply(state_mcmc[,,l], 2 , quantile , probs = c(0.025, 0.5, 0.975) , na.rm = TRUE )
+  }
+
+
+  state = array(NA, dim=c((NYears-1)*NSpecies, 4))
+  temp = array(NA, dim=c((NYears-1)*NSpecies, 4))
+
+  for(l in 1:NSpecies){
+    if(l==1){
+      temp = as.data.frame(t(latent_state[,,l])) %&gt;%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      state_Lower95 = V1,
+                      state_mean = V2,
+                      state_Upper95 = V3) %&gt;%
+        dplyr::select(Type, state_Lower95, state_mean, state_Upper95)
+      state = temp
+    }
+    else{
+      temp = as.data.frame(t(latent_state[,,l])) %&gt;%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      state_Lower95 = V1,
+                      state_mean = V2,
+                      state_Upper95 = V3) %&gt;%
+        dplyr::select(Type, state_Lower95, state_mean, state_Upper95)
+      state = rbind.data.frame(state, temp)
+    }
+  }
+
+  plot_ppc_ts = as.data.frame(cbind(melt(Obs_mean_Dec[2:NYears,]),
+                                    melt(Obs_mean_Jan[2:NYears,])[&quot;value&quot;],
+                                    Yobs_n1[,c(&quot;ppc_Lower95&quot;,&quot;ppc_mean&quot;,&quot;ppc_Upper95&quot;)],
+                                    Yobs_n2[,c(&quot;ppc_Lower95&quot;,&quot;ppc_mean&quot;,&quot;ppc_Upper95&quot;)],
+                                    state[,c(&quot;state_Lower95&quot;, &quot;state_mean&quot;, &quot;state_Upper95&quot;)]))
+
+  colnames(plot_ppc_ts) = c(&quot;Year&quot;,&quot;Species&quot;,&quot;Dec&quot;,&quot;Jan&quot;,
+                            &quot;ppc_Lower95_Dec&quot;,&quot;ppc_mean_Dec&quot;,&quot;ppc_Upper95_Dec&quot;,
+                            &quot;ppc_Lower95_Jan&quot;,&quot;ppc_mean_Jan&quot;,&quot;ppc_Upper95_Jan&quot;,
+                            &quot;state_Lower95&quot;, &quot;state_mean&quot;, &quot;state_Upper95&quot;)
+
+
+  # Plot
+
+  if(period==&#39;PrePinatubo&#39;) years = 1979:1991
+  if(period==&#39;PostPinatubo&#39;) years = 2000:2013
+
+  ppc_ts_plots = plot_ppc_ts %&gt;% group_by(Species = factor(Species, levels = unique(Species))) %&gt;%
+    group_map(~tibble(plots=list(
+      ggplot(.) + aes(x= years, y=state_mean) +
+        geom_line(col=&quot;red&quot;, linewidth=1.5) +
+        geom_ribbon(aes(ymax = state_Lower95, ymin = state_Upper95), fill = &quot;red&quot;, alpha = 0.2) +
+        geom_point(aes(x=years,y=Dec),col=&quot;blue3&quot;,size=1.5) +
+        geom_point(aes(x=years,y=Jan),col=&quot;green4&quot;,size=1.5) +
+        geom_abline(slope=0, intercept=0) +
+        theme_classic() +
+        # scale_y_continuous(limits = c(-0.5, 9)) +
+        scale_y_continuous(limits = c(NA, 10)) +
+        labs(x=&quot;Year&quot;,y=expression(&#39;Abundance, (&#39; ~ italic(ln) ~ &#39;[&#39; ~ N  ~ &#39;/&#39; ~  1000 ~ &#39;])&#39;)) +
+        annotate(&quot;point&quot;, x = years[5], y = 8.3, color=&quot;blue3&quot;, fill=&quot;blue3&quot;, size=2) +
+        annotate(&quot;text&quot;, x = years[7], y = 8.3, label = &quot;December count&quot;, color=&quot;black&quot;, size=3) +
+        annotate(&quot;point&quot;, x = years[5], y = 7.3, color=&quot;green4&quot;, fill=&quot;green4&quot;, size=2) +
+        annotate(&quot;text&quot;, x = years[7], y = 7.3, label = &quot;January count&quot;, color=&quot;black&quot;, size=3) +
+        annotate(&quot;segment&quot;, x = years[5]-0.5, xend = years[5], y = 6.3, yend = 6.3, colour = &quot;red&quot;, linewidth=1) +
+        annotate(&quot;text&quot;, x = years[7], y = 6.3, label = &quot;Latent abundance&quot;, color=&quot;black&quot;, size=3) +
+        ggtitle(.y[[1]]))))
+
+  PPC_TS_fullplot =
+    (ppc_ts_plots[[1]]$plots[[1]]+ppc_ts_plots[[2]]$plots[[1]])/
+    (ppc_ts_plots[[3]]$plots[[1]]+ppc_ts_plots[[4]]$plots[[1]])/
+    (ppc_ts_plots[[5]]$plots[[1]]+ppc_ts_plots[[6]]$plots[[1]])/
+    (ppc_ts_plots[[7]]$plots[[1]]+ppc_ts_plots[[8]]$plots[[1]])/
+    (ppc_ts_plots[[9]]$plots[[1]]+ppc_ts_plots[[10]]$plots[[1]]) +
+    plot_annotation(
+      title = &#39;Posterior predicted time series&#39;,
+      # subtitle = &#39;First stable state, before Mt. Pinatubo eruption&#39;,
+      subtitle = &#39;Second stable state, after Mt. Pinatubo eruption&#39;,
+      theme = theme(plot.title = element_text(size = 25),
+                    plot.subtitle = element_text(size = 15)))
+
+  # print(PPC_TS_fullplot)
+
+  ggsave(file=paste0(&#39;output/figures/PPC_TS_fullplot_&#39;,period,&#39;.pdf&#39;), plot=PPC_TS_fullplot, width = 10, height = 13)
+
+  ## Plot results ####
+
+  ### Environmental effects ####
+
+  gamma = dplyr::select(post_vars, starts_with(&quot;gamma&quot;))
+  colnames(gamma) = Sp_names_long
+
+  gamma_PrePinatubo = ggplot(reshape2::melt(gamma), aes(x=value, y=reorder(variable, desc(variable)),  fill= after_stat(x))) +
+    geom_density_ridges_gradient(stat = &quot;binline&quot;, bins = 100, scale = 1.5, draw_baseline = FALSE) +
+    geom_vline(xintercept=0) +
+    scale_x_continuous(limits = c(-1.5,1.5)) +
+    scale_y_discrete(expression(N)) +
+    scale_fill_viridis(name = &quot;Posterior\nvalue&quot;, option = &quot;magma&quot;) +
+    labs(x=&quot;Posterior value&quot;,
+         title = &quot;Effect of flooding extension&quot;) +
+    theme_ridges(font_size = 13, grid = TRUE) +
+    theme(axis.title.y = element_blank(),
+          plot.title = element_text(size=18))
+  # gamma_PrePinatubo
+  ggsave(file=paste0(&#39;output/figures/Flooding_impact_&#39;,period,&#39;.pdf&#39;), plot=gamma_PrePinatubo,
+         width=7.5, height=5.5, limitsize = FALSE)
+
+
+  ### Stability measures ####
+
+  alpha = dplyr::select(post_vars, starts_with(&quot;alpha&quot;))
+  alpha_mean = matrix(colMeans(alpha),NSpecies,NSpecies)
+  k_vec = dplyr::select(post_vars, starts_with(&quot;k&quot;))
+  k_mean = as.numeric(colMeans(k_vec))
+  r_vec = dplyr::select(post_vars, starts_with(&quot;r&quot;))[,1:NSpecies]
+  r_mean = as.numeric(colMeans(r_vec))
+
+  # Create the objects to be populated:
+  Resilience=c()
+  jacobi_mat = matrix(rep(NA,(NSpecies^2)*nloops),ncol=NSpecies^2,nrow=nloops)
+  Eigenvals = matrix(rep(NA,NSpecies*nloops),ncol=NSpecies,nrow=nloops)
+  EqAbund = matrix(rep(NA,NSpecies*nloops),ncol=NSpecies,nrow=nloops)
+
+  initial_time = proc.time()
+
+  pb = txtProgressBar(min = 0, max = nloops, initial = 0, char = &quot;*&quot;, width = 60)
+
+  for (j in 1:nloops){
+
+    # Interaction matrix
+    alpha_mat = matrix(as.matrix(as.numeric(alpha[j,])), nrow = NSpecies, ncol = NSpecies)
+
+    k_vector = as.vector(as.numeric(k_vec[j,]))
+    r_vector = as.vector(as.numeric(r_vec[j,]))
+    EqAbund[j, ] = as.vector(solve(alpha_mat) %*% k_vector)
+
+    if(all(EqAbund[j, ] &gt;= 0)) {
+
+      jacobian = numDeriv::jacobian(function(N) N*exp(r_vector*(1 - (alpha_mat %*% N)/k_vector)), EqAbund[j, ], &quot;complex&quot;)
+      jacobi_mat[j,] = as.vector(jacobian)
+
+      Eigenvals[j,] = matrix(eigen(jacobian, only.values = TRUE)$values, nrow=1)
+
+      Resilience[j] = 1/max(abs(Re(Eigenvals[j,])))
+
+    }
+
+    setTxtProgressBar(pb,j)
+    final_time = proc.time() - initial_time
+    if (j == nloops*0.25) cat(&quot; 25% completed in&quot;, final_time[3], &quot;sec!\n&quot;)
+    final_time = proc.time() - initial_time
+    if (j == nloops*0.5) cat(&quot; 50% completed in&quot;, final_time[3], &quot;sec!\n&quot;)
+    final_time = proc.time() - initial_time
+    if (j == nloops*0.75) cat(&quot; 75% completed in&quot;, final_time[3], &quot;sec!\n&quot;)
+    final_time = proc.time() - initial_time
+    if (j == nloops) cat(&quot; 100% completed in&quot;, final_time[3], &quot;sec!\n&quot;)
+
+  }
+
+  (HDInterval_stability = bayestestR::hdi(as.mcmc(Resilience), credMass = 0.9, allowSplit = TRUE))
+
+  ### Plot unit circle and prob. of dynamic stability ####
+
+  Eigenvals = Eigenvals[complete.cases(Eigenvals),]
+
+  ReEigenvals = reshape2::melt(Re(Eigenvals), value.name=&quot;Real_part&quot;)
+  ImEigenvals = reshape2::melt(Im(Eigenvals), value.name=&quot;Imaginary_part&quot;)
+  Eigenvals_toplot = as.data.frame(cbind(ReEigenvals[,c(&quot;Real_part&quot;)],ImEigenvals[,c(&quot;Imaginary_part&quot;)]))
+  colnames(Eigenvals_toplot) = c(&quot;Real_part&quot;,&quot;Imaginary_part&quot;)
+  Eigenvals_toplot$Modulus = sqrt((Eigenvals_toplot$Real_part)^2 + (Eigenvals_toplot$Imaginary_part)^2)
+
+  (EmpProbDynStab = sum(Eigenvals_toplot$Modulus &lt; 1)/length(Eigenvals_toplot$Modulus))
+
+  th = seq(-pi, pi, len = 100)
+  z = exp((0+1i) * th)
+  UnitCircle=as.data.frame(cbind(Re(z),Im(z)))
+  Origin=data.frame(x=0,y=0)
+
+  unitcircle_plot = ggplot(data=UnitCircle,aes(Re(z),Im(z))) +
+    geom_path() +
+    geom_vline(xintercept = 0,lty=&quot;dotted&quot;) +
+    geom_hline(yintercept = 0,lty=&quot;dotted&quot;) +
+    geom_point(data=Eigenvals_toplot,aes(x=Real_part,y=Imaginary_part),size=0.5,col=&quot;red&quot;) +
+    scale_x_continuous(limits = c(-1.5,1.5)) +
+    scale_y_continuous(limits = c(-1.5,1.5)) +
+    labs(x=&quot;Real&quot;, y = &quot;Imaginary&quot;) +
+    theme(
+      axis.line.x=element_line(linewidth=0.5,colour=&quot;Black&quot;),
+      axis.line.y=element_line(linewidth=0.5,colour=&quot;Black&quot;),
+      axis.text=element_text(size=18,colour=&quot;Black&quot;),
+      axis.title=element_text(size=18,colour=&quot;Black&quot;),
+      plot.title = element_text(size=15),
+      legend.position = &quot;right&quot;,
+      legend.text = element_text(size = 12),
+      legend.key = element_blank(),
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.background = element_blank(),
+      plot.background = element_rect(fill = &quot;transparent&quot;, colour = NA)) +
+    ggtitle(paste0(&quot;Resilience: &quot;, round(map_estimate(Resilience), 3),
+                   &quot; (&quot;, round(bayestestR::hdi(Resilience, credMass = 0.9, allowSplit = TRUE)[[&quot;CI_low&quot;]], 3),&quot;,&quot;,
+                   round(bayestestR::hdi(Resilience, credMass = 0.9, allowSplit = TRUE)[[&quot;CI_high&quot;]],3), &quot;) MAP, 90% HDI&quot;, sep=&quot;&quot;),
+            paste0(&quot;Probability of dynamic stability: &quot;, round(EmpProbDynStab, 4),&quot;\n&quot;, sep=&quot;&quot;))
+  # unitcircle_plot
+  ggsave(paste0(&#39;output/figures/Probability_of_stability_&#39;,period,&#39;.pdf&#39;), unitcircle_plot, height = 6.5, width = 6)
+
+  if(period==&#39;PrePinatubo&#39;) unitcircle_plot_PrePinatubo = unitcircle_plot
+  if(period==&#39;PostPinatubo&#39;) unitcircle_plot_PostPinatubo = unitcircle_plot
+
+  ### Plot feasibility and extinction probability ####
+
+  EquilAbund = as.data.frame(EqAbund)
+  colnames(EquilAbund) = Sp_names_long
+
+  # Probability of species extinction
+  ProbSpExtinct=matrix(NA,1,NSpecies)
+  for(g in 1:NSpecies){
+    ProbSpExtinct[,g] = length(which(apply(as.data.frame(EquilAbund[,g]), 1, function(row) any(row &lt;= 0))))/nrow(EquilAbund)
+  }
+  colnames(ProbSpExtinct) = Sp_names_long
+
+  if(period==&#39;PrePinatubo&#39;) ProbSpExtinct_PrePinatubo = ProbSpExtinct
+  if(period==&#39;PostPinatubo&#39;) ProbSpExtinct_PostPinatubo = ProbSpExtinct
+
+  (EmpProbFeas = (dim(EquilAbund)[1] - length(which(apply(EquilAbund, 1, function(row) any(row &lt; 0)))))/dim(EquilAbund)[1])
+
+  k_posterior = as.data.frame(map_estimate(k_vec))
+  rownames(k_posterior) = Sp_names_long
+
+  k_posterior = as.data.frame(cbind(rownames(k_posterior),as.data.frame(k_posterior$MAP_Estimate)))
+  colnames(k_posterior) = c(&quot;variable&quot;,&quot;value&quot;)
+
+  plot_feasibility = ggplot(reshape2::melt(EquilAbund), aes(x=value, y=reorder(variable, desc(variable)), fill = after_stat(x))) +
+    geom_density_ridges_gradient(stat = &quot;binline&quot;, bins = 100, scale = 1.5, draw_baseline = FALSE) +
+    geom_vline(xintercept=0) +
+    scale_x_continuous(limits = c(-20,100)) +
+    scale_y_discrete(expression(N)) +
+    scale_fill_viridis(name = expression(&quot;Equilibrium \nabundance,&quot;~italic(N)^&quot;*&quot;), option = &quot;viridis&quot;) +
+    geom_point(data = k_posterior, aes(col=&quot;k_posterior&quot;), size=2) +
+    scale_color_manual(name = element_blank(),
+                       values = c(k_posterior = &quot;brown&quot;),
+                       labels = &quot;Carrying capacity&quot;) +
+    labs(x=&quot;Abundance (n. ind x1000)&quot;,
+         title = paste(&quot;Probability of feasibility: &quot;,round(EmpProbFeas,3))) +
+    theme_ridges(font_size = 13, grid = TRUE) +
+    theme(axis.title.y = element_blank(),
+          plot.title = element_text(size=18))
+  # plot_feasibility
+  ggsave(file=paste0(&#39;output/figures/Prob_of_feasibility_&#39;,period,&#39;.pdf&#39;), plot=plot_feasibility,
+         width=7.5, height=5.5, limitsize = FALSE)
+
+  if(period==&#39;PrePinatubo&#39;) plot_feasibility_PrePinatubo = plot_feasibility
+  if(period==&#39;PostPinatubo&#39;) plot_feasibility_PostPinatubo = plot_feasibility
+
+}
+
+## Plot wrapped figures ####
+
+### Stability and feasibility ####
+Wrapped_stability = wrap_plots(unitcircle_plot_PrePinatubo,
+                               unitcircle_plot_PostPinatubo,
+                               plot_feasibility_PrePinatubo,
+                               plot_feasibility_PostPinatubo) + plot_annotation(tag_levels = &#39;A&#39;, tag_suffix = &#39;)&#39;)
+# Wrapped_stability
+ggsave(file=&#39;output/figures/Wrapped_stability.pdf&#39;, plot=Wrapped_stability,
+       width=14.5, height=9, limitsize = FALSE)
+
+## Probability of species extinction ####
+
+probspExt = as.data.frame(t(rbind(ProbSpExtinct_PrePinatubo,ProbSpExtinct_PostPinatubo)))
+
+colnames(probspExt) = c(&#39;ProbSpExtinct_pre&#39;,&#39;ProbSpExtinct_post&#39;)
+
+probspExt &lt;- probspExt %&gt;%
+  mutate(Names = Sp_names_long,
+         &#39;Before Pinatubo&#39; = ProbSpExtinct_pre,
+         &#39;After Pinatubo&#39; = ProbSpExtinct_post) %&gt;%
+  dplyr::select(Names, `Before Pinatubo`, `After Pinatubo`)
+
+
+SpExtPr = ggplot(reshape2::melt(probspExt, id=&quot;Names&quot;)) +
+  geom_vline(xintercept=0) +
+  geom_point(aes(x=value, y=reorder(Names, desc(Names)), col = variable), size=5) +
+  scale_color_manual(values = c(&quot;purple&quot;, &quot;green&quot;)) +
+  scale_x_continuous(limits = c(0,0.4), trans = &quot;sqrt&quot;) +
+  theme_bw() +
+  theme(axis.title.y = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        plot.title = element_text(size=18)) +
+  labs(col = &quot;Regime&quot;,
+       x=&quot;Species extinction probability&quot;,
+       title = &quot;Probability of extinction at equilibrium&quot;)
+
+# SpExtPr
+
+for(i in 1:nrow(probspExt)){
+
+  SpExtPr = SpExtPr + geom_segment(data=probspExt[i,],
+                                   aes(x=`Before Pinatubo`, xend = `After Pinatubo`, y=Names, yend = Names),
+                                   arrow = arrow(type = &quot;closed&quot;, length = unit(0.2, &quot;cm&quot;), ends = &quot;last&quot;))
+
+}
+
+# print(SpExtPr)
+ggsave(file=&quot;output/figures/Prob_of_extinction.pdf&quot;, plot=SpExtPr,
+       width=7, height=6, limitsize = FALSE)
+
+
+save(ProbSpExtinct_PrePinatubo, ProbSpExtinct_PostPinatubo,
+     unitcircle_plot_PrePinatubo,
+     unitcircle_plot_PostPinatubo,
+     plot_feasibility_PrePinatubo,
+     plot_feasibility_PostPinatubo, file=&#39;output/SSRDLVR_model/plots.Rdata&#39;)
+
+
+
+# Cusp ####
+
+Cusp_db &lt;- read_delim(&quot;data/Environmental_data.csv&quot;, delim = &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+
+trend_main = trends %&gt;% dplyr::filter(trend_number == &#39;Trend 1&#39;)
+Cusp_db$DFA_trend = trend_main$estimate
+
+pdf(&quot;output/figures/Transition.pdf&quot;,height=4,width=5)
+Cusp_db %&gt;%
+  mutate(Period = factor(Period,
+                         levels = c(&quot;Pre-Volcano&quot;,&quot;Transient&quot;,&quot;Post-Volcano&quot;),
+                         labels = c(&quot;Before Pinatubo&quot;,&quot;Transient period&quot;,&quot;After Pinatubo&quot;))) %&gt;%
+  ggplot(.,aes(x=Flood, y=DFA_trend, label=Year,color=Period)) +
+  scale_color_manual(values = c(&quot;purple&quot;,&quot;grey&quot;,&quot;green&quot;)) +
+  geom_segment(aes(
+    xend=c(tail(Flood, n=-1), NA),
+    yend=c(tail(DFA_trend, n=-1), NA),
+    color=Period
+  ),
+  arrow=arrow(length=unit(0.3,&quot;cm&quot;),type=&quot;closed&quot;)) +
+  xlab(expression(paste(&quot;Flooding extension (&quot;, italic(&quot;Ln&quot;),&quot;Has)&quot;))) +
+  ylab(&quot;Community trend \n(abundance)&quot;) +
+  geom_text_repel(max.overlaps=10) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+dev.off()
+
+# Standardise data
+Cusp_db = Cusp_db %&gt;%
+  mutate(Flood = scale(Flood)[,1],
+         SAOD = scale(SAOD)[,1])
+
+# Fit the stochastic cusp catastrophe model
+fit &lt;- cusp(
+  y ~ DFA_trend,
+  alpha ~ -1 + Flood ,
+  beta ~ SAOD,
+  data = Cusp_db)
+
+# save(fit, file=&#39;output/Cusp_fit.Rdata&#39;)
+
+summary(fit, logist = TRUE)
+confint(fit,level = 0.95)
+
+pdf(&quot;output/figures/Cusp_Model_Fit.pdf&quot;,height=8,width=7)
+plot(fit)
+dev.off()
+
+pdf(&quot;output/figures/Cusp_surface.pdf&quot;,height=8,width=7)
+cusp3d(y=fit[[&quot;fitted.values&quot;]],
+       alpha = fit[[&quot;linear.predictors&quot;]][,1],
+       beta = fit[[&quot;linear.predictors&quot;]][,2],
+       w = 0.025,
+       theta = 150, phi = 25,
+       B = 6.5, Y = 4, Yfloor = -10,
+       np = 180, n.surface = 45, surface.plot = TRUE,
+       surf.alpha = 0.95, surf.gamma = 1.9, surf.chroma = 45, surf.hue = 150,
+       surf.ltheta = 0, surf.lphi = 45,
+       main=&quot;Cusp Equilibrium Surface&quot;)
+dev.off()
+
+# END ####</code></pre>
+</div>
+</div>
+<div id="compile-the-manuscript" class="section level2">
+<h2>Compile the manuscript</h2>
+<p>Once the analyses are completed and the figures produced, this shell
+call to the <code>Makefile</code> will compile and open the manuscript
+and related supplementary material:</p>
+<pre class="bash"><code>make compile</code></pre>
+</div>
+<div id="session-info" class="section level2">
+<h2>Session info</h2>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.3.2 (2023-10-31)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 22.04.3 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0
+
+locale:
+ [1] LC_CTYPE=es_ES.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=es_US.UTF-8        LC_COLLATE=es_ES.UTF-8    
+ [5] LC_MONETARY=es_US.UTF-8    LC_MESSAGES=es_ES.UTF-8   
+ [7] LC_PAPER=es_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=es_US.UTF-8 LC_IDENTIFICATION=C       
+
+time zone: Europe/Madrid
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggrepel_0.9.5      patchwork_1.2.0    reshape2_1.4.4     data.table_1.15.0 
+ [5] psych_2.4.1        ggbreak_0.1.2      mvtnorm_1.2-4      cusp_2.3.6        
+ [9] bayestestR_0.13.1  viridis_0.6.5      viridisLite_0.4.2  ggridges_0.5.6    
+[13] imputeTS_3.3       qgraph_1.9.8       bayesplot_1.11.0   ggmcmc_1.5.1.1    
+[17] coda_0.19-4.1      bayesdfa_1.3.2     rstan_2.32.5       StanHeaders_2.32.5
+[21] runjags_2.2.2-1.1  lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1     
+[25] dplyr_1.1.4        purrr_1.0.2        readr_2.1.5        tidyr_1.3.1       
+[29] tibble_3.2.1       ggplot2_3.4.4      tidyverse_2.0.0    librarian_1.8.1   
+[33] workflowr_1.7.1   
+
+loaded via a namespace (and not attached):
+  [1] RColorBrewer_1.1-3 rstudioapi_0.15.0  jsonlite_1.8.8    
+  [4] magrittr_2.0.3     rmarkdown_2.25     fs_1.6.3          
+  [7] vctrs_0.6.5        memoise_2.0.1      base64enc_0.1-3   
+ [10] htmltools_0.5.7    curl_5.2.0         gridGraphics_0.5-1
+ [13] Formula_1.2-5      TTR_0.24.4         sass_0.4.8        
+ [16] bslib_0.6.1        htmlwidgets_1.6.4  plyr_1.8.9        
+ [19] zoo_1.8-12         cachem_1.0.8       whisker_0.4.1     
+ [22] igraph_2.0.1.1     lifecycle_1.0.4    pkgconfig_2.0.3   
+ [25] Matrix_1.6-5       R6_2.5.1           fastmap_1.1.1     
+ [28] aplot_0.2.2        digest_0.6.34      fdrtool_1.2.17    
+ [31] colorspace_2.1-0   GGally_2.2.0       ps_1.7.6          
+ [34] rprojroot_2.0.4    Hmisc_5.1-1        fansi_1.0.6       
+ [37] timechange_0.3.0   httr_1.4.7         abind_1.4-5       
+ [40] mgcv_1.9-1         compiler_4.3.2     withr_3.0.0       
+ [43] glasso_1.11        htmlTable_2.4.2    backports_1.4.1   
+ [46] tseries_0.10-54    inline_0.3.19      ggstats_0.5.1     
+ [49] QuickJSR_1.1.3     pkgbuild_1.4.3     stinepack_1.4     
+ [52] corpcor_1.6.10     gtools_3.9.5       loo_2.6.0         
+ [55] tools_4.3.2        pbivnorm_0.6.0     foreign_0.8-86    
+ [58] lmtest_0.9-40      quantmod_0.4.25    httpuv_1.6.14     
+ [61] nnet_7.3-19        glue_1.6.2         quadprog_1.5-8    
+ [64] callr_3.7.3        nlme_3.1-164       promises_1.2.1    
+ [67] gridtext_0.1.5     grid_4.3.2         checkmate_2.3.1   
+ [70] getPass_0.2-4      cluster_2.1.6      generics_0.1.3    
+ [73] gtable_0.3.4       tzdb_0.4.0         hms_1.1.3         
+ [76] xml2_1.3.6         utf8_1.2.4         pillar_1.9.0      
+ [79] yulab.utils_0.1.4  later_1.3.2        splines_4.3.2     
+ [82] ggtext_0.1.2       lattice_0.22-5     tidyselect_1.2.0  
+ [85] pbapply_1.7-2      knitr_1.45         git2r_0.32.0      
+ [88] gridExtra_2.3      V8_4.4.1           urca_1.3-3        
+ [91] forecast_8.21.1    stats4_4.3.2       xfun_0.41         
+ [94] timeDate_4032.109  matrixStats_1.2.0  stringi_1.8.3     
+ [97] ggfun_0.1.4        yaml_2.3.8         evaluate_0.23     
+[100] codetools_0.2-19   ggplotify_0.1.2    cli_3.6.2         
+[103] RcppParallel_5.1.7 rpart_4.1.23       munsell_0.5.0     
+[106] processx_3.8.3     jquerylib_0.1.4    lavaan_0.6-17     
+[109] Rcpp_1.0.12        png_0.1-8          parallel_4.3.2    
+[112] fracdiff_1.5-3     jpeg_0.1-10        xts_0.13.2        
+[115] scales_1.3.0       insight_0.19.8     rlang_1.1.3       
+[118] mnormt_2.1.1      </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

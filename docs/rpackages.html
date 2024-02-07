@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>grateful citation report</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GuadalShiftR</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Reproduce.html">Reproduce</a>
+</li>
+<li>
+  <a href="rpackages.html">R packages</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/palmaraz/GuadalShiftR">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><code>grateful</code> citation report</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-02-07
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>GuadalShiftR/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongc4037f1">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> c4037f1
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongc4037f1"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version c4037f1.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    output/figures/
+
+Untracked files:
+    Untracked:  CITATION
+    Untracked:  LICENCE
+    Untracked:  MAKEFILE.R
+    Untracked:  Makefile
+    Untracked:  analysis/rpackages-refs.bib
+    Untracked:  code/SSRDLVR_model.JAGS
+    Untracked:  code/SSRDLVR_script.R
+    Untracked:  code/functions.R
+    Untracked:  data/Aerial_count_data.csv
+    Untracked:  data/Environmental_data.csv
+    Untracked:  manuscript/
+    Untracked:  output/BDFA_model/
+    Untracked:  output/Cusp_fit.Rdata
+    Untracked:  output/SSRDLVR_model/
+    Untracked:  pipeline.R
+
+Unstaged changes:
+    Modified:   GuadalShiftR.Rproj
+    Modified:   README.md
+    Modified:   analysis/_site.yml
+    Deleted:    analysis/about.Rmd
+    Deleted:    code/README.md
+    Deleted:    data/README.md
+    Deleted:    output/README.md
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/rpackages.Rmd</code>) and HTML
+(<code>docs/rpackages.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+c4037f1
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-07
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="r-packages-used" class="section level2">
+<h2>R packages used</h2>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+<col width="68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Package</th>
+<th align="left">Version</th>
+<th align="left">Citation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">base</td>
+<td align="left">4.3.2</td>
+<td align="left"><span class="citation">R Core Team (2023a)</span></td>
+</tr>
+<tr class="even">
+<td align="left">bayesplot</td>
+<td align="left">1.11.0</td>
+<td align="left"><span class="citation">Gabry et al. (2019)</span>;
+<span class="citation">Gabry and Mahr (2024)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">bayestestR</td>
+<td align="left">0.13.1</td>
+<td align="left"><span class="citation">Makowski, Ben-Shachar, and
+Lüdecke (2019)</span></td>
+</tr>
+<tr class="even">
+<td align="left">knitr</td>
+<td align="left">1.45</td>
+<td align="left"><span class="citation">Xie (2014)</span>; <span
+class="citation">Xie (2015)</span>; <span class="citation">Xie
+(2023)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">librarian</td>
+<td align="left">1.8.1</td>
+<td align="left"><span class="citation">Quintans (2021)</span></td>
+</tr>
+<tr class="even">
+<td align="left">MASS</td>
+<td align="left">7.3.60</td>
+<td align="left"><span class="citation">Venables and Ripley
+(2002)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">numDeriv</td>
+<td align="left">2016.8.1.1</td>
+<td align="left"><span class="citation">Gilbert and Varadhan
+(2019)</span></td>
+</tr>
+<tr class="even">
+<td align="left">parallel</td>
+<td align="left">4.3.2</td>
+<td align="left"><span class="citation">R Core Team (2023b)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">reshape2</td>
+<td align="left">1.4.4</td>
+<td align="left"><span class="citation">Wickham (2007)</span></td>
+</tr>
+<tr class="even">
+<td align="left">rmarkdown</td>
+<td align="left">2.25</td>
+<td align="left"><span class="citation">Xie, Allaire, and Grolemund
+(2018)</span>; <span class="citation">Xie, Dervieux, and Riederer
+(2020)</span>; <span class="citation">Allaire et al. (2023)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">rstan</td>
+<td align="left">2.32.5</td>
+<td align="left"><span class="citation">Stan Development Team
+(2024)</span></td>
+</tr>
+<tr class="even">
+<td align="left">runjags</td>
+<td align="left">2.2.2.1.1</td>
+<td align="left"><span class="citation">Denwood (2016)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">tidyverse</td>
+<td align="left">2.0.0</td>
+<td align="left"><span class="citation">Wickham et al.
+(2019)</span></td>
+</tr>
+<tr class="even">
+<td align="left">workflowr</td>
+<td align="left">1.7.1</td>
+<td align="left"><span class="citation">Blischak, Carbonetto, and
+Stephens (2019)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>You can paste this paragraph directly in your
+report:</strong></p>
+<p>We used R version 4.3.2 <span class="citation">(R Core Team
+2023a)</span> and the following R packages: bayesplot v. 1.11.0 <span
+class="citation">(Gabry et al. 2019; Gabry and Mahr 2024)</span>,
+bayestestR v. 0.13.1 <span class="citation">(Makowski, Ben-Shachar, and
+Lüdecke 2019)</span>, knitr v. 1.45 <span class="citation">(Xie 2014,
+2015, 2023)</span>, librarian v. 1.8.1 <span class="citation">(Quintans
+2021)</span>, MASS v. 7.3.60 <span class="citation">(Venables and Ripley
+2002)</span>, numDeriv v. 2016.8.1.1 <span class="citation">(Gilbert and
+Varadhan 2019)</span>, parallel v. 4.3.2 <span class="citation">(R Core
+Team 2023b)</span>, reshape2 v. 1.4.4 <span class="citation">(Wickham
+2007)</span>, rmarkdown v. 2.25 <span class="citation">(Xie, Allaire,
+and Grolemund 2018; Xie, Dervieux, and Riederer 2020; Allaire et al.
+2023)</span>, rstan v. 2.32.5 <span class="citation">(Stan Development
+Team 2024)</span>, runjags v. 2.2.2.1.1 <span class="citation">(Denwood
+2016)</span>, tidyverse v. 2.0.0 <span class="citation">(Wickham et al.
+2019)</span>, workflowr v. 1.7.1 <span class="citation">(Blischak,
+Carbonetto, and Stephens 2019)</span>, running in RStudio v.
+2023.12.1.402 <span class="citation">(Posit team 2024)</span>.</p>
+</div>
+<div id="package-citations" class="section level2 unnumbered">
+<h2 class="unnumbered">Package citations</h2>
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
+<div id="ref-rmarkdown2023" class="csl-entry">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier
+Luraschi, Kevin Ushey, Aron Atkins, et al. 2023. <em><span
+class="nocase">rmarkdown</span>: Dynamic Documents for r</em>. <a
+href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
+<div id="ref-workflowr" class="csl-entry">
+Blischak, John D, Peter Carbonetto, and Matthew Stephens. 2019.
+<span>“Creating and Sharing Reproducible Research Code the Workflowr Way
+[Version 1; Peer Review: 3 Approved].”</span> <em>F1000Research</em> 8
+(1749). <a
+href="https://doi.org/10.12688/f1000research.20843.1">https://doi.org/10.12688/f1000research.20843.1</a>.
+</div>
+<div id="ref-runjags" class="csl-entry">
+Denwood, Matthew J. 2016. <span>“<span class="nocase">runjags</span>: An
+<span>R</span> Package Providing Interface Utilities, Model Templates,
+Parallel Computing Methods and Additional Distributions for
+<span>MCMC</span> Models in <span>JAGS</span>.”</span> <em>Journal of
+Statistical Software</em> 71 (9): 1–25. <a
+href="https://doi.org/10.18637/jss.v071.i09">https://doi.org/10.18637/jss.v071.i09</a>.
+</div>
+<div id="ref-bayesplot2024" class="csl-entry">
+Gabry, Jonah, and Tristan Mahr. 2024. <span>“<span
+class="nocase">bayesplot</span>: Plotting for Bayesian Models.”</span>
+<a
+href="https://mc-stan.org/bayesplot/">https://mc-stan.org/bayesplot/</a>.
+</div>
+<div id="ref-bayesplot2019" class="csl-entry">
+Gabry, Jonah, Daniel Simpson, Aki Vehtari, Michael Betancourt, and
+Andrew Gelman. 2019. <span>“Visualization in Bayesian Workflow.”</span>
+<em>J. R. Stat. Soc. A</em> 182: 389–402. <a
+href="https://doi.org/10.1111/rssa.12378">https://doi.org/10.1111/rssa.12378</a>.
+</div>
+<div id="ref-numDeriv" class="csl-entry">
+Gilbert, Paul, and Ravi Varadhan. 2019. <em><span
+class="nocase">numDeriv</span>: Accurate Numerical Derivatives</em>. <a
+href="https://CRAN.R-project.org/package=numDeriv">https://CRAN.R-project.org/package=numDeriv</a>.
+</div>
+<div id="ref-bayestestR" class="csl-entry">
+Makowski, Dominique, Mattan S. Ben-Shachar, and Daniel Lüdecke. 2019.
+<span>“<span class="nocase">bayestestR</span>: Describing Effects and
+Their Uncertainty, Existence and Significance Within the Bayesian
+Framework.”</span> <em>Journal of Open Source Software</em> 4 (40):
+1541. <a
+href="https://doi.org/10.21105/joss.01541">https://doi.org/10.21105/joss.01541</a>.
+</div>
+<div id="ref-rstudio" class="csl-entry">
+Posit team. 2024. <em><span>RStudio</span>: Integrated Development
+Environment for r</em>. Boston, MA: Posit Software, PBC. <a
+href="http://www.posit.co/">http://www.posit.co/</a>.
+</div>
+<div id="ref-librarian" class="csl-entry">
+Quintans, Desi. 2021. <em><span class="nocase">librarian</span>:
+Install, Update, Load Packages from CRAN,
+<span>“<span>GitHub</span>,”</span> and
+<span>“<span>Bioconductor</span>”</span> in One Step</em>. <a
+href="https://CRAN.R-project.org/package=librarian">https://CRAN.R-project.org/package=librarian</a>.
+</div>
+<div id="ref-base" class="csl-entry">
+R Core Team. 2023a. <em><span>R</span>: A Language and Environment for
+Statistical Computing</em>. Vienna, Austria: R Foundation for
+Statistical Computing. <a
+href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-parallel" class="csl-entry">
+———. 2023b. <em><span>R</span>: A Language and Environment for
+Statistical Computing</em>. Vienna, Austria: R Foundation for
+Statistical Computing. <a
+href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-rstan" class="csl-entry">
+Stan Development Team. 2024. <span>“<span>RStan</span>: The
+<span>R</span> Interface to <span>Stan</span>.”</span> <a
+href="https://mc-stan.org/">https://mc-stan.org/</a>.
+</div>
+<div id="ref-MASS" class="csl-entry">
+Venables, W. N., and B. D. Ripley. 2002. <em>Modern Applied Statistics
+with s</em>. Fourth. New York: Springer. <a
+href="https://www.stats.ox.ac.uk/pub/MASS4/">https://www.stats.ox.ac.uk/pub/MASS4/</a>.
+</div>
+<div id="ref-reshape2" class="csl-entry">
+Wickham, Hadley. 2007. <span>“Reshaping Data with the <span
+class="nocase">reshape</span> Package.”</span> <em>Journal of
+Statistical Software</em> 21 (12): 1–20. <a
+href="http://www.jstatsoft.org/v21/i12/">http://www.jstatsoft.org/v21/i12/</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+<span>“Welcome to the <span class="nocase">tidyverse</span>.”</span>
+<em>Journal of Open Source Software</em> 4 (43): 1686. <a
+href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-knitr2014" class="csl-entry">
+Xie, Yihui. 2014. <span>“<span class="nocase">knitr</span>: A
+Comprehensive Tool for Reproducible Research in <span>R</span>.”</span>
+In <em>Implementing Reproducible Computational Research</em>, edited by
+Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman;
+Hall/CRC.
+</div>
+<div id="ref-knitr2015" class="csl-entry">
+———. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd
+ed. Boca Raton, Florida: Chapman; Hall/CRC. <a
+href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
+</div>
+<div id="ref-knitr2023" class="csl-entry">
+———. 2023. <em><span class="nocase">knitr</span>: A General-Purpose
+Package for Dynamic Report Generation in r</em>. <a
+href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
+</div>
+<div id="ref-rmarkdown2018" class="csl-entry">
+Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. <em>R Markdown:
+The Definitive Guide</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a
+href="https://bookdown.org/yihui/rmarkdown">https://bookdown.org/yihui/rmarkdown</a>.
+</div>
+<div id="ref-rmarkdown2020" class="csl-entry">
+Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. <em>R
+Markdown Cookbook</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a
+href="https://bookdown.org/yihui/rmarkdown-cookbook">https://bookdown.org/yihui/rmarkdown-cookbook</a>.
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
