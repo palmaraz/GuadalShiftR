@@ -245,7 +245,6 @@ Project Link: <https://github.com/palmaraz/GuadalShiftR>
 </p>
 
 ## R packages used in this project 
-{#r-packages-used-in-this-project}
 
 <p align="right">
 
@@ -255,7 +254,7 @@ We used R version 4.3.2 (R Core Team 2023a) and the following R packages: bayesp
 
 (<a href="#top">back to top</a>)
 
-## Package citations
+## Package citations {#r-packages-used-in-this-project}
 
 Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier
 Luraschi, Kevin Ushey, Aron Atkins, et al. 2023.
