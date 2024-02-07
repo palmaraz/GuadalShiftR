@@ -1,0 +1,114 @@
+model {
+
+  ## Equations for the system process ####
+
+  for(t in 2:NYears){
+
+    for(i in 1:NSpecies){
+
+      state.mu[t,i] <- state[t-1,i] + r[i]*(1 - inprod(alpha[i,], exp.state[t-1,])/k[i]) + gamma[i]*flood[t]
+
+      exp.state[t-1,i] <- exp(state[t-1,i]) - 1
+
+      }
+
+
+    state[t,1:NSpecies] ~ dmnorm(state.mu[t,1:NSpecies], Sys.prec.mat[,])
+
+  }
+
+
+  ## Equations for the observation processes ####
+
+  for(t in 2:NYears){
+
+    n1[t, 1:NSpecies] ~ dmnorm(state.1[t, 1:NSpecies], Obs.prec.mat[,])
+
+    n2[t,  1:NSpecies] ~ dmnorm(state[t,  1:NSpecies], Obs.prec.mat[,])
+
+    for(i in 1: NSpecies){
+
+      state.1[t, i] <- state[t, i] + b[i]
+
+    }
+
+    # Posterior predicted datasets
+    n1_ppc[t, 1:NSpecies] ~ dmnorm(state.1[t, 1:NSpecies], Obs.prec.mat[,])
+
+    n2_ppc[t,  1:NSpecies] ~ dmnorm(state[t,  1:NSpecies], Obs.prec.mat[,])
+
+  }
+
+
+  # Initial state ####
+
+  for(i in 1:NSpecies){
+
+    state[1, i] ~ dunif(0,2)
+    state.1[1, i] ~ dunif(0,2)
+
+  }
+
+  ## Interaction coefficients
+  # Spike-and-Slab priors ####
+
+  for(i in 1:NSpecies){
+
+    alpha[i,i] <- 1
+    g.alpha[i,i] <- 1
+
+    for(j in (i+1):NSpecies){
+
+      g.alpha[i,j] ~ dbern(prob_inter)
+      active_alpha[i,j] ~ dnorm(0, 0.1)
+      alpha[i,j] <- ifelse(g.alpha[i,j]==0, 0, active_alpha[i,j])
+
+      g.alpha[j,i] ~ dbern(prob_inter)
+      active_alpha[j,i] ~ dnorm(0, 0.1)
+      alpha[j,i] <- ifelse(g.alpha[j,i]==0, 0, active_alpha[j,i])
+
+    }
+
+  }
+
+  prob_inter ~ dbeta(2,8)
+
+  ## Residual environmental covariance matrix (system error) ####
+  Sys.prec.mat[1 : NSpecies,1 : NSpecies] ~ dscaled.wishart(rep(1,NSpecies), NSpecies)
+  Sigma[1:NSpecies,1:NSpecies] <- inverse(Sys.prec.mat[,])
+
+  ## Environmental covariance matrix (measurement error) ####
+  Obs.prec.mat[1:NSpecies, 1:NSpecies] ~ dscaled.wishart(rep(1,NSpecies), NSpecies)
+  Tau[1:NSpecies,1:NSpecies] <- inverse(Obs.prec.mat[,])
+
+  ## Inter-specific correlations for the system and measurement errors ####
+
+  for(i in 1:NSpecies){
+
+    state.sigma2[i] <- Sigma[i,i]
+    n.tau2[i] <- Tau[i,i]
+
+    for(j in 1:NSpecies){
+
+      Corr.sigma[i,j] <- Sigma[i,j]/sqrt(Sigma[i,i]*Sigma[j,j])
+      Corr.tau[i,j] <- Tau[i,j]/sqrt(Tau[i,i]*Tau[j,j])
+
+    }
+
+    b[i] ~ dnorm(0,1)
+
+    r[i] ~ dnorm(0, 0.25)T(0,)
+    k[i] ~ dnorm(est.k[i], 0.25)T(0,)
+
+    # Alternative prior specifications
+    # k[i] ~ dnorm(est.k[i], 1/est.k.var[i])
+    # r[i] ~ dnorm(0, 0.25)
+    # k[i] ~ dnorm(0, 0.01)T(0,)
+
+    gamma[i] ~ dnorm(0,1)
+
+  }
+
+}
+
+# End model ####

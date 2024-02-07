@@ -1,0 +1,1055 @@
+# R Makefile ####
+
+# This script will sequentially run all the analyses of the accompanying paper:
+#
+# Almaraz, P. and Green, A.J. (2023) Catastrophic Dynamics of a Threatened Bird Community Triggered by
+# a Planetary-Scale Environmental Perturbation. Biological Conservation
+#
+# Author: Dr. Pablo Almaraz (pablo.almaraz@csic.es), palmaraz.github.io
+
+message('  As with all Bayesian numerical integration techniques, either using Gibbs sampling,
+HMC-NUTS or other sampling methods, the posterior distribution will always be an approximation
+to the target distribution, up to a constant and accounting for MC error. In this case, both
+the Bayesian DFA (using HMC-NUTS), and the SSRDLVR model (using Gibbs MCMC sampling), are very
+high-dimensional approaches, yielding very high-dimensional posterior distributions.
+As a consequence, the values of summaries from the posterior distributions will be somewhat
+sensitive not only to prior specification, but also to initial values of the MC chains.
+In particular, providing informative initial values for the MC chains (that is, abusing of language,
+values that are within the basin of attraction of the target distribution), can greatly speed the
+convergence and provide meaningful posterior values. Keep this in mind when modifying the prior or
+the initial values of this or other models!\n
+
+The following code is structured with these issues in mind:\n
+
+1. Depending on your computing architecture, the fitting of the Bayesian DFA and the SSRDLVR model
+cant take up to several hours (most likely), or even days (unlikely). Therefore, the essential
+output from the fitted posterior distributions is saved in the `output` folder, and the analyses
+from this file and the `MAKEFILE.R` and `Makefile` files use this default procedure for quickly
+producing the figures and compiling the manuscript.\n
+
+2. If you decide to re-fit all the models, set `fit_DFA=TRUE` and `fit_SSRDLVR=TRUE` here and
+elsewhere. Keep in mind the issue with initial and prior values described above! In particular,
+do not modify the random seeds used in this project. Otherwise, expect slightly diverging
+numerical results. In particular, the estimation of the empirical probability of feasibility is
+particularly sensitive to these issues. Even depending on the particular version of R, Stan,
+JAGS, gcc, etc., slightly different results are expected. This is annoying.\n
+
+3. Finally, keep in mind that the chuncks of this Rmarkdown are set to `eval=FALSE`, if you want
+to run the chuncks, set to `eval=TRUE`.\n')
+
+# Load functions
+
+source('code/functions.R')
+message('\nLoad functions\n')
+
+# Load libraries ####
+
+message('\nLoad libraries\n')
+
+# You can choose to make a checkpoint to reproduce all the analyses with a
+# CRAN snapshot of the day of acceptance of the paper. If so, uncomment the
+# two following lines:
+
+# if (!require(checkpoint)) install.packages('checkpoint')
+# checkpoint::checkpoint("2024-01-20")
+
+message('\nInstall, if necessary, the "librarian" package...\n')
+
+if (!require(librarian)) install.packages('librarian') # Install, if necessary, the 'librarian' package
+
+# Automatically install, if necessary, from whichever source (CRAN, Bioconductor...), the necessary
+# packages to conduct the analyses, and load them
+
+message('\n... and then install (if necessary) and load the necessary packages\n')
+
+librarian::shelf(tidyverse,readr,runjags,rstan,bayesdfa,coda,ggmcmc,bayesplot,qgraph,
+                 imputeTS,ggridges,viridis,bayestestR,cusp,mvtnorm,ggbreak,psych,data.table,
+                 reshape2,patchwork,ggrepel)
+
+# Load data ####
+message('\nLoad data\n')
+
+Count_data = read_delim("data/Aerial_count_data.csv",delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+Sp_names_long = c("Pintail","Shoveler","Common teal","Eurasian wigeon","Mallard",
+                  "Gadwall","Greylag goose","Common pochard","Red-crested pochard","Shelduck")
+
+Sp_names_short = c("Pintail","Shoveler","C. teal","E. wigeon","Mallard",
+                   "Gadwall","G. goose","C. pochard","R-c. pochard","Shelduck")
+
+Env_data = read_delim("data/Environmental_data.csv",delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+# Bayesian DFA ####
+
+message('\nBegin the fitting of the Bayesian Dynamic Factor Analysis:\n')
+
+set.seed(498468)
+
+options(mc.cores = parallel::detectCores()) # Use all the available cores (if using a multi-core processor)
+
+## Long format for the waterfowl dataset
+
+years = 1978:2013
+
+WaterfowlData = Count_data[-nrow(Count_data),] %>%
+  dplyr::mutate(time=rep(1:length(years), each=2)) %>%
+  dplyr::select(time,
+                Anas_acuta,
+                Anas_clypeata,
+                Anas_crecca,
+                Anas_penelope,
+                Anas_platyrhynchos,
+                Anas_strepera,
+                Anser_anser,
+                Aythya_ferina,
+                Netta_rufina,
+                Tadorna_tadorna) %>%
+  reshape2::melt(., id=c("time")) %>%
+  dplyr::mutate(obs=log(value+1),
+                ts=as.numeric(variable),
+                time=time) %>%
+  dplyr::select(obs,ts,time)
+
+# Specify some items
+
+chains = 3
+iter = 6000
+n_knots = 16
+
+fit_DFA=FALSE
+
+if(fit_DFA==TRUE){
+
+  ## DFA with 1 trend ####
+
+    message('\nFit a Bayesian DFA with 1 trend\n')
+
+    DFA_1trend_PS = fit_dfa(
+      y = WaterfowlData, num_trends = 1, data_shape = "long", estimation = "sampling",
+      scale="zscore", trend_model="ps", n_knots = n_knots,
+      iter = iter, chains = chains, thin = 1, refresh = 100, verbose = T, expansion_prior=T,
+      seed = 1083941809)
+
+    save(DFA_1trend_PS, file = 'output/BDFA_model/DFA_1trend_PS.Rdata')
+
+    # LOO cross-validation
+    loocv_DFA_1trend_PS = loo(DFA_1trend_PS)
+
+    rotate_DFA_1trend_PS <- rotate_trends(DFA_1trend_PS, conf_level=0.9, invert = F)
+    plot_trends(rotate_DFA_1trend_PS, years=years) +
+      xlab("Year") + ylab("Dynamic factor") + theme_bw() + theme(panel.grid = element_blank())
+
+
+  # DFA with 2 trends ####
+
+    message('\nFit a Bayesian DFA with 2 trends\n')
+
+    DFA_2trends_PS = fit_dfa(
+      y = WaterfowlData, num_trends = 2, data_shape = "long", estimation = "sampling",
+      scale="zscore", trend_model="ps", n_knots = n_knots,
+      iter = iter, chains = chains, thin = 1, refresh = 100, verbose = T, expansion_prior=T,
+      seed=4128785653)
+
+    save(DFA_2trends_PS, file = 'output/BDFA_model/DFA_2trends_PS.Rdata')
+
+    # LOO cross-validation
+    loocv_DFA_2trends_PS = loo(DFA_2trends_PS)
+
+    rotate_DFA_2trends <- rotate_trends(DFA_2trends_PS, conf_level=0.9, invert = F)
+
+    # Make some changes to display the major trend first
+    trends <- dfa_trends(rotate_DFA_2trends)
+
+    trends$trend_number = as.factor(trends$trend_number)
+    levels(trends$trend_number) <- c("Trend 2","Trend 1")
+    trends$trend_number = as.character(trends$trend_number)
+
+    trends$trend_number = factor(trends$trend_number, labels = c("Trend 1","Trend 2"))
+    trends$year = rep(years,2)
+
+    plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = "year", y = "estimate")) +
+      geom_ribbon(aes_string(ymin = "lower", ymax = "upper"),
+                  alpha = 0.4) + geom_line() + facet_wrap("trend_number") +
+      xlab("Year") + ylab("Dynamic factor") + theme_bw() + theme(panel.grid = element_blank())
+
+    # Plot the major common trends of the community
+    pdf("output/figures/Common_Trends_raw.pdf",height=4,width=8)
+    plot_rotate_DFA_2trends
+    dev.off()
+
+    pdf("output/figures/Common_Trends_by_Species.pdf",height=6,width=7)
+    plot_fitted(DFA_2trends_PS, conf_level = 0.9, names=Sp_names_long, time_labels=years, spaghetti=F) +
+      geom_point(aes_string(x = "time",
+                            y = "y"), col = "royalblue", size = 1, alpha = 1) +
+      theme_bw() +
+      ylab('Abdundance (standardised)') + xlab('Year') + theme(panel.grid = element_blank())
+    dev.off()
+
+    # Plot the factor loadings
+    FacLoad = dfa_loadings(rotate_DFA_2trends, summary = FALSE, names = Sp_names_long, conf_level = 0.95)
+    levels(FacLoad$trend) <- c("Trend 2","Trend 1")
+    FacLoad$loading = 1*FacLoad$loading
+    FacLoad$trend = relevel(FacLoad$trend, "Trend 1")
+
+    FacLoad_plot = ggplot(FacLoad, aes_string(x = "name", y = "loading", fill = "trend", alpha = "prob_diff0")) +
+      geom_violin(color = NA) +
+      scale_fill_manual(values = c("royalblue", "orange2")) +
+      scale_y_continuous(limits = c(-2.5, 5)) +
+      geom_hline(yintercept = 0, lty = 2) +
+      coord_flip() +
+      xlab("Species") + ylab("Loading")
+    FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = "free_x")
+
+    pdf("output/figures/Factor_loadings.pdf",height=5,width=7)
+    FacLoad_plot
+    dev.off()
+
+    # Fit a Hidden Markov Model to identify regime shifts in the dynamic common trends
+
+    message('\nFit a Hidden Markov Model to identify regime shifts in the dynamic common trends:\n')
+
+    # HMM with 1 regime
+
+    HMM_model_DFA_1trend = fit_regimes(
+      y = rotate_DFA_2trends$trends_mean[2, ],
+      sds = (rotate_DFA_2trends$trends_upper - rotate_DFA_2trends$trends_mean)[2, ] / 1.96,
+      n_regimes = 1,
+      iter = iter, chains = chains, refresh=iter, verbose = F)
+
+    # HMM with 2 regimes
+
+    HMM_model_DFA_2trends <- fit_regimes(
+      y = rotate_DFA_2trends$trends_mean[2, ],
+      sds = (rotate_DFA_2trends$trends_upper - rotate_DFA_2trends$trends_mean)[2, ] / 1.96,
+      n_regimes = 2,
+      iter = iter, chains = chains, refresh=iter, verbose = F)
+
+    message(paste0('\nThe looic for the HMM with 1 regime is ',
+                   round(HMM_model_DFA_1trend$looic,3), '\n',
+                   'The looic for the HMM with 2 regimes is ',
+                   round(HMM_model_DFA_2trends$looic,3), '\n',
+                   'The difference is of ', round(HMM_model_DFA_1trend$looic,3) -
+                     round(HMM_model_DFA_2trends$looic,3),'\n',
+                   sep=''))
+
+    # Plot the regimes
+
+    pdf("output/figures/Regime_shift.pdf",height=5,width=5)
+    plot_hmm_regimes(HMM_model_DFA_2trends,years=years)
+    dev.off()
+
+    # save(DFA_1trend_PS,DFA_2trends_PS,HMM_model_DFA_1trend,HMM_model_DFA_2trends,
+    #      file='output/BDFA_model/BayesDFA_results.Rdata')
+
+}
+
+
+if(fit_DFA==FALSE) {
+
+  load('output/BDFA_model/BDFA_results.Rdata')
+
+}
+
+# Plot the major common trends of the community
+plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = "year", y = "estimate")) +
+  geom_ribbon(aes_string(ymin = "lower", ymax = "upper"),
+              alpha = 0.4) + geom_line() + facet_wrap("trend_number") +
+  xlab("Year") + ylab("Dynamic factor") + theme_bw() + theme(panel.grid = element_blank())
+pdf("output/figures/Common_Trends_raw.pdf",height=4,width=8)
+plot_rotate_DFA_2trends
+dev.off()
+
+# Difference in looic between models
+
+message(paste0('\nThe looic for the DFA with 1 trend is ',
+               round(loocv_DFA_1trend_PS$estimates['looic','Estimate'],3), '\n',
+               'The looic for the DFA with 2 trends is ',
+               round(loocv_DFA_2trends_PS$estimates['looic','Estimate'],3), '\n',
+               'The difference is of ', round(loocv_DFA_1trend_PS$estimates['looic','Estimate'],3) -
+                 round(loocv_DFA_2trends_PS$estimates['looic','Estimate'],3),'\n',
+               sep=''))
+
+pdf("output/figures/Common_Trends_by_Species.pdf",height=6,width=7)
+ggplot(trends_by_sp) +
+  geom_ribbon(aes_string(x = "time", ymin = "lower", ymax = "upper"), alpha = 0.4) +
+  geom_line(aes_string(x = "time", y = "estimate")) +
+  geom_point(col = "royalblue", size = 1, alpha = 1, aes_string(x = "time",                                                                                                                                                    y = "y"), col = "red", size = 0.5, alpha = 0.4) +
+  facet_wrap("ID", scales = "free_y") + xlab("Time") +
+  ylab("") +
+  theme_bw() +
+  ylab('Abdundance (standardised)') + xlab('Year') +
+  theme(panel.grid = element_blank())
+dev.off()
+
+
+# Plot the factor loadings
+
+FacLoad_plot = ggplot(FacLoad, aes_string(x = "name", y = "loading", fill = "trend", alpha = "prob_diff0")) +
+  geom_violin(color = NA) +
+  scale_fill_manual(values = c("royalblue", "orange2")) +
+  scale_y_continuous(limits = c(-2.5, 5)) +
+  geom_hline(yintercept = 0, lty = 2) +
+  coord_flip() +
+  xlab("Species") + ylab("Loading")
+FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = "free_x")
+
+pdf("output/figures/Factor_loadings.pdf",height=5,width=7)
+FacLoad_plot
+dev.off()
+
+
+# HMM with 2 regimes
+
+HMM_model_DFA_2trends <- fit_regimes(
+  y = rotate_DFA_2trends_trends_mean,
+  sds = sds,
+  n_regimes = 2,
+  iter = iter, chains = chains, refresh=iter, verbose = F)
+
+message(paste0('\nThe looic for the HMM with 1 regime is ',
+               round(HMM_model_DFA_1trend_looic,3), '\n',
+               'The looic for the HMM with 2 regimes is ',
+               round(HMM_model_DFA_2trends_looic,3), '\n',
+               'The difference is of ', round(HMM_model_DFA_1trend_looic,3) -
+                 round(HMM_model_DFA_2trends_looic,3),'\n',
+               sep=''))
+
+# Plot the regimes
+
+pdf("output/figures/Regime_shift.pdf",height=5,width=5)
+plot_hmm_regimes(HMM_model_DFA_2trends,years=years)
+dev.off()
+
+# END Bayesian DFA ####
+
+# State-space regime-dependent LVR model ####
+
+seed=827545
+set.seed(seed)
+
+runjags.options(inits.warning=F,
+                rng.warning=F,
+                blockignore.warning=F,
+                blockcombine.warning=F,
+                nodata.warning=F,
+                silent.jags=F,
+                silent.runjags=F)
+testjags()
+
+scal_Fact=1000 # Scaling factor for abundance data
+NSpecies = 10
+
+WaterfowlData = Count_data[-nrow(Count_data),] %>%
+  dplyr::mutate(time=rep(1:36, each=2)) %>%
+  dplyr::select(time,
+                Anas_acuta,
+                Anas_clypeata,
+                Anas_crecca,
+                Anas_penelope,
+                Anas_platyrhynchos,
+                Anas_strepera,
+                Anser_anser,
+                Aythya_ferina,
+                Netta_rufina,
+                Tadorna_tadorna) %>%
+  reshape2::melt(., id=c("time")) %>%
+  dplyr::mutate(obs=value,
+                ts=as.numeric(variable),
+                time=time) %>%
+  dplyr::select(obs,ts,time)
+
+Period = c('PrePinatubo', 'PostPinatubo')
+
+## Loop ####
+
+for(period in Period) {
+
+  message(paste0('\nFit the regime-dependent SSLVR model to the ', period, ' period\n'))
+
+  ## Data ####
+
+  if(period=='PrePinatubo') NYears=length(1978:1991)
+
+  if(period=='PostPinatubo') {
+    FirstYear = 21
+    FinalYear = max(WaterfowlData$time)
+    NYears = FinalYear-FirstYear
+  }
+
+  if(period=='PrePinatubo') {
+    est.k = WaterfowlData %>% dplyr::filter(time < NYears) %>% group_by(ts) %>% summarise_all(mean, na.rm=T) %>% select(-ts, -time)
+    est.k.var = WaterfowlData %>% dplyr::filter(time < NYears) %>% group_by(ts) %>% mutate(obs.var = obs/scal_Fact) %>% select(-obs) %>% summarise_all(var, na.rm=T) %>% select(-ts, -time)
+    data_list_SSLVR_regime = list(
+      NSpecies = NSpecies,
+      NYears = NYears,
+      n1 = as.matrix((log((Count_data[-1,] %>% dplyr::filter(Month == 12) %>% dplyr::select(-Year, -Month))/scal_Fact + 1)))[1:NYears,],
+      n2 = as.matrix((log((Count_data[-1,] %>% dplyr::filter(Month == 1) %>% dplyr::select(-Year, -Month))/scal_Fact + 1)))[1:NYears,],
+      flood = scale(Env_data[1:NYears,'Flood'])[,1],
+      est.k = est.k$obs/scal_Fact,
+      est.k.var = est.k.var$obs.var)
+  }
+
+  if(period=='PostPinatubo') {
+    est.k = WaterfowlData %>% dplyr::filter(time > FirstYear) %>% group_by(ts) %>% summarise_all(mean, na.rm=T) %>% select(-ts, -time)
+    est.k.var = WaterfowlData %>% dplyr::filter(time > FirstYear) %>% group_by(ts) %>% mutate(obs.var = obs/scal_Fact) %>% select(-obs) %>% summarise_all(var, na.rm=T) %>% select(-ts, -time)
+    data_list_SSLVR_regime = list(
+      NSpecies = NSpecies,
+      NYears = NYears,
+      n1 = as.matrix((log((Count_data[-1,] %>% dplyr::filter(Month == 12) %>% dplyr::select(-Year, -Month))/scal_Fact + 1)))[(FirstYear+1):FinalYear,],
+      n2 = as.matrix((log((Count_data[-1,] %>% dplyr::filter(Month == 1) %>% dplyr::select(-Year, -Month))/scal_Fact + 1)))[(FirstYear+1):FinalYear,],
+      flood = scale(Env_data[(FirstYear+1):FinalYear,'Flood'])[,1],
+      est.k = est.k$obs/scal_Fact,
+      est.k.var = est.k.var$obs.var)
+  }
+
+  parameter_list_SSLVR_regime = c("prob_inter","g.alpha","alpha","k","r","b","gamma",
+                                  "Corr.sigma","Corr.tau","state","n1_ppc","n2_ppc")
+
+  ## Inits for the SSLVR model  ####
+
+  if(period=='PrePinatubo'){
+
+    # Informative initial conditions, to speed up convergence
+    b_mean=c(-0.8544,-1.05,0.6868,0.03144,0.3442,-0.06122,-0.3627,-1.763,-3.054,-1.235)
+
+    n1 = matrix(NA, NYears, NSpecies)
+    n1[12,] = unname(data_list_SSLVR_regime$n1[11,]+data_list_SSLVR_regime$n1[13,])/2
+
+    n2 = matrix(NA, NYears, NSpecies)
+    n2[7,] = unname(data_list_SSLVR_regime$n1[6,]+data_list_SSLVR_regime$n1[8,])/2
+
+    inits_list_SSLVR_regime=function(){
+      list(
+        prob_inter=rbeta(1,2,8),
+        active_alpha=replicate(NSpecies,rnorm(NSpecies,0,0.1)) + diag(NA, NSpecies),
+        g.alpha=replicate(NSpecies,rbinom(NSpecies,1,0.5)) + diag(NA, NSpecies),
+        Obs.prec.mat=diag(0.1,NSpecies),
+        Sys.prec.mat=diag(0.1,NSpecies),
+        k=pmax(rnorm(NSpecies, data_list_SSLVR_regime$est.k, 1), 0.1),
+        b=rnorm(NSpecies, b_mean,0.1),
+        gamma=rnorm(NSpecies, b_mean, 0.1),
+        n1=n1,
+        n2=n2,
+        state=matrix(c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
+                       1.54,3.06,2.76,3.54,1.99,1.36,3.77,0.87,2,1.15,
+                       1.99,3.82,2.88,3.78,1.8,1.52,4.1,1.49,2.74,1.09,
+                       1.66,2.77,2.44,3.31,1.29,0.76,4.02,0.76,0.9,1.1,
+                       2.49,3.61,2.6,3.89,1.03,0.94,4,1.35,2.03,0.92,
+                       2.37,3.65,3.34,3.66,0.9,0.99,4.08,1.45,2.13,0.96,
+                       2.78,3.41,3.48,3.88,1.41,1.19,4.04,1.78,2.08,1.01,
+                       2.58,3.53,3.47,3.89,1.75,1.5,4.1,1.55,1.95,1.1,
+                       2.5,3.65,3.63,3.61,1.83,1.39,4.07,1.7,2.46,1.07,
+                       2.59,3.41,3.88,3.94,1.6,1.07,3.97,1.65,2.32,1.12,
+                       2.84,3.48,4.23,3.72,2.16,1.53,4,1.67,2.11,1.32,
+                       2.26,3.74,4.06,3.97,2.29,1.85,4.14,1.04,2.42,1.39,
+                       2.73,3.4,4.22,3.72,2.34,1.36,3.79,0.93,2.01,1.25,
+                       2.41,3.92,4.15,3.81,2.24,1.44,3.98,1.07,2.68,1.13),
+                     NYears,NSpecies,byrow = T),
+        .RNG.seed=seed)
+    }
+  }
+
+  if(period=='PostPinatubo'){
+
+    # Informative initial conditions, to speed up convergence
+    b_mean=c(-0.8544,-1.05,0.6868,0.03144,0.3442,-0.06122,-0.3627,-1.763,-3.054,-1.235)
+
+    inits_list_SSLVR_regime=function(){
+      list(
+        prob_inter=rbeta(1,2,8),
+        active_alpha=replicate(NSpecies,rnorm(NSpecies,0,0.1)) + diag(NA, NSpecies),
+        g.alpha=replicate(NSpecies,rbinom(NSpecies,1,0.5)) + diag(NA, NSpecies),
+        Obs.prec.mat=diag(0.1,NSpecies),
+        Sys.prec.mat=diag(0.1,NSpecies),
+        k=pmax(rnorm(NSpecies, data_list_SSLVR_regime$est.k, 1), 0.1),
+        b=rnorm(NSpecies, b_mean,0.1),
+        gamma=rnorm(NSpecies, b_mean, 0.1),
+        state=matrix(c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
+                       0.5,2.25,1.97,0.91,1.47,0.9,3.08,0.98,3.24,0.77,
+                       1.18,2.87,2.83,1.17,1.69,-2.06,3.62,0.77,0.99,0.47,
+                       2.1,3.09,2.73,1.66,1.91,-2.04,3.85,0.8,0.54,0.37,
+                       2.6,3,2.71,1.92,1.7,-2.24,4.09,0.75,0.8,0.5,
+                       3.12,3.22,2.8,1.93,1.96,-2.19,3.94,0.63,0.86,0.4,
+                       3.47,3.15,2.71,2.03,1.88,-2.21,3.88,0.71,0.59,0.19,
+                       2.63,3.58,2.07,1.96,1.47,-1.86,4.09,0.5,2.3,0.74,
+                       2.42,3.98,2.64,2.09,1.2,-2.24,3.95,0.47,3.11,0.74,
+                       3.09,3.87,2.91,2.12,1.98,-5.99,3.92,0.64,0.6,0.58,
+                       3.23,3.79,2.71,2.19,1.78,-5.95,4.15,0.7,0.68,0.49,
+                       3.33,3.77,2.79,2.15,1.94,-5.94,3.95,0.68,0.89,0.57,
+                       3.39,3.57,2.59,2.2,1.8,-5.98,4.08,0.83,0.64,0.72,
+                       3.64,3.58,2.92,2.24,1.73,-6,3.81,0.88,0.58,0.85,
+                       3.31,3.82,2.57,2.1,1.75,-5.87,4,0.81,0.98,0.8),
+                     NYears,NSpecies,byrow = T),
+        .RNG.seed=seed)
+    }
+  }
+
+
+  ## Model fit  ####
+
+  fit_SSRDLVR=FALSE
+
+  if(fit_SSRDLVR==TRUE) {
+
+    SSRDLVR_mcmc_analysis = runjags::run.jags(
+      data=data_list_SSLVR_regime,
+      inits=inits_list_SSLVR_regime,
+      monitor=parameter_list_SSLVR_regime,
+      model=read.jagsfile("code/SSRDLVR_model.JAGS"),
+      n.chains = 3,
+      adapt = 5000,
+      burnin = 100000,
+      sample = 1000,
+      thin = 50,
+      method='parallel',
+      modules = 'glm',
+      keep.jags.files=file.path(paste0("output/SSRDLVR_model/","mcmc_run_",period,sep = "")),
+      summarise=TRUE)
+
+    save(SSRDLVR_mcmc_analysis, file = paste0('output/SSRDLVR_model/SSRDLVR_model_results_',period,'.Rdata'))
+
+    # Convert the posterior object
+    post_vars = as.data.frame(combine.mcmc(as.mcmc.list(SSRDLVR_mcmc_analysis)))
+    nloops = nrow(post_vars)
+
+  }
+
+  if(fit_SSRDLVR==FALSE) {
+
+    load(paste0('output/SSRDLVR_model/SSRDLVR_model_results_',period,'.Rdata'))
+
+    if(period=='PrePinatubo') post_vars = as.data.frame(combine.mcmc(as.mcmc.list(SSRDLVR_model_results_PrePinatubo)))
+
+    if(period=='PostPinatubo') post_vars = as.data.frame(combine.mcmc(as.mcmc.list(SSRDLVR_model_results_PostPinatubo)))
+
+    nloops = nrow(post_vars)
+
+  }
+
+  ## MCMC diagnostics ####
+
+  plot=FALSE
+
+  if(plot){
+
+    if(period=='PrePinatubo') ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PrePinatubo))
+
+    if(period=='PostPinatubo') ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PostPinatubo))
+
+    ggmcmc(ggs_object,family="prob_inter",
+           file = paste0("output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_prob_inter_",period,".pdf"),
+           param_page = 5, width=6, height=6)
+
+    ggmcmc(ggs_object,family="b",
+           file = paste0("output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_b_",period,".pdf"),
+           param_page = 11, width=5, height=12)
+
+    ggmcmc(ggs_object,family="k",
+           file = paste0("output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_k_",period,".pdf"),
+           param_page = 10, width=5, height=12)
+
+    ggmcmc(ggs_object,family="r",
+           file = paste0("output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_r_",period,".pdf"),
+           param_page = 10, width=5, height=12)
+
+    ggmcmc(ggs_object,family="alpha",
+           file = paste0("output/SSRDLVR_model/MCMC_checks/MCMC_diagnostics_alpha_",period,".pdf"),
+           param_page = 10, width=5, height=12)
+
+  }
+
+  ## Plot prior vs. posterior ####
+  nu=dplyr::select(post_vars,starts_with("prob_inter"))
+
+  pdf(file=paste0('output/figures/Prior_post_',period,'.pdf'), height = 6, width = 6)
+  prior_vs_posterior(nu$prob_inter, dist = "beta", xlim = c(0, 1), alpha=2, beta=8, pos.legend="right",
+                     title = "Prior vs. posterior distribution")
+  dev.off()
+
+
+  ## PPC plot ####
+
+  Obs_mean_Dec = data_list_SSLVR_regime$n1
+  Obs_mean_Jan = data_list_SSLVR_regime$n2
+
+  colnames(Obs_mean_Dec) = colnames(Obs_mean_Jan) = Sp_names_long
+
+  yobs_n1_ppc_mcmc = dplyr::select(post_vars, starts_with("n1_ppc"))
+  yobs_n2_ppc_mcmc = dplyr::select(post_vars, starts_with("n2_ppc"))
+
+  ppc_n1_mcmc = array(NA, dim = c(nloops, NYears-1, NSpecies))
+
+  for(j in 1:NSpecies){
+
+    ppc_n1_mcmc[,,j] = yobs_n1_ppc_mcmc %>%
+      dplyr::select(bayesplot::param_glue("n1_ppc[{time},{type}]", type = j, time = 2:NYears)) %>%
+      as.matrix()
+
+  }
+
+  ppc_n1_yobs = array(NA, dim = c(3, NYears-1, NSpecies))
+
+  for(l in 1:NSpecies){
+    ppc_n1_yobs[,,l] = apply(ppc_n1_mcmc[,,l], 2 , quantile , probs = c(0.10, 0.5, 0.9) , na.rm = TRUE )
+  }
+
+  ppc_n2_mcmc = array(NA, dim = c(nloops, NYears-1, NSpecies))
+
+  for(j in 1:NSpecies){
+
+    ppc_n2_mcmc[,,j] = yobs_n2_ppc_mcmc %>%
+      dplyr::select(bayesplot::param_glue("n2_ppc[{time},{type}]", type = j, time = 2:NYears)) %>%
+      as.matrix()
+
+  }
+
+  ppc_n2_yobs = array(NA, dim = c(3, NYears-1, NSpecies))
+
+  for(l in 1:NSpecies){
+    ppc_n2_yobs[,,l] = apply(ppc_n2_mcmc[,,l], 2 , quantile , probs = c(0.025, 0.5, 0.975) , na.rm = TRUE )
+  }
+
+  # for December counts
+  Yobs_n1 = array(NA, dim=c((NYears-1)*NSpecies, 4))
+  temp = array(NA, dim=c((NYears-1)*NSpecies, 4))
+
+  for(l in 1:NSpecies){
+    if(l==1){
+      temp = as.data.frame(t(ppc_n1_yobs[,,l])) %>%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %>%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n1 = temp
+    }
+    else{
+      temp = as.data.frame(t(ppc_n1_yobs[,,l])) %>%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %>%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n1 = rbind.data.frame(Yobs_n1, temp)
+    }
+  }
+
+  # for January counts
+  Yobs_n2 = array(NA, dim=c((NYears-1)*NSpecies, 4))
+  temp = array(NA, dim=c((NYears-1)*NSpecies, 4))
+
+  for(l in 1:NSpecies){
+    if(l==1){
+      temp = as.data.frame(t(ppc_n2_yobs[,,l])) %>%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %>%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n2 = temp
+    }
+    else{
+      temp = as.data.frame(t(ppc_n2_yobs[,,l])) %>%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      ppc_Lower95 = V1,
+                      ppc_mean = V2,
+                      ppc_Upper95 = V3) %>%
+        dplyr::select(Type, ppc_Lower95, ppc_mean, ppc_Upper95)
+      Yobs_n2 = rbind.data.frame(Yobs_n2, temp)
+    }
+  }
+
+  # Latent states
+
+  latent_state_mcmc = dplyr::select(post_vars, starts_with("state"))
+
+  state_mcmc = array(NA, dim = c(nloops, NYears-1, NSpecies))
+
+  for(j in 1:NSpecies){
+
+    state_mcmc[,,j] = latent_state_mcmc %>%
+      dplyr::select(bayesplot::param_glue("state[{time},{type}]", type = j, time = 2:NYears)) %>%
+      as.matrix()
+
+  }
+
+  latent_state = array(NA, dim = c(3, NYears-1, NSpecies))
+
+  for(l in 1:NSpecies){
+    latent_state[,,l] = apply(state_mcmc[,,l], 2 , quantile , probs = c(0.025, 0.5, 0.975) , na.rm = TRUE )
+  }
+
+
+  state = array(NA, dim=c((NYears-1)*NSpecies, 4))
+  temp = array(NA, dim=c((NYears-1)*NSpecies, 4))
+
+  for(l in 1:NSpecies){
+    if(l==1){
+      temp = as.data.frame(t(latent_state[,,l])) %>%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      state_Lower95 = V1,
+                      state_mean = V2,
+                      state_Upper95 = V3) %>%
+        dplyr::select(Type, state_Lower95, state_mean, state_Upper95)
+      state = temp
+    }
+    else{
+      temp = as.data.frame(t(latent_state[,,l])) %>%
+        dplyr::mutate(Type = rep(Sp_names_long[l], NYears-1),
+                      state_Lower95 = V1,
+                      state_mean = V2,
+                      state_Upper95 = V3) %>%
+        dplyr::select(Type, state_Lower95, state_mean, state_Upper95)
+      state = rbind.data.frame(state, temp)
+    }
+  }
+
+  plot_ppc_ts = as.data.frame(cbind(melt(Obs_mean_Dec[2:NYears,]),
+                                    melt(Obs_mean_Jan[2:NYears,])["value"],
+                                    Yobs_n1[,c("ppc_Lower95","ppc_mean","ppc_Upper95")],
+                                    Yobs_n2[,c("ppc_Lower95","ppc_mean","ppc_Upper95")],
+                                    state[,c("state_Lower95", "state_mean", "state_Upper95")]))
+
+  colnames(plot_ppc_ts) = c("Year","Species","Dec","Jan",
+                            "ppc_Lower95_Dec","ppc_mean_Dec","ppc_Upper95_Dec",
+                            "ppc_Lower95_Jan","ppc_mean_Jan","ppc_Upper95_Jan",
+                            "state_Lower95", "state_mean", "state_Upper95")
+
+
+  # Plot
+
+  if(period=='PrePinatubo') years = 1979:1991
+  if(period=='PostPinatubo') years = 2000:2013
+
+  ppc_ts_plots = plot_ppc_ts %>% group_by(Species = factor(Species, levels = unique(Species))) %>%
+    group_map(~tibble(plots=list(
+      ggplot(.) + aes(x= years, y=state_mean) +
+        geom_line(col="red", linewidth=1.5) +
+        geom_ribbon(aes(ymax = state_Lower95, ymin = state_Upper95), fill = "red", alpha = 0.2) +
+        geom_point(aes(x=years,y=Dec),col="blue3",size=1.5) +
+        geom_point(aes(x=years,y=Jan),col="green4",size=1.5) +
+        geom_abline(slope=0, intercept=0) +
+        theme_classic() +
+        # scale_y_continuous(limits = c(-0.5, 9)) +
+        scale_y_continuous(limits = c(NA, 10)) +
+        labs(x="Year",y=expression('Abundance, (' ~ italic(ln) ~ '[' ~ N  ~ '/' ~  1000 ~ '])')) +
+        annotate("point", x = years[5], y = 8.3, color="blue3", fill="blue3", size=2) +
+        annotate("text", x = years[7], y = 8.3, label = "December count", color="black", size=3) +
+        annotate("point", x = years[5], y = 7.3, color="green4", fill="green4", size=2) +
+        annotate("text", x = years[7], y = 7.3, label = "January count", color="black", size=3) +
+        annotate("segment", x = years[5]-0.5, xend = years[5], y = 6.3, yend = 6.3, colour = "red", linewidth=1) +
+        annotate("text", x = years[7], y = 6.3, label = "Latent abundance", color="black", size=3) +
+        ggtitle(.y[[1]]))))
+
+  PPC_TS_fullplot =
+    (ppc_ts_plots[[1]]$plots[[1]]+ppc_ts_plots[[2]]$plots[[1]])/
+    (ppc_ts_plots[[3]]$plots[[1]]+ppc_ts_plots[[4]]$plots[[1]])/
+    (ppc_ts_plots[[5]]$plots[[1]]+ppc_ts_plots[[6]]$plots[[1]])/
+    (ppc_ts_plots[[7]]$plots[[1]]+ppc_ts_plots[[8]]$plots[[1]])/
+    (ppc_ts_plots[[9]]$plots[[1]]+ppc_ts_plots[[10]]$plots[[1]]) +
+    plot_annotation(
+      title = 'Posterior predicted time series',
+      # subtitle = 'First stable state, before Mt. Pinatubo eruption',
+      subtitle = 'Second stable state, after Mt. Pinatubo eruption',
+      theme = theme(plot.title = element_text(size = 25),
+                    plot.subtitle = element_text(size = 15)))
+
+  # print(PPC_TS_fullplot)
+
+  ggsave(file=paste0('output/figures/PPC_TS_fullplot_',period,'.pdf'), plot=PPC_TS_fullplot, width = 10, height = 13)
+
+  ## Plot results ####
+
+  ### Environmental effects ####
+
+  gamma = dplyr::select(post_vars, starts_with("gamma"))
+  colnames(gamma) = Sp_names_long
+
+  gamma_PrePinatubo = ggplot(reshape2::melt(gamma), aes(x=value, y=reorder(variable, desc(variable)),  fill= after_stat(x))) +
+    geom_density_ridges_gradient(stat = "binline", bins = 100, scale = 1.5, draw_baseline = FALSE) +
+    geom_vline(xintercept=0) +
+    scale_x_continuous(limits = c(-1.5,1.5)) +
+    scale_y_discrete(expression(N)) +
+    scale_fill_viridis(name = "Posterior\nvalue", option = "magma") +
+    labs(x="Posterior value",
+         title = "Effect of flooding extension") +
+    theme_ridges(font_size = 13, grid = TRUE) +
+    theme(axis.title.y = element_blank(),
+          plot.title = element_text(size=18))
+  # gamma_PrePinatubo
+  ggsave(file=paste0('output/figures/Flooding_impact_',period,'.pdf'), plot=gamma_PrePinatubo,
+         width=7.5, height=5.5, limitsize = FALSE)
+
+
+  ### Stability measures ####
+
+  alpha = dplyr::select(post_vars, starts_with("alpha"))
+  alpha_mean = matrix(colMeans(alpha),NSpecies,NSpecies)
+  k_vec = dplyr::select(post_vars, starts_with("k"))
+  k_mean = as.numeric(colMeans(k_vec))
+  r_vec = dplyr::select(post_vars, starts_with("r"))[,1:NSpecies]
+  r_mean = as.numeric(colMeans(r_vec))
+
+  # Create the objects to be populated:
+  Resilience=c()
+  jacobi_mat = matrix(rep(NA,(NSpecies^2)*nloops),ncol=NSpecies^2,nrow=nloops)
+  Eigenvals = matrix(rep(NA,NSpecies*nloops),ncol=NSpecies,nrow=nloops)
+  EqAbund = matrix(rep(NA,NSpecies*nloops),ncol=NSpecies,nrow=nloops)
+
+  initial_time = proc.time()
+
+  pb = txtProgressBar(min = 0, max = nloops, initial = 0, char = "*", width = 60)
+
+  for (j in 1:nloops){
+
+    # Interaction matrix
+    alpha_mat = matrix(as.matrix(as.numeric(alpha[j,])), nrow = NSpecies, ncol = NSpecies)
+
+    k_vector = as.vector(as.numeric(k_vec[j,]))
+    r_vector = as.vector(as.numeric(r_vec[j,]))
+    EqAbund[j, ] = as.vector(solve(alpha_mat) %*% k_vector)
+
+    if(all(EqAbund[j, ] >= 0)) {
+
+      jacobian = numDeriv::jacobian(function(N) N*exp(r_vector*(1 - (alpha_mat %*% N)/k_vector)), EqAbund[j, ], "complex")
+      jacobi_mat[j,] = as.vector(jacobian)
+
+      Eigenvals[j,] = matrix(eigen(jacobian, only.values = TRUE)$values, nrow=1)
+
+      Resilience[j] = 1/max(abs(Re(Eigenvals[j,])))
+
+    }
+
+    setTxtProgressBar(pb,j)
+    final_time = proc.time() - initial_time
+    if (j == nloops*0.25) cat(" 25% completed in", final_time[3], "sec!\n")
+    final_time = proc.time() - initial_time
+    if (j == nloops*0.5) cat(" 50% completed in", final_time[3], "sec!\n")
+    final_time = proc.time() - initial_time
+    if (j == nloops*0.75) cat(" 75% completed in", final_time[3], "sec!\n")
+    final_time = proc.time() - initial_time
+    if (j == nloops) cat(" 100% completed in", final_time[3], "sec!\n")
+
+  }
+
+  (HDInterval_stability = bayestestR::hdi(as.mcmc(Resilience), credMass = 0.9, allowSplit = TRUE))
+
+  ### Plot unit circle and prob. of dynamic stability ####
+
+  Eigenvals = Eigenvals[complete.cases(Eigenvals),]
+
+  ReEigenvals = reshape2::melt(Re(Eigenvals), value.name="Real_part")
+  ImEigenvals = reshape2::melt(Im(Eigenvals), value.name="Imaginary_part")
+  Eigenvals_toplot = as.data.frame(cbind(ReEigenvals[,c("Real_part")],ImEigenvals[,c("Imaginary_part")]))
+  colnames(Eigenvals_toplot) = c("Real_part","Imaginary_part")
+  Eigenvals_toplot$Modulus = sqrt((Eigenvals_toplot$Real_part)^2 + (Eigenvals_toplot$Imaginary_part)^2)
+
+  (EmpProbDynStab = sum(Eigenvals_toplot$Modulus < 1)/length(Eigenvals_toplot$Modulus))
+
+  th = seq(-pi, pi, len = 100)
+  z = exp((0+1i) * th)
+  UnitCircle=as.data.frame(cbind(Re(z),Im(z)))
+  Origin=data.frame(x=0,y=0)
+
+  unitcircle_plot = ggplot(data=UnitCircle,aes(Re(z),Im(z))) +
+    geom_path() +
+    geom_vline(xintercept = 0,lty="dotted") +
+    geom_hline(yintercept = 0,lty="dotted") +
+    geom_point(data=Eigenvals_toplot,aes(x=Real_part,y=Imaginary_part),size=0.5,col="red") +
+    scale_x_continuous(limits = c(-1.5,1.5)) +
+    scale_y_continuous(limits = c(-1.5,1.5)) +
+    labs(x="Real", y = "Imaginary") +
+    theme(
+      axis.line.x=element_line(linewidth=0.5,colour="Black"),
+      axis.line.y=element_line(linewidth=0.5,colour="Black"),
+      axis.text=element_text(size=18,colour="Black"),
+      axis.title=element_text(size=18,colour="Black"),
+      plot.title = element_text(size=15),
+      legend.position = "right",
+      legend.text = element_text(size = 12),
+      legend.key = element_blank(),
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.background = element_blank(),
+      plot.background = element_rect(fill = "transparent", colour = NA)) +
+    ggtitle(paste0("Resilience: ", round(map_estimate(Resilience), 3),
+                   " (", round(bayestestR::hdi(Resilience, credMass = 0.9, allowSplit = TRUE)[["CI_low"]], 3),",",
+                   round(bayestestR::hdi(Resilience, credMass = 0.9, allowSplit = TRUE)[["CI_high"]],3), ") MAP, 90% HDI", sep=""),
+            paste0("Probability of dynamic stability: ", round(EmpProbDynStab, 4),"\n", sep=""))
+  # unitcircle_plot
+  ggsave(paste0('output/figures/Probability_of_stability_',period,'.pdf'), unitcircle_plot, height = 6.5, width = 6)
+
+  if(period=='PrePinatubo') unitcircle_plot_PrePinatubo = unitcircle_plot
+  if(period=='PostPinatubo') unitcircle_plot_PostPinatubo = unitcircle_plot
+
+  ### Plot feasibility and extinction probability ####
+
+  EquilAbund = as.data.frame(EqAbund)
+  colnames(EquilAbund) = Sp_names_long
+
+  # Probability of species extinction
+  ProbSpExtinct=matrix(NA,1,NSpecies)
+  for(g in 1:NSpecies){
+    ProbSpExtinct[,g] = length(which(apply(as.data.frame(EquilAbund[,g]), 1, function(row) any(row <= 0))))/nrow(EquilAbund)
+  }
+  colnames(ProbSpExtinct) = Sp_names_long
+
+  if(period=='PrePinatubo') ProbSpExtinct_PrePinatubo = ProbSpExtinct
+  if(period=='PostPinatubo') ProbSpExtinct_PostPinatubo = ProbSpExtinct
+
+  (EmpProbFeas = (dim(EquilAbund)[1] - length(which(apply(EquilAbund, 1, function(row) any(row < 0)))))/dim(EquilAbund)[1])
+
+  k_posterior = as.data.frame(map_estimate(k_vec))
+  rownames(k_posterior) = Sp_names_long
+
+  k_posterior = as.data.frame(cbind(rownames(k_posterior),as.data.frame(k_posterior$MAP_Estimate)))
+  colnames(k_posterior) = c("variable","value")
+
+  plot_feasibility = ggplot(reshape2::melt(EquilAbund), aes(x=value, y=reorder(variable, desc(variable)), fill = after_stat(x))) +
+    geom_density_ridges_gradient(stat = "binline", bins = 100, scale = 1.5, draw_baseline = FALSE) +
+    geom_vline(xintercept=0) +
+    scale_x_continuous(limits = c(-20,100)) +
+    scale_y_discrete(expression(N)) +
+    scale_fill_viridis(name = expression("Equilibrium \nabundance,"~italic(N)^"*"), option = "viridis") +
+    geom_point(data = k_posterior, aes(col="k_posterior"), size=2) +
+    scale_color_manual(name = element_blank(),
+                       values = c(k_posterior = "brown"),
+                       labels = "Carrying capacity") +
+    labs(x="Abundance (n. ind x1000)",
+         title = paste("Probability of feasibility: ",round(EmpProbFeas,3))) +
+    theme_ridges(font_size = 13, grid = TRUE) +
+    theme(axis.title.y = element_blank(),
+          plot.title = element_text(size=18))
+  # plot_feasibility
+  ggsave(file=paste0('output/figures/Prob_of_feasibility_',period,'.pdf'), plot=plot_feasibility,
+         width=7.5, height=5.5, limitsize = FALSE)
+
+  if(period=='PrePinatubo') plot_feasibility_PrePinatubo = plot_feasibility
+  if(period=='PostPinatubo') plot_feasibility_PostPinatubo = plot_feasibility
+
+}
+
+## Plot wrapped figures ####
+
+### Stability and feasibility ####
+Wrapped_stability = wrap_plots(unitcircle_plot_PrePinatubo,
+                               unitcircle_plot_PostPinatubo,
+                               plot_feasibility_PrePinatubo,
+                               plot_feasibility_PostPinatubo) + plot_annotation(tag_levels = 'A', tag_suffix = ')')
+# Wrapped_stability
+ggsave(file='output/figures/Wrapped_stability.pdf', plot=Wrapped_stability,
+       width=14.5, height=9, limitsize = FALSE)
+
+## Probability of species extinction ####
+
+probspExt = as.data.frame(t(rbind(ProbSpExtinct_PrePinatubo,ProbSpExtinct_PostPinatubo)))
+
+colnames(probspExt) = c('ProbSpExtinct_pre','ProbSpExtinct_post')
+
+probspExt <- probspExt %>%
+  mutate(Names = Sp_names_long,
+         'Before Pinatubo' = ProbSpExtinct_pre,
+         'After Pinatubo' = ProbSpExtinct_post) %>%
+  dplyr::select(Names, `Before Pinatubo`, `After Pinatubo`)
+
+
+SpExtPr = ggplot(reshape2::melt(probspExt, id="Names")) +
+  geom_vline(xintercept=0) +
+  geom_point(aes(x=value, y=reorder(Names, desc(Names)), col = variable), size=5) +
+  scale_color_manual(values = c("purple", "green")) +
+  scale_x_continuous(limits = c(0,0.4), trans = "sqrt") +
+  theme_bw() +
+  theme(axis.title.y = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        plot.title = element_text(size=18)) +
+  labs(col = "Regime",
+       x="Species extinction probability",
+       title = "Probability of extinction at equilibrium")
+
+# SpExtPr
+
+for(i in 1:nrow(probspExt)){
+
+  SpExtPr = SpExtPr + geom_segment(data=probspExt[i,],
+                                   aes(x=`Before Pinatubo`, xend = `After Pinatubo`, y=Names, yend = Names),
+                                   arrow = arrow(type = "closed", length = unit(0.2, "cm"), ends = "last"))
+
+}
+
+# print(SpExtPr)
+ggsave(file="output/figures/Prob_of_extinction.pdf", plot=SpExtPr,
+       width=7, height=6, limitsize = FALSE)
+
+
+save(ProbSpExtinct_PrePinatubo, ProbSpExtinct_PostPinatubo,
+     unitcircle_plot_PrePinatubo,
+     unitcircle_plot_PostPinatubo,
+     plot_feasibility_PrePinatubo,
+     plot_feasibility_PostPinatubo, file='output/SSRDLVR_model/plots.Rdata')
+
+
+
+# Cusp ####
+
+Cusp_db <- read_delim("data/Environmental_data.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+trend_main = trends %>% dplyr::filter(trend_number == 'Trend 1')
+Cusp_db$DFA_trend = trend_main$estimate
+
+pdf("output/figures/Transition.pdf",height=4,width=5)
+Cusp_db %>%
+  mutate(Period = factor(Period,
+                         levels = c("Pre-Volcano","Transient","Post-Volcano"),
+                         labels = c("Before Pinatubo","Transient period","After Pinatubo"))) %>%
+  ggplot(.,aes(x=Flood, y=DFA_trend, label=Year,color=Period)) +
+  scale_color_manual(values = c("purple","grey","green")) +
+  geom_segment(aes(
+    xend=c(tail(Flood, n=-1), NA),
+    yend=c(tail(DFA_trend, n=-1), NA),
+    color=Period
+  ),
+  arrow=arrow(length=unit(0.3,"cm"),type="closed")) +
+  xlab(expression(paste("Flooding extension (", italic("Ln"),"Has)"))) +
+  ylab("Community trend \n(abundance)") +
+  geom_text_repel(max.overlaps=10) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+dev.off()
+
+# Standardise data
+Cusp_db = Cusp_db %>%
+  mutate(Flood = scale(Flood)[,1],
+         SAOD = scale(SAOD)[,1])
+
+# Fit the stochastic cusp catastrophe model
+fit <- cusp(
+  y ~ DFA_trend,
+  alpha ~ -1 + Flood ,
+  beta ~ SAOD,
+  data = Cusp_db)
+
+# save(fit, file='output/Cusp_fit.Rdata')
+
+summary(fit, logist = TRUE)
+confint(fit,level = 0.95)
+
+pdf("output/figures/Cusp_Model_Fit.pdf",height=8,width=7)
+plot(fit)
+dev.off()
+
+pdf("output/figures/Cusp_surface.pdf",height=8,width=7)
+cusp3d(y=fit[["fitted.values"]],
+       alpha = fit[["linear.predictors"]][,1],
+       beta = fit[["linear.predictors"]][,2],
+       w = 0.025,
+       theta = 150, phi = 25,
+       B = 6.5, Y = 4, Yfloor = -10,
+       np = 180, n.surface = 45, surface.plot = TRUE,
+       surf.alpha = 0.95, surf.gamma = 1.9, surf.chroma = 45, surf.hue = 150,
+       surf.ltheta = 0, surf.lphi = 45,
+       main="Cusp Equilibrium Surface")
+dev.off()
+
+# END ####

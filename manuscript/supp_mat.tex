@@ -1,0 +1,438 @@
+\documentclass[11pt]{article}
+\usepackage[left=2.50cm,right=2.50cm,top=2.50cm,bottom=2.50cm]{geometry}
+\geometry{a4paper}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo} % Cool type
+\usepackage[
+	backend=biber,
+	style=nature,
+	%language=autobib,
+	%sortlocale=en_US,
+	%natbib=true,
+	url=false,
+	doi=true,
+	%eprint=false,
+	hyperref=auto
+]{biblatex}
+%\usepackage[
+%authordate,
+%backend=biber
+%]{biblatex-chicago}
+\DeclareFieldFormat[article,book,inproceedings]{title}{#1}
+\bibliography{biblio.bib}
+%\addbibresource{biblio.bib}
+\usepackage[running]{lineno}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{graphicx}
+%\usepackage[foot]{amsaddr}
+\usepackage{setspace}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+\usepackage{pdfpages}
+\usepackage{todonotes}
+\usepackage{url}            % simple URL typesetting
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+%\usepackage{doi}
+\usepackage{tabularx, array, booktabs, caption, subcaption, pdflscape, makecell, siunitx, multirow, ragged2e}
+% Embed files inside the PDF
+\usepackage{embedfile}
+\usepackage{xcolor}
+% Define the color for links
+%\definecolor{mylinkcolor}{RGB}{0, 0, 255}
+\usepackage[
+colorlinks=true,
+linkcolor=purple,
+citecolor=blue,
+urlcolor=cyan,
+bookmarks=true,
+hypertexnames=true
+]{hyperref}
+\hypersetup{
+	bookmarksnumbered=true,
+	bookmarksopen=true,
+}
+%\onehalfspacing
+%\renewcommand\refname{\textsc{Literature Cited}}
+
+\usepackage{sectsty}
+\sectionfont{\centering}
+\subsectionfont{\centering}
+\subsubsectionfont{\centering}
+
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryBibitem{\clearfield{day}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{Question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newtheorem{fact}[theorem]{Fact}
+\newcommand{\cqd}{\hfill \rule{5pt}{5pt}}
+\def \N{\mathbb{N}}
+\linespread{1.2}
+
+\def\essinf{\mathop{\textrm{ess\,inf}}}
+\def\esssup{\mathop{\textrm{ess\,sup}}}
+\def\eps{\varepsilon}
+\def\vp{\varphi}
+\def\vt{\vartheta}
+\def\vr{\varrho}
+\def\lra{\longrightarrow}
+\def\lraw{\stackrel{w}{\longrightarrow}}
+\def\lraws{\stackrel{w^*}{\longrightarrow}}
+\def\lms{\longmapsto}
+\def\wh{\widehat}
+\def\wt{\widetilde}
+\def\ol{\overline}
+\def\qfa{\quad\forall}
+\def\qaq{\quad\textrm{and}\quad}
+\def\qwith{\quad\textrm{with}\ }
+\def\qin{\quad\textrm{in}\ }
+\def\qor{\quad\textrm{or}\ }
+\def\qon{\quad\textrm{on}\ }
+\def\qas{\quad\textrm{as}\ }
+\def\pO{\partial\Omega}
+\def\oO{\overline{\Omega}}
+\def\oirn{\Omega\subseteq\mathbb{R}^N}
+\def\rr{\mathbb{R}}
+\def\nn{\mathbb{N}}
+\def\divv{\mathrm{div}\,}
+\def\zio{z\in\Omega}
+\def\io{\int_{\Omega}}
+\def\calA{\mathcal{A}}
+\def\calF{\mathcal{F}}
+\def\calL{\mathcal{L}}
+\def\dom{\mathrm{dom}}
+\def\limn{\lim_{n\rightarrow +\infty}}
+\def\limsupn{\limsup\limits_{n\rightarrow +\infty}}
+\def\liminfn{\liminf\limits_{n\rightarrow +\infty}}
+
+\def\essinf{\mathop{\textrm{ess\,inf}}}
+\def\esssup{\mathop{\textrm{ess\,sup}}}
+\def\eps{\varepsilon}
+\def\vp{\varphi}
+\def\vt{\vartheta}
+\def\vr{\varrho}
+\def\lra{\longrightarrow}
+\def\lraw{\stackrel{w}{\longrightarrow}}
+\def\lraws{\stackrel{w^*}{\longrightarrow}}
+\def\lms{\longmapsto}
+\def\wh{\widehat}
+\def\wt{\widetilde}
+\def\ol{\overline}
+\def\qfa{\quad\forall}
+\def\qaq{\quad\textrm{and}\quad}
+\def\qwith{\quad\textrm{with}\ }
+\def\qin{\quad\textrm{in}\ }
+\def\qor{\quad\textrm{or}\ }
+\def\qon{\quad\textrm{on}\ }
+\def\qas{\quad\textrm{as}\ }
+\def\pO{\partial\Omega}
+\def\oO{\overline{\Omega}}
+\def\oirn{\Omega\subseteq\mathbb{R}^N}
+\def\rr{\mathbb{R}}
+\def\nn{\mathbb{N}}
+\def\divv{\mathrm{div}\,}
+\def\zio{z\in\Omega}
+\def\io{\int_{\Omega}}
+\def\calA{\mathcal{A}}
+\def\calF{\mathcal{F}}
+\def\calL{\mathcal{L}}
+\def\dom{\mathrm{dom}}
+\def\limn{\lim_{n\rightarrow +\infty}}
+\def\limsupn{\limsup\limits_{n\rightarrow +\infty}}
+\def\liminfn{\liminf\limits_{n\rightarrow +\infty}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\I}{\mathbb{I}}
+
+\newcommand{\slim}{\mathop{\mathrm{slim}}}
+\newcommand{\hsd}{\mathop{\mathrm{dist}\,}}
+\newcommand{\hd}{\mathop{\mathrm{dist}^*\,}}
+\newcommand{\px}{\mathop{\mathcal{P}(X)}}
+
+%\let\origmaketitle\maketitle
+%\def\maketitle{
+%	\begingroup
+%	\def\uppercasenonmath##1{} % this disables uppercasing title
+%	\let\MakeUppercase\relax % this disables uppercasing authors
+%	\origmaketitle
+%	\endgroup
+%}
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+	\ifdim\Gin@nat@width>\linewidth
+	\linewidth
+	\else
+	\Gin@nat@width
+	\fi
+}
+\makeatother
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+	\def\at@end@of@kframe{}%
+	\ifinner\ifhmode%
+	\def\at@end@of@kframe{\end{minipage}}%
+\begin{minipage}{\columnwidth}%
+	\fi\fi%
+	\def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+		\colorbox{shadecolor}{##1}\hskip-\fboxsep
+		% There is no \\@totalrightmargin, so:
+		\hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+	\MakeFramed {\advance\hsize-\width
+		\@totalleftmargin\z@ \linewidth\hsize
+		\@setminipage}}%
+{\par\unskip\endMakeFramed%
+	\at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand\theadfont{\bfseries}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\setlength\extrarowheight{7pt}
+
+\renewcommand{\thesection}{S\arabic{section}}
+%\renewcommand{\thesubsection}{\thesubsection.S\arabic{subsection}}
+
+% Clear default header and footer styles
+\fancyhf{}
+
+% Define header style
+\lhead{\leftmark} % Place the section name on the left
+\rhead{\thepage}  % Place the page number on the right
+
+% Alternate header with abbreviated manuscript title
+\fancyhead[RO,LE]{Almaraz \& Green (2024)}
+
+% Set the top rule line
+\renewcommand{\headrulewidth}{0.4pt}
+% Set the bottom rule line in the footer
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Define footer style with placeholders
+%\lfoot{Almaraz and Green (2023)}  % Placeholder for authors
+%\cfoot{} % Placeholder for journal
+%\rfoot{Date: \today} % Placeholder for date
+%\rfoot{Biological Conservation} % Placeholder for journal
+\lfoot{Biological Conservation: 'Non-equilibrium perspectives in biological conservation'}
+% Centered page number in the footer
+%\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\thepage}
+
+\begin{document}
+
+\noindent \textbf{\LARGE{Supporting Information}}\\
+
+\vspace{0.2in}
+
+\noindent \large{Almaraz, P. and Green, A.J. (2023) Catastrophic bifurcation in the dynamics of a threatened bird community triggered by a planetary-scale environmental perturbation. \textit{Biological Conservation}.}
+\markboth{Index}{}
+
+\vspace{0.7in}
+
+\def\tightlist{}
+
+\tableofcontents
+\markboth{Supplementary Material}{}
+
+\newpage
+
+\linenumbers
+
+%\section{Regime-dependent state-space Lotka-Volterra-Ricker model}
+
+\section{Regularization of interaction coefficients in the regime-dependent LVR model}
+\markboth{Regularization of interaction coefficients}{}
+
+In natural communities of interacting species most of the potential inter-specific interactions are generally weak, and this is known to stabilize competitive communities \cite{McCann1998,Berlow1999,Neutel2008,Mutshinda2009,Barabas2016,Wootton2016,Downing2020,Gellner2023}. Besides, for high-dimensional hierarchical Bayesian models, such as the regime-dependent state-space LVR model used here, it is desirable to control for potential issues with MCMC convergence and posterior cross-correlations among parameters induced by the large amount in inter-specific interactions fluctuating around 0 \cite{Almaraz2011,Almaraz2012,Mutshinda2009,Mutshinda2011}. To this end, we used a regularization (sparsity-inducing) scheme on the inter-specific interactions of matrix $\mathbf{A}$, the $\alpha_{i,j}$'s. Through regularization methods those parameters whose impact on the posterior probability is weak are set to 0 during the MCMC simulation. At the same time, regularization schemes should be able to simultaneously let those interactions with significant effects on the posterior to be estimated freely. We use Stochastic Search Variable Selection (SSVS; \cite{George1993}) to automatically set to 0 the inter-specific interactions with a weak effect on the posterior during the MCMC simulation. Specifically, we induced a spike-and-slab prior \cite{Ishwaran2005} for the distribution of the $\alpha_{i,j}$'s. Let's define the probability of inclusion of a given interaction coefficient $\alpha_{i,j}$ as a random variable $p$, following a discrete Bernoulli distribution,
+
+\begin{equation}\label{dist_bern}
+	p \sim \textnormal{Bern}(\nu)
+\end{equation}
+where $\nu$ is the prior probability of inclusion of the interaction coefficient. We let this prior probability to follow a weakly informative Beta distribution to let the model learn from sparsity during the posterior simulation,
+
+\begin{equation}\label{dist_beta}
+	\nu \sim \textnormal{beta}(2,8)
+\end{equation}
+
+\renewcommand{\thefigure}{S1}
+\begin{figure}[t]
+	\centering
+	\subfloat[\textbf{Before} the Pinatubo eruption] {{\includegraphics[width=0.4\linewidth]{../output/figures/Prior_post_PrePinatubo} }}%
+	\qquad
+	\subfloat[\textbf{After} the Pinatubo eruption] {{\includegraphics[width=0.4\linewidth]{../output/figures/Prior_post_PostPinatubo} }}%
+	\caption{The histograms show the posterior distributions of the probability of inter-specific interactions for the regime-dependent state-space LVR model before (A) and after (B) the Mt. Pinatubo eruption. The red curves show the prior distribution of probability of interaction, represented in Eqn. \ref{dist_bern} as $ \nu \sim \textnormal{beta}(2,8)$. }
+	\label{fig:PriorPosSSVS}%
+\end{figure}
+
+The $\alpha_{i,j}$'s are then modeled as:
+
+\begin{equation}\label{Spike_and_slab}
+	\begin{aligned}
+		&\alpha_{i,j} | p = 0 \sim \delta_{0} \\
+		&\alpha_{i,j} | p = 1 \sim \mathcal{N}\left(0, \sigma^2_{\text{slab}} \right) \\
+	\end{aligned}
+\end{equation}
+where $\delta_{0}$ is the Dirac's Delta distribution at 0 (so-called 'spike'), and $\sigma^2_{\text{slab}}$ is the variance of the interaction coefficient $\alpha_{i,j}$ when it is estimated freely (so-called 'slab'). We placed a large variance for the slab, $\sigma^2_{\text{slab}} = 10 $. Marginalizing over $p$, we thus can write
+
+\begin{equation}\label{MargSaS}
+	\alpha_{i,j} = p \mathcal{N}(0, \sigma^2_{\text{slab}}) + (1 - p) \delta_{0}
+\end{equation}
+
+In essence, this means that when the parameter $p$ is activated (that it, when it takes a value of 1), the interaction coefficient is estimated according to the standard normal distribution with variance $\sigma^2_{\text{slab}}$, $\alpha_{i,j} \sim \mathcal{N} \left(0, \sigma^2_{\text{slab}} \right)$. In contrast, when $p$ is deactivated (it takes a value of 0), the interaction coefficient follows a Dirac's Delta distribution at 0. That is, it is effectively 0 (see \cite{Ishwaran2005}). This means that the posterior probability of inclusion of an interaction coefficient $\alpha_{i,j}$ is the proportion of times that the parameter was active during the MCMC simulation, i.e., the number of times that $p = 1$. In Fig. \ref{fig:PriorPosSSVS} we represent the posterior distribution of the probability of inter-specific interaction for each regime against the prior probability ($\nu$). Results suggests that the probability of finding strong inter-specific interactions coefficients among the wintering waterfowl community of Doñana wetlands is very low in both stable states.\\
+
+\section{Impact of flooding extension on community dynamics}
+\markboth{Impact of flooding extension}{}
+
+Figure \ref{fig:FloodingImpact} shows the posterior distribution of the impact of flooding extension on the growth rate of each waterfowl species wintering in Doñana wetlands (parameters $\gamma_{i}$ in the LVR model of the accompanying paper). The effects are generally positive for all species in both regimes.\\
+
+\renewcommand{\thefigure}{S2}
+\begin{figure}[t]
+	\centering
+	\subfloat[\textbf{Before} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/Flooding_impact_PrePinatubo} }}%
+	\qquad
+	\subfloat[\textbf{After} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/Flooding_impact_PostPinatubo} }}%
+	\caption{Posterior distribution for the impact of flooding extension on the population dynamics of each waterfowl species wintering in Doñana wetlands before (A) and after (B) the Mt. Pinatubo eruption.}%
+	\label{fig:FloodingImpact}%
+\end{figure}
+
+\section{Posterior predicted datasets}
+\markboth{Posterior predicted datasets}{}
+
+Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability of the fitted regime-dependent state-space LVR model to replicate the time-series of community abundance before (A) and after (B) the Mt. Pinatubo eruption.
+
+\renewcommand{\thefigure}{S3}
+\begin{figure}[htbp]
+	\centering
+	\subfloat[\textbf{Before} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/PPC_TS_fullplot_PrePinatubo} }}%
+	\qquad
+	\subfloat[\textbf{After} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/PPC_TS_fullplot_PostPinatubo} }}%
+	\caption{Posterior predicted datasets testing the ability of the fitted regime-dependent state-space LVR model to replicate the time-series of community abundance before (A) and after (B) the Mt. Pinatubo eruption. For each species and regime, the figures show the observed replicated wintering counts for December (blue dots) and January (green dots), along with the posterior predicted latent abundance (red line) and 95 \% Credible Intervals (red shaded region). These distributions were obtained from 1000 replicated time series simulated from the posterior distribution of the parameters of the LVR model. }%
+	\label{fig:PPC}%
+\end{figure}
+
+\section{Stochastic cusp catastrophe modeling}
+\markboth{Stochastic cusp catastrophe modeling}{}
+
+\renewcommand{\thefigure}{S4}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../output/figures/Cusp_Model_Fit}
+	\caption[Diagnostic plot for the fitted stochastic cusp catastrophe model]{Diagnostic plot for the fitted stochastic cusp catastrophe model (Eqn. \ref{Cusp_Final_SM}). The shaded region in the  $ \alpha-\beta $ plane is the bifurcation set of the cusp catastrophe: the set of points for which the Cardan's discriminant is 0. The crossing of the dotted lines, were $ \alpha = \beta = 0 $, is the cusp (tipping) point. The conditional density plots show the relative distribution of observed values that are located in each region of the plane. Green dots are above the folded region of the 3D cusp, purple dots are below the folded region.}
+	\label{fig:Cusp_Model_Fit}
+\end{figure}
+
+As a theorem for the classification of dynamical systems, catastrophe theory identifies seven canonical, so-called elementary catastrophes (see \cite{Thom1975,Arnold1994}). Currently, the majority of applications of catastrophe theory in ecology are based on the fold model: a single control parameter induces sudden changes between alternative stable states, separated by unstable parameter regions that induce hysteresis \cite{Dakos2019,Scheffer2009a}. Here, we used the second canonical catastrophe, the cusp, to test the hypothesis linking planetary-scale perturbations to alternative stable states in the wintering waterfowl community. With an additional control parameter, the cusp catastrophe model considers that some external variables may modulate the behaviour of the bifurcation parameter, inducing discontinuous, nonlinear behavior in a previously smooth, continuous dynamics. Here, we briefly introduce the cusp catastrophe model. Consider a deterministic dynamical system with a state variable $ y(t) $, one or several control parameters \textit{c}, and a potential function of the system, $ V(y; c) $:
+
+\begin{equation}\label{DynamModeCusp}
+	\frac{\partial y}{\partial t} = - \frac{\partial V(y; c)}{\partial y}
+\end{equation}
+where $y, c \in \R$. The minimum of the potential $ V(y; c) $ is achieved at equilibrium, $ \frac{\partial y}{\partial t} = 0 $. Catastrophe theory classifies the behaviour of dynamical systems such as Eqn. \ref{DynamModeCusp} in the vicinity of degenerate equilibria (critical points) of the potential $ V(y; c) $. An equilibria is degenerate if the higher-order derivatives of the potential function are also 0 at these points. The key is that the degeneracy of the critical points can be unfolded by Taylor-expanding the potential function around them. This set of points can then be classified in seven canonical forms, or universal unfoldings. The second of these canonical forms is the cusp. Given two control parameters, $ \{\alpha, \beta\} $, the canonical form of the potential function for the cusp catastrophe is:
+
+\begin{equation}\label{CanonicalPotential}
+	-V(y; \alpha, \beta) =  - \frac{1}{4} y^4 + \frac{1}{2}\beta y^2 + \alpha y 
+\end{equation}
+
+The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $, is thus $ \frac{\partial y}{\partial t} = - \frac{\partial V(y; \alpha,\beta)}{\partial y} = 0$, which takes the form:
+
+\begin{equation}\label{SolutionCanonical}
+	\alpha + \beta y - y^3 = 0
+\end{equation}
+
+\begin{table}
+	\centering
+	\caption[Average parameter values for the cusp catastrophe model]{Average parameter values, along with the 95 \% confidence interval for the stochastic cusp catastrophe model (see the accompanying paper) fitted through Maximum-Likelihood to the wintering waterfowl community of Doñana marshes. $F$= flooding extension ($ln$-Has.); $SAOD$= Stratospheric Aerosol Optical Depth (adim.); $x_{1}$= Major dynamic factor, or community trend from the DFA ($ln$-abundance).}
+	\label{tab:TableCusp}
+	%\small 
+	%\scriptsize 
+	%\footnotesize
+	\begin{tabular}{lcc}% use \linewidth
+		\toprule
+		\textbf{Parameter} & \textbf{Average} & \textbf{95 CI} \\
+		\midrule
+		$ \alpha_{1}F $ & -0.105 & (-0.271, 0.061) \\
+		$ \beta_{0} $ & 4.672 & (3.619, 5.725) \\
+		$ \beta_{1}SAOD $ & -1.121 & (-1.745, -0.498) \\
+		$ \omega_{0} $ & -0.400 & (-0.526, -0.274) \\
+		$ \omega_{1}x_{1} $ & 4.509 & (4.004, 5.015) \\
+		\bottomrule
+		&& \\
+	\end{tabular}
+\end{table}
+
+The equilibrium points of the cusp catastrophe are the solutions of Eq. \ref{SolutionCanonical}. There is a range of solutions that the cusp can take, depending on the Cardan's discriminant: $ \delta = 27\alpha - 4\beta^3 $. If $ \delta > 0 $, the system has only one solution. But if $ \delta < 0 $, there are three solutions of the system defined by \ref{SolutionCanonical}. The set of values of $ \alpha $ and $ \beta $ for which $ \delta = 0 $ is, indeed, the bifurcation set. It is in this region were the system exhibits alternative stable states (see \cite{Thom1975,Casti1979,Grasman2009} for further details). Cobb \& Watson \cite{Cobb1980} provided a stochastic approach to the cusp catastrophe. Adding to Eqn. \ref{DynamModeCusp} a Wiener process $ dW(t) $ with variance $ \sigma^2 $, we get:
+
+\begin{equation}\label{StochCuspModel_1}
+	dY = \dfrac{\partial V(Y; \alpha,\beta)}{\partial Y}dt + dW(t)
+\end{equation}
+which, for the case of the cusp, can be rewritten as
+
+\begin{equation}\label{StochCuspModel_2}
+	dZ_{t} = (-Z(t)^3 + \beta Z(t) + \alpha)dt + \sigma_{z} dW(t)
+\end{equation}
+where the term within brackets is the drift term and $ \sigma_{z} $ is the diffusion parameter. Thus, the model in \ref{StochCuspModel_2} reduces to a maximum-likelihood problem if data for fitting $ \alpha $, $ \beta $ and $ Z $ is available (see \cite{Cobb1985,Grasman2009} for details). In the accompanying paper we fit the stochastic cusp catastrophe model to the wintering waterfowl community time series of Doñana wetlands using the \verb|R| package \verb|cusp| \cite{Grasman2009}. Specifically the empirical model is: \\
+
+\begin{equation}\label{Cusp_Final_SM}
+	\begin{aligned}
+		\alpha = \alpha_{1}F \\
+		\beta = \beta_{0} + \beta_{1}SAOD \\
+		y = \omega_{0} + \omega_{1}x_{1}
+	\end{aligned}
+\end{equation}
+where $\alpha$ and $\beta$ are the asymmetry and bifurcation parameters, respectively \cite{Grasman2009}. These variables are smooth transformations of the control variables \textit{F} (flooding extension) and \textit{SAOD} (stratospheric aerosol optical depth). The canonical variable \textit{y} is the state of the system, represented by the major community trend detected by the DFA, $x_{1}$. The fitted Maximum-likelihood parameter values of the stochastic cusp catastrophe model in Eqn. \ref{Cusp_Final_SM} are shown in Table \ref{tab:TableCusp}.
+
+%\newpage
+\addcontentsline{toc}{section}{References}
+\printbibliography
+
+%\includepdf[pages={-}]{suppmat.pdf}
+
+\end{document}
