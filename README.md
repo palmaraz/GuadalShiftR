@@ -58,8 +58,6 @@
 
 </li>
 
-<li><a href="#roadmap">Roadmap</a></li>
-
 <li><a href="#license">License</a></li>
 
 <li><a href="#contact">Contact</a></li>
@@ -95,7 +93,7 @@ The major goal of the project is...
 <br />
 
 <p align="center">
-<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/don_landscape.JPG" title="Doñana&apos;s landscape. Attribution: Pablo Almaraz / CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/) Source: Pablo Almaraz" width="550"/> </a>
+<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/Cusp_diagram_grabs.png" title="Cusp catastrophe in the Guadalquivir marshes." width="550"/> </a>
 </p>
 
 ### Abstract
