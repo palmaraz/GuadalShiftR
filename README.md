@@ -230,9 +230,9 @@ Distributed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 I
 
 <!-- CONTACT -->
 
-## Contact {#contact}
+## Contact
 
-Pablo Almaraz - [\@palmaraz_Eco](https://twitter.com/palmaraz_Eco) - [palmaraz\@gmail.com](mailto:palmaraz@gmail.com)
+Pablo Almaraz - [\@palmaraz_Eco](https://twitter.com/palmaraz_Eco) - [palmaraz\@gmail.com](mailto:pablo.almaraz@csic.es)
 
 Personal webpage: <https://palmaraz.github.io/>
 
@@ -246,7 +246,7 @@ Project Link: <https://github.com/palmaraz/GuadalShiftR>
 
 </p>
 
-## R packages used in this project {#r-packages-used-in-this-project}
+## R packages used in this project
 
 <p align="right">
 

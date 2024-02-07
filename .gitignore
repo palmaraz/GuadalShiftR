@@ -4,6 +4,8 @@
 .Ruserdata
 .Rapp.history
 .DS_Store
+pipeline.R
+MATERIAL
 README.html
 analysis/figure
 analysis/*png
