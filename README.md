@@ -72,7 +72,7 @@
 
 ## About
 
-This is the GitHub hosting of the project [GuadalShiftR](https://github.com/palmaraz/GuadalShiftR). The paper associated to the project is published in the journal [Biological Conservation](https://www.sciencedirect.com/journal/biological-conservation). See the `CITATION` file for a BibTex entry to the article. This folder contains the files needed to reproduce all the results of the project, and compile the manuscript of the associated paper.
+This is the GitHub hosting of the project [GuadalShiftR](https://github.com/palmaraz/GuadalShiftR). The paper associated to the project is published in the journal [Biological Conservation](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV). See the `CITATION` file for a BibTex entry to the article. This folder contains the files needed to reproduce all the results of the project, and compile the manuscript of the associated paper.
 
 ### CRediT authorship
 
