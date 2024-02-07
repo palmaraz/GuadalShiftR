@@ -244,7 +244,8 @@ Project Link: <https://github.com/palmaraz/GuadalShiftR>
 
 </p>
 
-## R packages used in this project {#r-packages-used-in-this-project}
+## R packages used in this project 
+{#r-packages-used-in-this-project}
 
 <p align="right">
 
