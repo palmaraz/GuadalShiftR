@@ -1,0 +1,31 @@
+---
+title: "`grateful` citation report"
+bibliography: rpackages-refs.bib
+#csl: null.csl
+---
+
+## R packages used
+
+|Package    |Version    |Citation                                       |
+|:----------|:----------|:----------------------------------------------|
+|base       |4.3.2      |@base                                          |
+|bayesplot  |1.11.0     |@bayesplot2019; @bayesplot2024                 |
+|bayestestR |0.13.1     |@bayestestR                                    |
+|knitr      |1.45       |@knitr2014; @knitr2015; @knitr2023             |
+|librarian  |1.8.1      |@librarian                                     |
+|MASS       |7.3.60     |@MASS                                          |
+|numDeriv   |2016.8.1.1 |@numDeriv                                      |
+|parallel   |4.3.2      |@parallel                                      |
+|reshape2   |1.4.4      |@reshape2                                      |
+|rmarkdown  |2.25       |@rmarkdown2018; @rmarkdown2020; @rmarkdown2023 |
+|rstan      |2.32.5     |@rstan                                         |
+|runjags    |2.2.2.1.1  |@runjags                                       |
+|tidyverse  |2.0.0      |@tidyverse                                     |
+|workflowr  |1.7.1      |@workflowr                                     |
+
+**You can paste this paragraph directly in your report:**
+
+We used R version 4.3.2 [@base] and the following R packages: bayesplot v. 1.11.0 [@bayesplot2019; @bayesplot2024], bayestestR v. 0.13.1 [@bayestestR], knitr v. 1.45 [@knitr2014; @knitr2015; @knitr2023], librarian v. 1.8.1 [@librarian], MASS v. 7.3.60 [@MASS], numDeriv v. 2016.8.1.1 [@numDeriv], parallel v. 4.3.2 [@parallel], reshape2 v. 1.4.4 [@reshape2], rmarkdown v. 2.25 [@rmarkdown2018; @rmarkdown2020; @rmarkdown2023], rstan v. 2.32.5 [@rstan], runjags v. 2.2.2.1.1 [@runjags], tidyverse v. 2.0.0 [@tidyverse], workflowr v. 1.7.1 [@workflowr], running in RStudio v. 2023.12.1.402 [@rstudio].
+
+## Package citations
+
