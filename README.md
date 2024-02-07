@@ -82,7 +82,7 @@ This project was conducted by:
 
 · [Andrew J. Green](https://scholar.google.es/citations?user=wTg9HCcAAAAJ&hl=es), which participated in study conception and participated in manuscript writing.
 
-The major goal of the project is...
+The major goal of the project is to explore the existence of tipping points, a catastrophic bifurcation and alternative stable states throughout a 36-year period of wintering waterfowl community dynamics in the Guadalquivir marshes, SW Spain, induced by the explosion of Mt. Pinatubo, Philippines, in 1991.
 
 <p align="right">
 
