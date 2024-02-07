@@ -135,7 +135,7 @@ grateful::cite_packages(include.RStudio=T, cite.tidyverse=T,
                         out.dir = file.path(getwd(), "analysis"))
 ```
 
-A list of these packages is placed at the [end](#r-packages-used-in-this-project) of this document.
+A list of these packages is placed at the end of this document.
 
 <p align="right">
 
@@ -188,7 +188,7 @@ The [manuscript](https://github.com/palmaraz/GuadalShiftR/tree/master/manuscript
 
 #### Prerequisites
 
-Prior to reproducing the results, make sure to have installed all the necessary software. In particular, you need [JAGS](https://sourceforge.net/projects/mcmc-jags/), [Stan](https://mc-stan.org/) and [R](https://cran.r-project.org/). The [R](https://cran.r-project.org/) libraries needed to reproduce the results (see [below](#r-packages-used-in-this-project)) will be automatically installed by the package [librarian](https://github.com/DesiQuintans/librarian).
+Prior to reproducing the results, make sure to have installed all the necessary software. In particular, you need [JAGS](https://sourceforge.net/projects/mcmc-jags/), [Stan](https://mc-stan.org/) and [R](https://cran.r-project.org/). The [R](https://cran.r-project.org/) libraries needed to reproduce the results (see below) will be automatically installed by the package [librarian](https://github.com/DesiQuintans/librarian).
 
 ### Workflow
 
@@ -254,7 +254,7 @@ We used R version 4.3.2 (R Core Team 2023a) and the following R packages: bayesp
 
 (<a href="#top">back to top</a>)
 
-## Package citations {#r-packages-used-in-this-project}
+## Package citations
 
 Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier
 Luraschi, Kevin Ushey, Aron Atkins, et al. 2023.
