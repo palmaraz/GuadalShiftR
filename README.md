@@ -156,7 +156,7 @@ This section shows how to reproduce the results of the accompanying paper. The f
 └── SSRDLVR_script.R
 ```
 
-In this folder, the file `./code/functions.R` contains all the functions necessary to conduct the analyses. The file `./code/SSRDLVR_model.JAGS` contains the state-space regime-dependent Lotka-Volterra model ([SSRDLVR](https://github.com/palmaraz/GuadalShiftR/blob/master/code/SSRDLVR_model.JAGS)) developed in the [accompanying paper](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV) written in the [JAGS](https://sourceforge.net/projects/mcmc-jags/) language.
+In this folder, the file `./code/functions.R` contains all the functions necessary to conduct the analyses. The file `./code/SSRDLVR_model.JAGS` contains the state-space regime-dependent Lotka-Volterra-Ricker model ([SSRDLVR](https://github.com/palmaraz/GuadalShiftR/blob/master/code/SSRDLVR_model.JAGS)) developed in the [accompanying paper](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV) written in the [JAGS](https://sourceforge.net/projects/mcmc-jags/) language.
 
 The [data](https://github.com/palmaraz/GuadalShiftR/tree/master/data) folder has the following structure:
 
@@ -244,7 +244,7 @@ Project Link: <https://github.com/palmaraz/GuadalShiftR>
 
 </p>
 
-## R packages used in this project
+## R packages used in this project {#r-packages-used-in-this-project}
 
 <p align="right">
 
