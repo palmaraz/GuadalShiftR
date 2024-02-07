@@ -7,7 +7,8 @@
 #
 # Author: Dr. Pablo Almaraz (pablo.almaraz@csic.es), palmaraz.github.io
 
-message('  As with all Bayesian numerical integration techniques, either using Gibbs sampling,
+message('  \n
+   As with all Bayesian numerical integration techniques, either using Gibbs sampling,
 HMC-NUTS or other sampling methods, the posterior distribution will always be an approximation
 to the target distribution, up to a constant and accounting for MC error. In this case, both
 the Bayesian DFA (using HMC-NUTS), and the SSRDLVR model (using Gibbs MCMC sampling), are very
@@ -78,6 +79,8 @@ Sp_names_short = c("Pintail","Shoveler","C. teal","E. wigeon","Mallard",
                    "Gadwall","G. goose","C. pochard","R-c. pochard","Shelduck")
 
 Env_data = read_delim("data/Environmental_data.csv",delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+if (!dir.exists("output/figures")) { dir.create("output/figures") }
 
 # Bayesian DFA ####
 
