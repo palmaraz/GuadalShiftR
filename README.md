@@ -93,7 +93,7 @@ The major goal of the project is...
 <br />
 
 <p align="center">
-<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/Cusp_diagram_black.png" title="Cusp catastrophe in the Guadalquivir marshes." width="550"/> </a>
+<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/Cusp_diagram_grabs.png" title="Cusp catastrophe in the Guadalquivir marshes." width="550"/> </a>
 </p>
 
 ### Abstract
