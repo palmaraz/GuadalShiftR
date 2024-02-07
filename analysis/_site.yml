@@ -1,14 +1,20 @@
-name: "GuadalShiftR"
+name: GuadalShiftR
 output_dir: ../docs
 navbar:
-  title: "GuadalShiftR"
+  title: GuadalShiftR
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
+  - text: Reproduce
+    href: Reproduce.html
+  - text: R packages
+    href: rpackages.html
   - text: License
     href: license.html
+  right:
+  - icon: fab fa-github
+    text: Source code
+    href: https://github.com/palmaraz/GuadalShiftR
 output:
   workflowr::wflow_html:
     toc: yes
