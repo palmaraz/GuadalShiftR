@@ -38,6 +38,6 @@ Ecological modeling has been traditionally dominated by a focus on the asymptoti
 <br />
 
 <p align="center">
-<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="imgs/don_horses.JPG" title="Bring on the dancing Doñana&apos; horses. Attribution: Pablo Almaraz / CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/) Source: Pablo Almaraz" width="600"/> 
+<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="imgs/don_horses.JPG" title="Bring on the dancing Doñana&aposs; horses. Attribution: Pablo Almaraz / CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/) Source: Pablo Almaraz" width="600"/> 
 </a>
 </p>
