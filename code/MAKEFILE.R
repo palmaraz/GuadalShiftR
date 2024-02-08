@@ -1035,8 +1035,8 @@ fit <- cusp(
 
 # save(fit, file='output/Cusp_fit.Rdata')
 
-summary(fit, logist = TRUE)
-confint(fit,level = 0.95)
+print(summary(fit, logist = TRUE))
+print(confint(fit,level = 0.95))
 
 pdf("output/figures/Cusp_Model_Fit.pdf",height=8,width=7)
 plot(fit)

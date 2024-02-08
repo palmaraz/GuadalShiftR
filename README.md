@@ -153,7 +153,7 @@ This section shows how to reproduce the results of the accompanying paper. The f
 .
 ├── functions.R
 ├── SSRDLVR_model.JAGS
-└── SSRDLVR_script.R
+└── MAKEFILE.R
 ```
 
 In this folder, the file `./code/functions.R` contains all the functions necessary to conduct the analyses. The file `./code/SSRDLVR_model.JAGS` contains the state-space regime-dependent Lotka-Volterra-Ricker model ([SSRDLVR](https://github.com/palmaraz/GuadalShiftR/blob/master/code/SSRDLVR_model.JAGS)) developed in the [accompanying paper](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV) written in the [JAGS](https://sourceforge.net/projects/mcmc-jags/) language.
@@ -204,9 +204,9 @@ You can reproduce the results of the accompanying paper with three methods:
 
     This command will first conduct all the statistical analyses in the project, and produce all the figures. It then will assemble and compile the manuscript and associated supplementary materials with the necessary figures. Finally, it will open the files. Alternatively, note that you can run this command within [RStudio](https://www.rstudio.com/) from the Terminal tab. 
 
-2.  From within `R`, simply `source` the file `MAKEFILE.R`. This will perform all the analyses of the paper in the required order.
+2.  From within `R`, simply `source` the file `code/MAKEFILE.R`. This will perform all the analyses of the paper in the required order.
 
-3.  The final method is to open the R Markdown file `./analysis/Reproduce.Rmd` to interactively execute the workflow.
+3.  The final method is to open the R Markdown file `analysis/Reproduce.Rmd` to interactively execute the workflow.
 
 <p align="right">
 
