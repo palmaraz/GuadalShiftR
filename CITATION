@@ -1,1 +1,8 @@
-Almaraz, P. and Green, A.J. (2024) Catastrophic bifurcation in the dynamics of a threatened bird community triggered by a planetary-scale environmental perturbation. Biological Conservation, DOI: https://doi.org/10.1016/j.biocon.2024.110466
+@article{Almaraz2024,
+    title = {{Catastrophic Bifurcation in the Dynamics of a Threatened Bird Community Triggered by a Planetary-Scale Environmental Perturbation}},   
+    author = {Almaraz, Pablo and Green, Andy J},
+    journal = {Biological Conservation},
+    year = {2024},
+    pages = {110466},
+    doi = {https://doi.org/10.1016/j.biocon.2024.110466}
+}
