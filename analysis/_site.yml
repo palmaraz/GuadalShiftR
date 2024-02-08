@@ -15,6 +15,9 @@ navbar:
   - icon: fab fa-github
     text: Source code
     href: https://github.com/palmaraz/GuadalShiftR
+  - icon: fas fa-z
+    text: Source code
+    href: https://zenodo.org/
 output:
   workflowr::wflow_html:
     toc: yes
