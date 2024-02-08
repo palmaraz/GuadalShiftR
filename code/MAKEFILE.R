@@ -8,6 +8,9 @@
 # Author: Dr. Pablo Almaraz (pablo.almaraz@csic.es), palmaraz.github.io
 
 message('  \n
+
+WARNING!\n
+
    As with all Bayesian numerical integration techniques, either using Gibbs sampling,
 HMC-NUTS or other sampling methods, the posterior distribution will always be an approximation
 to the target distribution, up to a constant and accounting for MC error. In this case, both

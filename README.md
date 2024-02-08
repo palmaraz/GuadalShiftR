@@ -98,12 +98,14 @@ The major goal of the project is to explore the existence of tipping points, a c
 
 ### Abstract
 
-Ecological modeling has been traditionally dominated by a focus on the asymptotic behavior, but transient dynamics can have a profound effect on species and community persistence. We show a strong non-stationary coupling of ecological drivers in one of the world's major Mediterranean ecosystems, Doñana wetlands, which is currently threatened by many stressors. Recurrent changes in precipitation fluctuations triggered sudden reorganizations in community trends and population dynamics of a guild of ten wintering waterfowl species during a 36-year period. An anomalously dry and cold transient period in the Northern Hemisphere induced by the volcanic eruption of Mt. Pinatubo in 1991, prompted an abrupt shift to an alternative regime of fluctuating species densities. Most species did not recover previous values even though local weather patterns and large-scale climatic conditions returned to normal values. Although the dynamical stability of the community is similar in both regimes, structural stability declined: the probability of feasibility dropped across time due to depressed population densities at equilibrium. A stochastic cusp catastrophe model fitted to the time series data suggests that the spatio-temporal persistence of cold and dry conditions in the wintering areas, coupled with warm and wet conditions in the breeding grounds, modulated local ecological conditions and induced hysteresis through behavioral shifts to alternative wintering sites. Our study provides empirical evidence for the existence of a catastrophic bifurcation triggered by a tipping point in the dynamics of an imperiled terrestrial vertebrate community, highlighting the relevance of history and multi-stability in explaining current patterns in biological conservation.
+Ecological modeling has been traditionally dominated by a focus on the asymptotic behavior, but transient dynamics can have a profound effect on species and community persistence. We show a strong non-stationary coupling of ecological drivers in one of the world's major Mediterranean ecosystems, Doñana wetlands, which is currently threatened by many stressors. Recurrent changes in precipitation fluctuations triggered sudden reorganizations in community trends and population dynamics of a guild of ten wintering waterfowl species during a 36-year period. An anomalously dry and cold transient period in the Northern Hemisphere, induced by the volcanic eruption of Mt. Pinatubo in 1991, prompted an abrupt shift to an alternative regime of fluctuating species densities. Most species did not recover previous values even though local weather patterns and large-scale climatic conditions returned to normal values. Although the dynamical stability of the community is similar in both regimes, structural stability declined: the probability of feasibility dropped across time due to depressed population densities at equilibrium. A stochastic cusp catastrophe model fitted to the time series data suggests that the spatio-temporal persistence of cold and dry conditions in the wintering areas, coupled with warm and wet conditions in the breeding grounds, modulated local ecological conditions and induced hysteresis through behavioral shifts to alternative wintering sites. Our study provides empirical evidence for the existence of a catastrophic bifurcation triggered by a tipping point in the dynamics of an imperiled vertebrate community, highlighting the relevance of history and multi-stability in explaining current patterns in biological conservation.
+
+<br />
 
 </p>
 
 <p align="center">
-<a href="https://www.copernicus.eu/"> <img src="docs/imgs/copernicus.jpeg" title="The wild variability of Doñana. Attribution: https://www.copernicus.eu/ Source: Copernicus" width="550"/> </a>
+<a href="https://www.copernicus.eu/"> <img src="docs/imgs/copernicus.jpeg" title="The wild environmental variability of Doñana. Attribution: https://www.copernicus.eu/ Source: Copernicus" width="550"/> </a>
 </p>
 
 (<a href="#top">back to top</a>)
@@ -147,13 +149,14 @@ A list of these packages is placed at the end of this document.
 
 ## Reproducible workflow
 
-This section shows how to reproduce the results of the accompanying paper. The folder `./code` has the following structure:
+This section shows how to reproduce the results of the accompanying paper. The [code](https://github.com/palmaraz/GuadalShiftR/tree/master/code) folder has the following structure:
 
 ``` bash
 .
 ├── functions.R
 ├── SSRDLVR_model.JAGS
 └── MAKEFILE.R
+
 ```
 
 In this folder, the file `./code/functions.R` contains all the functions necessary to conduct the analyses. The file `./code/SSRDLVR_model.JAGS` contains the state-space regime-dependent Lotka-Volterra-Ricker model ([SSRDLVR](https://github.com/palmaraz/GuadalShiftR/blob/master/code/SSRDLVR_model.JAGS)) developed in the [accompanying paper](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV) written in the [JAGS](https://sourceforge.net/projects/mcmc-jags/) language.
@@ -164,6 +167,21 @@ The [data](https://github.com/palmaraz/GuadalShiftR/tree/master/data) folder has
 .
 ├── Aerial_count_data.csv
 └── Environmental_data.csv
+
+```
+
+The [output](https://github.com/palmaraz/GuadalShiftR/tree/master/output) folder has the following structure:
+
+``` bash
+.
+├── BDFA_model
+│   └── BDFA_results.Rdata
+├── Cusp_fit.Rdata
+└── SSRDLVR_model
+    ├── plots.Rdata
+    ├── SSRDLVR_model_results_PostPinatubo.Rdata
+    └── SSRDLVR_model_results_PrePinatubo.Rdata
+
 ```
 
 The [manuscript](https://github.com/palmaraz/GuadalShiftR/tree/master/manuscript) folder has the following structure:
@@ -171,13 +189,16 @@ The [manuscript](https://github.com/palmaraz/GuadalShiftR/tree/master/manuscript
 ``` bash
 .
 ├── biblio.bib
+├── main_text.pdf
 ├── main_text.tex
 ├── processed_figs
 │   ├── Common_Trends.pdf
 │   ├── Cusp_diagram.pdf
 │   ├── Environ_clim_ts.pdf
 │   └── NOAA_CAR.pdf
+├── supp_mat.pdf
 └── supp_mat.tex
+
 ```
 
 <p align="right">
@@ -207,6 +228,8 @@ You can reproduce the results of the accompanying paper with three methods:
 2.  From within `R`, simply `source` the file `code/MAKEFILE.R`. This will perform all the analyses of the paper in the required order.
 
 3.  The final method is to open the R Markdown file `analysis/Reproduce.Rmd` to interactively execute the workflow.
+
+In all cases, read the [**WARNING**](https://github.com/palmaraz/GuadalShiftR/blob/master/code/MAKEFILE.R) at the beginning of `code/MAKEFILE.R` or the `analysis/Reproduce.Rmd` file!
 
 <p align="right">
 
