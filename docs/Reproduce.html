@@ -368,7 +368,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -379,8 +379,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -393,9 +393,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>GuadalShiftR/</code> <span
@@ -418,21 +418,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -523,15 +520,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtreedf580e27f24f98e705f54f3b47dfec5ce01dcbd4targetblankdf580e2a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtreeea46d8360108263782e7dae0153a9170c4eec589targetblankea46d83a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/palmaraz/GuadalShiftR/tree/df580e27f24f98e705f54f3b47dfec5ce01dcbd4" target="_blank">df580e2</a>
+<a href="https://github.com/palmaraz/GuadalShiftR/tree/ea46d8360108263782e7dae0153a9170c4eec589" target="_blank">ea46d83</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtreedf580e27f24f98e705f54f3b47dfec5ce01dcbd4targetblankdf580e2a"
+id="strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtreeea46d8360108263782e7dae0153a9170c4eec589targetblankea46d83a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -541,7 +538,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/palmaraz/GuadalShiftR/tree/df580e27f24f98e705f54f3b47dfec5ce01dcbd4" target="_blank">df580e2</a>.
+<a href="https://github.com/palmaraz/GuadalShiftR/tree/ea46d8360108263782e7dae0153a9170c4eec589" target="_blank">ea46d83</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -562,9 +559,7 @@ Ignored files:
     Ignored:    pipeline.R
 
 Unstaged changes:
-    Modified:   analysis/Reproduce.Rmd
-    Modified:   analysis/rpackages-refs.bib
-    Modified:   analysis/rpackages.Rmd
+    Modified:   Makefile
     Modified:   code/MAKEFILE.R
 
 </code></pre>
@@ -611,6 +606,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/palmaraz/GuadalShiftR/blob/ea46d8360108263782e7dae0153a9170c4eec589/analysis/Reproduce.Rmd" target="_blank">ea46d83</a>
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/palmaraz/GuadalShiftR/blob/8a7d061356aa28ca30c01517e6a78f951a5e7d45/analysis/Reproduce.Rmd" target="_blank">8a7d061</a>
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+Big commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/palmaraz/GuadalShiftR/8a7d061356aa28ca30c01517e6a78f951a5e7d45/docs/Reproduce.html" target="_blank">8a7d061</a>
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+Big commit
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1026,22 +1072,23 @@ if(fit_DFA==TRUE){
     trends$trend_number = factor(trends$trend_number, labels = c(&quot;Trend 1&quot;,&quot;Trend 2&quot;))
     trends$year = rep(years,2)
 
-    plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = &quot;year&quot;, y = &quot;estimate&quot;)) +
-      geom_ribbon(aes_string(ymin = &quot;lower&quot;, ymax = &quot;upper&quot;),
+    plot_rotate_DFA_2trends = ggplot(trends, aes(x = year, y = estimate)) +
+      geom_ribbon(aes(ymin = lower, ymax = upper),
                   alpha = 0.4) + geom_line() + facet_wrap(&quot;trend_number&quot;) +
       xlab(&quot;Year&quot;) + ylab(&quot;Dynamic factor&quot;) + theme_bw() + theme(panel.grid = element_blank())
 
     # Plot the major common trends of the community
     pdf(&quot;output/figures/Common_Trends_raw.pdf&quot;,height=4,width=8)
-    plot_rotate_DFA_2trends
+    print(plot_rotate_DFA_2trends)
     dev.off()
 
-    pdf(&quot;output/figures/Common_Trends_by_Species.pdf&quot;,height=6,width=7)
-    plot_fitted(DFA_2trends_PS, conf_level = 0.9, names=Sp_names_long, time_labels=years, spaghetti=F) +
-      geom_point(aes_string(x = &quot;time&quot;,
-                            y = &quot;y&quot;), col = &quot;royalblue&quot;, size = 1, alpha = 1) +
+    Common_Trends_by_Species_plot = plot_fitted(DFA_2trends_PS, conf_level = 0.9, names=Sp_names_long, time_labels=years, spaghetti=F) +
+      geom_point(aes(x = time,
+                     y = y), col = &quot;royalblue&quot;, size = 1, alpha = 1) +
       theme_bw() +
       ylab(&#39;Abdundance (standardised)&#39;) + xlab(&#39;Year&#39;) + theme(panel.grid = element_blank())
+    pdf(&quot;output/figures/Common_Trends_by_Species.pdf&quot;,height=6,width=7)
+    print(Common_Trends_by_Species_plot)
     dev.off()
 
     # Plot the factor loadings
@@ -1050,7 +1097,7 @@ if(fit_DFA==TRUE){
     FacLoad$loading = 1*FacLoad$loading
     FacLoad$trend = relevel(FacLoad$trend, &quot;Trend 1&quot;)
 
-    FacLoad_plot = ggplot(FacLoad, aes_string(x = &quot;name&quot;, y = &quot;loading&quot;, fill = &quot;trend&quot;, alpha = &quot;prob_diff0&quot;)) +
+    FacLoad_plot = ggplot(FacLoad, aes(x = name, y = loading, fill = trend, alpha = prob_diff0)) +
       geom_violin(color = NA) +
       scale_fill_manual(values = c(&quot;royalblue&quot;, &quot;orange2&quot;)) +
       scale_y_continuous(limits = c(-2.5, 5)) +
@@ -1060,7 +1107,7 @@ if(fit_DFA==TRUE){
     FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = &quot;free_x&quot;)
 
     pdf(&quot;output/figures/Factor_loadings.pdf&quot;,height=5,width=7)
-    FacLoad_plot
+    print(FacLoad_plot)
     dev.off()
 
     # Fit a Hidden Markov Model to identify regime shifts in the dynamic common trends
@@ -1108,12 +1155,12 @@ if(fit_DFA==FALSE) {
   load(&#39;output/BDFA_model/BDFA_results.Rdata&#39;)
 
   # Plot the major common trends of the community
-  plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = &quot;year&quot;, y = &quot;estimate&quot;)) +
-    geom_ribbon(aes_string(ymin = &quot;lower&quot;, ymax = &quot;upper&quot;),
+  plot_rotate_DFA_2trends = ggplot(trends, aes(x = year, y = estimate)) +
+    geom_ribbon(aes(ymin = lower, ymax = upper),
                 alpha = 0.4) + geom_line() + facet_wrap(&quot;trend_number&quot;) +
     xlab(&quot;Year&quot;) + ylab(&quot;Dynamic factor&quot;) + theme_bw() + theme(panel.grid = element_blank())
   pdf(&quot;output/figures/Common_Trends_raw.pdf&quot;,height=4,width=8)
-  plot_rotate_DFA_2trends
+  print(plot_rotate_DFA_2trends)
   dev.off()
 
   # Difference in looic between models
@@ -1126,22 +1173,23 @@ if(fit_DFA==FALSE) {
                   round(loocv_DFA_2trends_PS$estimates[&#39;looic&#39;,&#39;Estimate&#39;],3),&#39;\n&#39;,
                 sep=&#39;&#39;))
 
-  pdf(&quot;output/figures/Common_Trends_by_Species.pdf&quot;,height=6,width=7)
-  ggplot(trends_by_sp) +
-    geom_ribbon(aes_string(x = &quot;time&quot;, ymin = &quot;lower&quot;, ymax = &quot;upper&quot;), alpha = 0.4) +
-    geom_line(aes_string(x = &quot;time&quot;, y = &quot;estimate&quot;)) +
-    geom_point(col = &quot;royalblue&quot;, size = 1, alpha = 1, aes_string(x = &quot;time&quot;,                                                                                                                                                    y = &quot;y&quot;), col = &quot;red&quot;, size = 0.5, alpha = 0.4) +
+  Common_Trends_by_Species_plot = ggplot(trends_by_sp) +
+    geom_ribbon(aes(x = time, ymin = lower, ymax = upper), alpha = 0.4) +
+    geom_line(aes(x = time, y = estimate)) +
+    geom_point(col = &quot;royalblue&quot;, size = 1, alpha = 1, aes(x = time, y = y)) +
     facet_wrap(&quot;ID&quot;, scales = &quot;free_y&quot;) + xlab(&quot;Time&quot;) +
     ylab(&quot;&quot;) +
     theme_bw() +
     ylab(&#39;Abdundance (standardised)&#39;) + xlab(&#39;Year&#39;) +
     theme(panel.grid = element_blank())
+  pdf(&quot;output/figures/Common_Trends_by_Species.pdf&quot;,height=6,width=7)
+  print(Common_Trends_by_Species_plot)
   dev.off()
 
 
   # Plot the factor loadings
 
-  FacLoad_plot = ggplot(FacLoad, aes_string(x = &quot;name&quot;, y = &quot;loading&quot;, fill = &quot;trend&quot;, alpha = &quot;prob_diff0&quot;)) +
+  FacLoad_plot = ggplot(FacLoad, aes(x = name, y = loading, fill = trend, alpha = prob_diff0)) +
     geom_violin(color = NA) +
     scale_fill_manual(values = c(&quot;royalblue&quot;, &quot;orange2&quot;)) +
     scale_y_continuous(limits = c(-2.5, 5)) +
@@ -1151,7 +1199,7 @@ if(fit_DFA==FALSE) {
   FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = &quot;free_x&quot;)
 
   pdf(&quot;output/figures/Factor_loadings.pdf&quot;,height=5,width=7)
-  FacLoad_plot
+  print(FacLoad_plot)
   dev.off()
 
 
