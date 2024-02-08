@@ -6,7 +6,7 @@ analyze: ## 1) Analyze all data
 	@echo 'This code reproduces the manuscript, including'
 	@echo 'all the analyses and figures'
 	@echo 'Begin the analyses...'
-	@Rscript MAKEFILE.R
+	@Rscript code/MAKEFILE.R
 	@echo '... end analyses'
 
 compile: ## 2) Compile manuscript
@@ -23,7 +23,7 @@ all: ## Reproduce the whole project
 	@echo 'This code reproduces the manuscript, including'
 	@echo 'all the analyses and figures'
 	@echo 'Begin the analyses...'
-	@Rscript MAKEFILE.R
+	@Rscript code/MAKEFILE.R
 	@echo '... end analyses'
 	@echo 'Compile manuscript...'
 	@cd manuscript/; find . -maxdepth 1 -name '*.tex' -exec pdflatex --interaction=batchmode {} \;

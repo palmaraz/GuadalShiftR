@@ -349,8 +349,10 @@ Figure \ref{fig:FloodingImpact} shows the posterior distribution of the impact o
 
 Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability of the fitted state-space regime-dependent LVR model to replicate the time-series of community abundance before (A) and after (B) the Mt. Pinatubo eruption.
 
+\newpage
+
 \renewcommand{\thefigure}{S3}
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
 	\subfloat[\textbf{Before} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/PPC_TS_fullplot_PrePinatubo} }}%
 	\qquad
@@ -362,29 +364,21 @@ Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability o
 \section{Stochastic cusp catastrophe modeling}
 \markboth{Stochastic cusp catastrophe modeling}{}
 
-\renewcommand{\thefigure}{S4}
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.7\linewidth]{../output/figures/Cusp_Model_Fit}
-	\caption[Diagnostic plot for the fitted stochastic cusp catastrophe model]{Diagnostic plot for the fitted stochastic cusp catastrophe model (Eqn. \ref{Cusp_Final_SM}). The shaded region in the  $ \alpha-\beta $ plane is the bifurcation set of the cusp catastrophe: the set of points for which the Cardan's discriminant is 0. The crossing of the dotted lines, were $ \alpha = \beta = 0 $, is the cusp (tipping) point. The conditional density plots show the relative distribution of observed values that are located in each region of the plane. Green dots are above the folded region of the 3D cusp, purple dots are below the folded region.}
-	\label{fig:Cusp_Model_Fit}
-\end{figure}
-
-As a theorem for the classification of dynamical systems, catastrophe theory identifies seven canonical, so-called elementary catastrophes (see \cite{Thom1975,Arnold1994}). Currently, the majority of applications of catastrophe theory in ecology are based on the fold model: a single control parameter induces sudden changes between alternative stable states, separated by unstable parameter regions that induce hysteresis \cite{Dakos2019,Scheffer2009a}. Here, we used the second canonical catastrophe, the cusp, to test the hypothesis linking planetary-scale perturbations to alternative stable states in the wintering waterfowl community. With an additional control parameter, the cusp catastrophe model considers that some external variables may modulate the behaviour of the bifurcation parameter, inducing discontinuous, nonlinear behavior in a previously smooth, continuous dynamics. Here, we briefly introduce the cusp catastrophe model. Consider a deterministic dynamical system with a state variable $ x(t) $, one or several control parameters \textit{c}, and a potential function of the system, $ V(x; c) $:
+As a theorem for the classification of dynamical systems, catastrophe theory identifies seven canonical, so-called elementary catastrophes (see \cite{Thom1975,Arnold1994}). Currently, the majority of applications of catastrophe theory in ecology are based on the fold model: a single control parameter induces sudden changes between alternative stable states, separated by unstable parameter regions that induce hysteresis \cite{Dakos2019,Scheffer2009a}. Here, we used the second canonical catastrophe, the cusp, to test the hypothesis linking planetary-scale perturbations to alternative stable states in the wintering waterfowl community. With an additional control parameter, the cusp catastrophe model considers that some external variables may modulate the behaviour of the bifurcation parameter, inducing discontinuous, nonlinear behavior in a previously smooth, continuous dynamics. Here, we briefly introduce the cusp catastrophe model. Consider a deterministic dynamical system with a state variable $ y(t) $, one or several control parameters \textit{c}, and a potential function of the system, $ V(y; c) $:
 
 \begin{equation}\label{DynamModeCusp}
-	\frac{\partial x}{\partial t} = - \frac{\partial V(x; c)}{\partial x}
+	\frac{\partial y}{\partial t} = - \frac{\partial V(y; c)}{\partial y}
 \end{equation}
-where $x, c \in \R$. The minimum of the potential $ V(x; c) $ is achieved at equilibrium, $ \frac{\partial x}{\partial t} = 0 $. Catastrophe theory classifies the behaviour of dynamical systems such as Eqn. \ref{DynamModeCusp} in the vicinity of degenerate equilibria (critical points) of the potential $ V(x; c) $. An equilibria is degenerate if the higher-order derivatives of the potential function are also 0 at these points. The key is that the degeneracy of the critical points can be unfolded by Taylor-expanding the potential function around them. This set of points can then be classified in seven canonical forms, or universal unfoldings. The second of these canonical forms is the cusp. Interestingly, the cusp catastrophe is structurally stable (\cite{Poston1979}). Given two control parameters, $ \{\alpha, \beta\} $, the canonical form of the potential function for the cusp catastrophe is:
+where $y, c \in \R$. The minimum of the potential $ V(y; c) $ is achieved at equilibrium, $ \frac{\partial y}{\partial t} = 0 $. Catastrophe theory classifies the behaviour of dynamical systems such as Eqn. \ref{DynamModeCusp} in the vicinity of degenerate equilibria (critical points) of the potential $ V(y; c) $. An equilibria is degenerate if the higher-order derivatives of the potential function are also 0 at these points. The key is that the degeneracy of the critical points can be unfolded by Taylor-expanding the potential function around them. This set of points can then be classified in seven canonical forms, or universal unfoldings. The second of these canonical forms is the cusp. Interestingly, the cusp catastrophe is structurally stable \cite{Poston1979}. Given two control parameters, $ \{\alpha, \beta\} $, the canonical form of the potential function for the cusp catastrophe is:
 
 \begin{equation}\label{CanonicalPotential}
-	-V(x; \alpha, \beta) =  - \frac{1}{4} x^4 + \frac{1}{2}\beta x^2 + \alpha x 
+	-V(y; \alpha, \beta) =  - \frac{1}{4} y^4 + \frac{1}{2}\beta y^2 + \alpha y
 \end{equation}
 
-The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $, is thus $ \frac{\partial x}{\partial t} = - \frac{\partial V(x; \alpha,\beta)}{\partial x} = 0$, which takes the form:
+The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $, is thus $ \frac{\partial y}{\partial t} = - \frac{\partial V(y; \alpha,\beta)}{\partial y} = 0$, which takes the form:
 
 \begin{equation}\label{SolutionCanonical}
-	\frac{\partial x}{\partial t} = \alpha + \beta x - x^3 = 0
+	\frac{\partial y}{\partial t} = \alpha + \beta y - y^3 = 0
 \end{equation}
 
 \begin{table}
@@ -411,19 +405,28 @@ The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $
 The equilibrium points of the cusp catastrophe are the solutions of Eq. \ref{SolutionCanonical}. There is a range of solutions that the cusp can take, depending on the Cardan's discriminant: $ \delta = 27\alpha - 4\beta^3 $. If $ \delta > 0 $, the system has only one solution. But if $ \delta < 0 $, there are three solutions of the system defined by \ref{SolutionCanonical}. The set of values of $ \alpha $ and $ \beta $ for which $ \delta = 0 $ is, indeed, the bifurcation set. It is in this region were the system exhibits alternative stable states (see \cite{Thom1975,Poston1979,Casti1979,Grasman2009} for further details). Cobb \& Watson \cite{Cobb1980} provided a stochastic approach to the cusp catastrophe. Adding to Eqn. \ref{DynamModeCusp} a Wiener (white noise) process $ dW(t) $, we get the stochastic version of Eqn. \ref{SolutionCanonical}:
 
 \begin{equation}\label{StochCuspModel_1}
-	dX = \dfrac{\partial V(X; \alpha,\beta)}{\partial X}dt + dW(t)
+	dY = \dfrac{\partial V(Y; \alpha,\beta)}{\partial Y}dt + dW(t)
 \end{equation}
 which, for the case of the cusp, can be time-indexed and rewritten as
 
 \begin{equation}\label{StochCuspModel_2}
-	dX_{t} = (-X(t)^3 + \beta X(t) + \alpha)dt + \sigma_{x} dW(t)
+	dY_{t} = (-Y(t)^3 + \beta Y(t) + \alpha)dt + \sigma_{y} dW(t)
 \end{equation}
-where the term within brackets, $-X(t)^3 + \beta X(t) + \alpha $, is the drift term and $ \sigma_{x} $ is the diffusion parameter (variance). The solution of Eqn. \ref{StochCuspModel_2} satisfies the Fokker–Planck equation \cite{Zeeman1988}. While not solvable analytically, there is an associated stationary density function, $\pi (x)$, that can be easily solved. Given a constant $\phi$, this density has the form:
+where the term within brackets, $-Y(t)^3 + \beta Y(t) + \alpha $, is the drift term and $ \sigma_{y} $ is the diffusion parameter (variance). The solution of Eqn. \ref{StochCuspModel_2} satisfies the Fokker–Planck equation \cite{Zeeman1988}. While not solvable analytically, there is an associated stationary density function, $\pi (y)$, that can be easily solved. Given a constant $\phi$, this density has the form:
 
 \begin{equation}\label{CuspStatDensity}
-	\pi (x) = \phi \text{exp} \left\{ \frac{2}{\sigma_{x}^2} \left(-\frac{1}{4} x^4 + \frac{1}{2}\beta x^2 + \alpha x \large\right)\right\}
+	\pi (y) = \phi \text{exp} \left\{ \frac{2}{\sigma_{y}^2} \left(-\frac{1}{4} y^4 + \frac{1}{2}\beta y^2 + \alpha y \large\right)\right\}
 \end{equation}
-The model in \ref{CuspStatDensity} reduces to a maximum-likelihood problem if data for fitting $ \alpha $, $ \beta $ and $ X $ is available (see \cite{Cobb1985,Grasman2009} for details). In the accompanying paper we fit the stochastic cusp catastrophe model to the wintering waterfowl community time series of Doñana wetlands using the \verb|R| package \verb|cusp| \cite{Grasman2009}. Specifically the empirical model is: \\
+
+\renewcommand{\thefigure}{S4}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../output/figures/Cusp_Model_Fit}
+	\caption[Diagnostic plot for the fitted stochastic cusp catastrophe model]{Diagnostic plot for the fitted stochastic cusp catastrophe model (Eqn. \ref{Cusp_Final_SM}). The shaded region in the  $ \alpha-\beta $ plane is the bifurcation set of the cusp catastrophe: the set of points for which the Cardan's discriminant is 0. The crossing of the dotted lines, were $ \alpha = \beta = 0 $, is the cusp (tipping) point. The conditional density plots show the relative distribution of observed values that are located in each region of the plane. Green dots are above the folded region of the 3D cusp, purple dots are below the folded region.}
+	\label{fig:Cusp_Model_Fit}
+\end{figure}
+
+The model in \ref{CuspStatDensity} reduces to a maximum-likelihood problem if data for fitting $ \alpha $, $ \beta $ and $ Y $ is available (see \cite{Cobb1985,Grasman2009} for details). In the accompanying paper we fit the stochastic cusp catastrophe model to the wintering waterfowl community time series of Doñana wetlands using the \verb|R| package \verb|cusp| \cite{Grasman2009}. Specifically, the empirical model is: \\
 
 \begin{equation}\label{Cusp_Final_SM}
 	\begin{aligned}
@@ -432,7 +435,7 @@ The model in \ref{CuspStatDensity} reduces to a maximum-likelihood problem if da
 		y = \omega_{0} + \omega_{1}x_{1}
 	\end{aligned}
 \end{equation}
-where $\alpha$ and $\beta$ are the asymmetry and bifurcation parameters, respectively \cite{Grasman2009}. These variables are smooth transformations of the control variables \textit{F} (flooding extension) and \textit{SAOD} (stratospheric aerosol optical depth). The canonical variable \textit{y} is the state of the system, represented by the major community trend detected by the DFA, $x_{1}$. The fitted Maximum-likelihood parameter values of the stochastic cusp catastrophe model in Eqn. \ref{Cusp_Final_SM} are shown in Table \ref{tab:TableCusp}.
+where $\alpha$ and $\beta$ are the asymmetry and bifurcation parameters, respectively \cite{Grasman2009}. These variables are smooth transformations of the control variables \textit{F} (flooding extension) and \textit{SAOD} (stratospheric aerosol optical depth). The canonical variable \textit{y} is the state of the system, represented by the major community trend detected by the DFA, $x_{1}$. The fitted Maximum-likelihood parameter values of the stochastic cusp catastrophe model in Eqn. \ref{Cusp_Final_SM} are shown in Table \ref{tab:TableCusp}. The diagnostic plot for the fitted stochastic cusp catastrophe model is shown in Figure \ref{fig:Cusp_Model_Fit}.
 
 %\newpage
 \addcontentsline{toc}{section}{References}
