@@ -535,6 +535,8 @@ for(period in Period) {
 
   if(plot){
 
+    if (!dir.exists("output/SSRDLVR_model/MCMC_checks")) { dir.create("output/SSRDLVR_model/MCMC_checks") }
+
     if(period=='PrePinatubo') ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PrePinatubo))
 
     if(period=='PostPinatubo') ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PostPinatubo))

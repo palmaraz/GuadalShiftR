@@ -368,7 +368,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -379,8 +379,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -393,9 +393,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>GuadalShiftR/</code> <span
@@ -418,18 +418,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -520,15 +523,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtree83cf2e44024846bd075d032c9f879d354a41d057targetblank83cf2e4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtreedf580e27f24f98e705f54f3b47dfec5ce01dcbd4targetblankdf580e2a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/palmaraz/GuadalShiftR/tree/83cf2e44024846bd075d032c9f879d354a41d057" target="_blank">83cf2e4</a>
+<a href="https://github.com/palmaraz/GuadalShiftR/tree/df580e27f24f98e705f54f3b47dfec5ce01dcbd4" target="_blank">df580e2</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtree83cf2e44024846bd075d032c9f879d354a41d057targetblank83cf2e4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcompalmarazGuadalShiftRtreedf580e27f24f98e705f54f3b47dfec5ce01dcbd4targetblankdf580e2a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -538,7 +541,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/palmaraz/GuadalShiftR/tree/83cf2e44024846bd075d032c9f879d354a41d057" target="_blank">83cf2e4</a>.
+<a href="https://github.com/palmaraz/GuadalShiftR/tree/df580e27f24f98e705f54f3b47dfec5ce01dcbd4" target="_blank">df580e2</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -556,12 +559,13 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    README.html
-    Ignored:    output/SSRDLVR_model/MCMC_checks/
     Ignored:    pipeline.R
 
 Unstaged changes:
-    Modified:   CITATION
-    Modified:   MAKEFILE.R
+    Modified:   analysis/Reproduce.Rmd
+    Modified:   analysis/rpackages-refs.bib
+    Modified:   analysis/rpackages.Rmd
+    Modified:   code/MAKEFILE.R
 
 </code></pre>
 <p>
@@ -607,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/palmaraz/GuadalShiftR/blob/df580e27f24f98e705f54f3b47dfec5ce01dcbd4/analysis/Reproduce.Rmd" target="_blank">df580e2</a>
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+Commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/palmaraz/GuadalShiftR/e88c7863d9b92a1a0d0a8f580b82fa9d19e43c31/docs/Reproduce.html" target="_blank">e88c786</a>
+</td>
+<td>
+Pablo Almaraz
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1352,6 +1390,8 @@ for(period in Period) {
   plot=FALSE
 
   if(plot){
+    
+    if (!dir.exists(&quot;output/SSRDLVR_model/MCMC_checks&quot;)) { dir.create(&quot;output/SSRDLVR_model/MCMC_checks&quot;) }
 
     if(period==&#39;PrePinatubo&#39;) ggs_object = ggs(as.mcmc.list(SSRDLVR_model_results_PrePinatubo))
 
@@ -1853,8 +1893,8 @@ fit &lt;- cusp(
 
 # save(fit, file=&#39;output/Cusp_fit.Rdata&#39;)
 
-summary(fit, logist = TRUE)
-confint(fit,level = 0.95)
+print(summary(fit, logist = TRUE))
+print(confint(fit,level = 0.95))
 
 pdf(&quot;output/figures/Cusp_Model_Fit.pdf&quot;,height=8,width=7)
 plot(fit)

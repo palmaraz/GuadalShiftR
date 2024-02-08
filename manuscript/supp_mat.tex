@@ -250,7 +250,7 @@ hypertexnames=true
 \rhead{\thepage}  % Place the page number on the right
 
 % Alternate header with abbreviated manuscript title
-\fancyhead[RO,LE]{Almaraz \& Green (2024)}
+\fancyhead[RO,LE]{\href{https://doi.org/10.1016/j.biocon.2024.110466}{Almaraz \& Green (2024)}}
 
 % Set the top rule line
 \renewcommand{\headrulewidth}{0.4pt}
@@ -262,7 +262,7 @@ hypertexnames=true
 %\cfoot{} % Placeholder for journal
 %\rfoot{Date: \today} % Placeholder for date
 %\rfoot{Biological Conservation} % Placeholder for journal
-\lfoot{Biological Conservation: 'Non-equilibrium perspectives in biological conservation'}
+\lfoot{\textit{Biological Conservation}: \href{https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV}{'Non-equilibrium perspectives in biological conservation'}}
 % Centered page number in the footer
 %\fancyfoot[C]{\thepage}
 \fancyfoot[R]{\thepage}
@@ -273,7 +273,7 @@ hypertexnames=true
 
 \vspace{0.2in}
 
-\noindent \large{Almaraz, P. and Green, A.J. (2023) Catastrophic bifurcation in the dynamics of a threatened bird community triggered by a planetary-scale environmental perturbation. \textit{Biological Conservation}.}
+\noindent \large{Almaraz, P. and Green, A.J. (2024) Catastrophic bifurcation in the dynamics of a threatened bird community triggered by a planetary-scale environmental perturbation. \textit{Biological Conservation}. \url{https://doi.org/10.1016/j.biocon.2024.110466}
 \markboth{Index}{}
 
 \vspace{0.7in}
@@ -292,7 +292,7 @@ hypertexnames=true
 \section{Regularization of interaction coefficients in the regime-dependent LVR model}
 \markboth{Regularization of interaction coefficients}{}
 
-In natural communities of interacting species most of the potential inter-specific interactions are generally weak, and this is known to stabilize competitive communities \cite{McCann1998,Berlow1999,Neutel2008,Mutshinda2009,Barabas2016,Wootton2016,Downing2020,Gellner2023}. Besides, for high-dimensional hierarchical Bayesian models, such as the regime-dependent state-space LVR model used here, it is desirable to control for potential issues with MCMC convergence and posterior cross-correlations among parameters induced by the large amount in inter-specific interactions fluctuating around 0 \cite{Almaraz2011,Almaraz2012,Mutshinda2009,Mutshinda2011}. To this end, we used a regularization (sparsity-inducing) scheme on the inter-specific interactions of matrix $\mathbf{A}$, the $\alpha_{i,j}$'s. Through regularization methods those parameters whose impact on the posterior probability is weak are set to 0 during the MCMC simulation. At the same time, regularization schemes should be able to simultaneously let those interactions with significant effects on the posterior to be estimated freely. We use Stochastic Search Variable Selection (SSVS; \cite{George1993}) to automatically set to 0 the inter-specific interactions with a weak effect on the posterior during the MCMC simulation. Specifically, we induced a spike-and-slab prior \cite{Ishwaran2005} for the distribution of the $\alpha_{i,j}$'s. Let's define the probability of inclusion of a given interaction coefficient $\alpha_{i,j}$ as a random variable $p$, following a discrete Bernoulli distribution,
+In natural communities of interacting species most of the potential inter-specific interactions are generally weak, and this is known to stabilize competitive communities \cite{McCann1998,Berlow1999,Neutel2008,Mutshinda2009,Barabas2016,Wootton2016,Downing2020,Gellner2023}. Besides, for high-dimensional hierarchical Bayesian models, such as the state-space regime-dependent LVR model used here, it is desirable to control for potential issues with MCMC convergence and posterior cross-correlations among parameters induced by the large amount in inter-specific interactions fluctuating around 0 \cite{Almaraz2011,Almaraz2012,Mutshinda2009,Mutshinda2011}. To this end, we used a regularization (sparsity-inducing) scheme on the inter-specific interactions of matrix $\mathbf{A}$, the $\alpha_{i,j}$'s. Through regularization methods those parameters whose impact on the posterior probability is weak are set to 0 during the MCMC simulation. At the same time, regularization schemes should be able to simultaneously let those interactions with significant effects on the posterior to be estimated freely. We use Stochastic Search Variable Selection (SSVS; \cite{George1993}) to automatically set to 0 the inter-specific interactions with a weak effect on the posterior during the MCMC simulation. Specifically, we induced a spike-and-slab prior \cite{Ishwaran2005} for the distribution of the $\alpha_{i,j}$'s. Let's define the probability of inclusion of a given interaction coefficient $\alpha_{i,j}$ as a random variable $p$, following a discrete Bernoulli distribution,
 
 \begin{equation}\label{dist_bern}
 	p \sim \textnormal{Bern}(\nu)
@@ -347,7 +347,7 @@ Figure \ref{fig:FloodingImpact} shows the posterior distribution of the impact o
 \section{Posterior predicted datasets}
 \markboth{Posterior predicted datasets}{}
 
-Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability of the fitted regime-dependent state-space LVR model to replicate the time-series of community abundance before (A) and after (B) the Mt. Pinatubo eruption.
+Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability of the fitted state-space regime-dependent LVR model to replicate the time-series of community abundance before (A) and after (B) the Mt. Pinatubo eruption.
 
 \renewcommand{\thefigure}{S3}
 \begin{figure}[htbp]
@@ -355,7 +355,7 @@ Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability o
 	\subfloat[\textbf{Before} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/PPC_TS_fullplot_PrePinatubo} }}%
 	\qquad
 	\subfloat[\textbf{After} the Pinatubo eruption] {{\includegraphics[width=0.45\linewidth]{../output/figures/PPC_TS_fullplot_PostPinatubo} }}%
-	\caption{Posterior predicted datasets testing the ability of the fitted regime-dependent state-space LVR model to replicate the time-series of community abundance before (A) and after (B) the Mt. Pinatubo eruption. For each species and regime, the figures show the observed replicated wintering counts for December (blue dots) and January (green dots), along with the posterior predicted latent abundance (red line) and 95 \% Credible Intervals (red shaded region). These distributions were obtained from 1000 replicated time series simulated from the posterior distribution of the parameters of the LVR model. }%
+	\caption{Posterior predicted datasets testing the ability of the fitted state-space regime-dependent LVR model to replicate the time-series of community abundance before (a) and after (b) the Mt. Pinatubo eruption. For each species and regime, the figures show the observed replicated wintering counts for December (blue dots) and January (green dots), along with the posterior predicted latent abundance (red line) and 95 \% Credible Intervals (red shaded region). These distributions were obtained from 1000 replicated time series simulated from the posterior distribution of the parameters of the state-space regime-dependent LVR model.}%
 	\label{fig:PPC}%
 \end{figure}
 
@@ -370,21 +370,21 @@ Figure \ref{fig:PPC} show the posterior predicted datasets testing the ability o
 	\label{fig:Cusp_Model_Fit}
 \end{figure}
 
-As a theorem for the classification of dynamical systems, catastrophe theory identifies seven canonical, so-called elementary catastrophes (see \cite{Thom1975,Arnold1994}). Currently, the majority of applications of catastrophe theory in ecology are based on the fold model: a single control parameter induces sudden changes between alternative stable states, separated by unstable parameter regions that induce hysteresis \cite{Dakos2019,Scheffer2009a}. Here, we used the second canonical catastrophe, the cusp, to test the hypothesis linking planetary-scale perturbations to alternative stable states in the wintering waterfowl community. With an additional control parameter, the cusp catastrophe model considers that some external variables may modulate the behaviour of the bifurcation parameter, inducing discontinuous, nonlinear behavior in a previously smooth, continuous dynamics. Here, we briefly introduce the cusp catastrophe model. Consider a deterministic dynamical system with a state variable $ y(t) $, one or several control parameters \textit{c}, and a potential function of the system, $ V(y; c) $:
+As a theorem for the classification of dynamical systems, catastrophe theory identifies seven canonical, so-called elementary catastrophes (see \cite{Thom1975,Arnold1994}). Currently, the majority of applications of catastrophe theory in ecology are based on the fold model: a single control parameter induces sudden changes between alternative stable states, separated by unstable parameter regions that induce hysteresis \cite{Dakos2019,Scheffer2009a}. Here, we used the second canonical catastrophe, the cusp, to test the hypothesis linking planetary-scale perturbations to alternative stable states in the wintering waterfowl community. With an additional control parameter, the cusp catastrophe model considers that some external variables may modulate the behaviour of the bifurcation parameter, inducing discontinuous, nonlinear behavior in a previously smooth, continuous dynamics. Here, we briefly introduce the cusp catastrophe model. Consider a deterministic dynamical system with a state variable $ x(t) $, one or several control parameters \textit{c}, and a potential function of the system, $ V(x; c) $:
 
 \begin{equation}\label{DynamModeCusp}
-	\frac{\partial y}{\partial t} = - \frac{\partial V(y; c)}{\partial y}
+	\frac{\partial x}{\partial t} = - \frac{\partial V(x; c)}{\partial x}
 \end{equation}
-where $y, c \in \R$. The minimum of the potential $ V(y; c) $ is achieved at equilibrium, $ \frac{\partial y}{\partial t} = 0 $. Catastrophe theory classifies the behaviour of dynamical systems such as Eqn. \ref{DynamModeCusp} in the vicinity of degenerate equilibria (critical points) of the potential $ V(y; c) $. An equilibria is degenerate if the higher-order derivatives of the potential function are also 0 at these points. The key is that the degeneracy of the critical points can be unfolded by Taylor-expanding the potential function around them. This set of points can then be classified in seven canonical forms, or universal unfoldings. The second of these canonical forms is the cusp. Given two control parameters, $ \{\alpha, \beta\} $, the canonical form of the potential function for the cusp catastrophe is:
+where $x, c \in \R$. The minimum of the potential $ V(x; c) $ is achieved at equilibrium, $ \frac{\partial x}{\partial t} = 0 $. Catastrophe theory classifies the behaviour of dynamical systems such as Eqn. \ref{DynamModeCusp} in the vicinity of degenerate equilibria (critical points) of the potential $ V(x; c) $. An equilibria is degenerate if the higher-order derivatives of the potential function are also 0 at these points. The key is that the degeneracy of the critical points can be unfolded by Taylor-expanding the potential function around them. This set of points can then be classified in seven canonical forms, or universal unfoldings. The second of these canonical forms is the cusp. Interestingly, the cusp catastrophe is structurally stable (\cite{Poston1979}). Given two control parameters, $ \{\alpha, \beta\} $, the canonical form of the potential function for the cusp catastrophe is:
 
 \begin{equation}\label{CanonicalPotential}
-	-V(y; \alpha, \beta) =  - \frac{1}{4} y^4 + \frac{1}{2}\beta y^2 + \alpha y 
+	-V(x; \alpha, \beta) =  - \frac{1}{4} x^4 + \frac{1}{2}\beta x^2 + \alpha x 
 \end{equation}
 
-The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $, is thus $ \frac{\partial y}{\partial t} = - \frac{\partial V(y; \alpha,\beta)}{\partial y} = 0$, which takes the form:
+The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $, is thus $ \frac{\partial x}{\partial t} = - \frac{\partial V(x; \alpha,\beta)}{\partial x} = 0$, which takes the form:
 
 \begin{equation}\label{SolutionCanonical}
-	\alpha + \beta y - y^3 = 0
+	\frac{\partial x}{\partial t} = \alpha + \beta x - x^3 = 0
 \end{equation}
 
 \begin{table}
@@ -398,27 +398,32 @@ The equilibrium of the cusp unfolding, as a function of $ \alpha $ and $ \beta $
 		\toprule
 		\textbf{Parameter} & \textbf{Average} & \textbf{95 CI} \\
 		\midrule
-		$ \alpha_{1}F $ & -0.105 & (-0.271, 0.061) \\
-		$ \beta_{0} $ & 4.672 & (3.619, 5.725) \\
-		$ \beta_{1}SAOD $ & -1.121 & (-1.745, -0.498) \\
-		$ \omega_{0} $ & -0.400 & (-0.526, -0.274) \\
-		$ \omega_{1}x_{1} $ & 4.509 & (4.004, 5.015) \\
+		$ \alpha_{1}F $ & -0.104 & (-0.269, 0.062) \\
+		$ \beta_{0} $ & 4.704 & (3.645, 5.763) \\
+		$ \beta_{1}SAOD $ & -1.119 & (-1.740, -0.498) \\
+		$ \omega_{0} $ & -0.396 & (-0.522, -0.271) \\
+		$ \omega_{1}x_{1} $ & 4.658 & (4.139, 5.180) \\
 		\bottomrule
 		&& \\
 	\end{tabular}
 \end{table}
 
-The equilibrium points of the cusp catastrophe are the solutions of Eq. \ref{SolutionCanonical}. There is a range of solutions that the cusp can take, depending on the Cardan's discriminant: $ \delta = 27\alpha - 4\beta^3 $. If $ \delta > 0 $, the system has only one solution. But if $ \delta < 0 $, there are three solutions of the system defined by \ref{SolutionCanonical}. The set of values of $ \alpha $ and $ \beta $ for which $ \delta = 0 $ is, indeed, the bifurcation set. It is in this region were the system exhibits alternative stable states (see \cite{Thom1975,Casti1979,Grasman2009} for further details). Cobb \& Watson \cite{Cobb1980} provided a stochastic approach to the cusp catastrophe. Adding to Eqn. \ref{DynamModeCusp} a Wiener process $ dW(t) $ with variance $ \sigma^2 $, we get:
+The equilibrium points of the cusp catastrophe are the solutions of Eq. \ref{SolutionCanonical}. There is a range of solutions that the cusp can take, depending on the Cardan's discriminant: $ \delta = 27\alpha - 4\beta^3 $. If $ \delta > 0 $, the system has only one solution. But if $ \delta < 0 $, there are three solutions of the system defined by \ref{SolutionCanonical}. The set of values of $ \alpha $ and $ \beta $ for which $ \delta = 0 $ is, indeed, the bifurcation set. It is in this region were the system exhibits alternative stable states (see \cite{Thom1975,Poston1979,Casti1979,Grasman2009} for further details). Cobb \& Watson \cite{Cobb1980} provided a stochastic approach to the cusp catastrophe. Adding to Eqn. \ref{DynamModeCusp} a Wiener (white noise) process $ dW(t) $, we get the stochastic version of Eqn. \ref{SolutionCanonical}:
 
 \begin{equation}\label{StochCuspModel_1}
-	dY = \dfrac{\partial V(Y; \alpha,\beta)}{\partial Y}dt + dW(t)
+	dX = \dfrac{\partial V(X; \alpha,\beta)}{\partial X}dt + dW(t)
 \end{equation}
-which, for the case of the cusp, can be rewritten as
+which, for the case of the cusp, can be time-indexed and rewritten as
 
 \begin{equation}\label{StochCuspModel_2}
-	dZ_{t} = (-Z(t)^3 + \beta Z(t) + \alpha)dt + \sigma_{z} dW(t)
+	dX_{t} = (-X(t)^3 + \beta X(t) + \alpha)dt + \sigma_{x} dW(t)
 \end{equation}
-where the term within brackets is the drift term and $ \sigma_{z} $ is the diffusion parameter. Thus, the model in \ref{StochCuspModel_2} reduces to a maximum-likelihood problem if data for fitting $ \alpha $, $ \beta $ and $ Z $ is available (see \cite{Cobb1985,Grasman2009} for details). In the accompanying paper we fit the stochastic cusp catastrophe model to the wintering waterfowl community time series of Doñana wetlands using the \verb|R| package \verb|cusp| \cite{Grasman2009}. Specifically the empirical model is: \\
+where the term within brackets, $-X(t)^3 + \beta X(t) + \alpha $, is the drift term and $ \sigma_{x} $ is the diffusion parameter (variance). The solution of Eqn. \ref{StochCuspModel_2} satisfies the Fokker–Planck equation \cite{Zeeman1988}. While not solvable analytically, there is an associated stationary density function, $\pi (x)$, that can be easily solved. Given a constant $\phi$, this density has the form:
+
+\begin{equation}\label{CuspStatDensity}
+	\pi (x) = \phi \text{exp} \left\{ \frac{2}{\sigma_{x}^2} \left(-\frac{1}{4} x^4 + \frac{1}{2}\beta x^2 + \alpha x \large\right)\right\}
+\end{equation}
+The model in \ref{CuspStatDensity} reduces to a maximum-likelihood problem if data for fitting $ \alpha $, $ \beta $ and $ X $ is available (see \cite{Cobb1985,Grasman2009} for details). In the accompanying paper we fit the stochastic cusp catastrophe model to the wintering waterfowl community time series of Doñana wetlands using the \verb|R| package \verb|cusp| \cite{Grasman2009}. Specifically the empirical model is: \\
 
 \begin{equation}\label{Cusp_Final_SM}
 	\begin{aligned}
