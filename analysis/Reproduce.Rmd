@@ -267,77 +267,77 @@ if(fit_DFA==FALSE) {
 
   load('output/BDFA_model/BDFA_results.Rdata')
 
+  # Plot the major common trends of the community
+  plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = "year", y = "estimate")) +
+    geom_ribbon(aes_string(ymin = "lower", ymax = "upper"),
+                alpha = 0.4) + geom_line() + facet_wrap("trend_number") +
+    xlab("Year") + ylab("Dynamic factor") + theme_bw() + theme(panel.grid = element_blank())
+  pdf("output/figures/Common_Trends_raw.pdf",height=4,width=8)
+  plot_rotate_DFA_2trends
+  dev.off()
+
+  # Difference in looic between models
+
+  message(paste0('\nThe looic for the DFA with 1 trend is ',
+                round(loocv_DFA_1trend_PS$estimates['looic','Estimate'],3), '\n',
+                'The looic for the DFA with 2 trends is ',
+                round(loocv_DFA_2trends_PS$estimates['looic','Estimate'],3), '\n',
+                'The difference is of ', round(loocv_DFA_1trend_PS$estimates['looic','Estimate'],3) -
+                  round(loocv_DFA_2trends_PS$estimates['looic','Estimate'],3),'\n',
+                sep=''))
+
+  pdf("output/figures/Common_Trends_by_Species.pdf",height=6,width=7)
+  ggplot(trends_by_sp) +
+    geom_ribbon(aes_string(x = "time", ymin = "lower", ymax = "upper"), alpha = 0.4) +
+    geom_line(aes_string(x = "time", y = "estimate")) +
+    geom_point(col = "royalblue", size = 1, alpha = 1, aes_string(x = "time",                                                                                                                                                    y = "y"), col = "red", size = 0.5, alpha = 0.4) +
+    facet_wrap("ID", scales = "free_y") + xlab("Time") +
+    ylab("") +
+    theme_bw() +
+    ylab('Abdundance (standardised)') + xlab('Year') +
+    theme(panel.grid = element_blank())
+  dev.off()
+
+
+  # Plot the factor loadings
+
+  FacLoad_plot = ggplot(FacLoad, aes_string(x = "name", y = "loading", fill = "trend", alpha = "prob_diff0")) +
+    geom_violin(color = NA) +
+    scale_fill_manual(values = c("royalblue", "orange2")) +
+    scale_y_continuous(limits = c(-2.5, 5)) +
+    geom_hline(yintercept = 0, lty = 2) +
+    coord_flip() +
+    xlab("Species") + ylab("Loading")
+  FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = "free_x")
+
+  pdf("output/figures/Factor_loadings.pdf",height=5,width=7)
+  FacLoad_plot
+  dev.off()
+
+
+  # HMM with 2 regimes
+
+  HMM_model_DFA_2trends <- fit_regimes(
+    y = rotate_DFA_2trends_trends_mean,
+    sds = sds,
+    n_regimes = 2,
+    iter = iter, chains = chains, refresh=iter, verbose = F)
+
+  message(paste0('\nThe looic for the HMM with 1 regime is ',
+                round(HMM_model_DFA_1trend_looic,3), '\n',
+                'The looic for the HMM with 2 regimes is ',
+                round(HMM_model_DFA_2trends_looic,3), '\n',
+                'The difference is of ', round(HMM_model_DFA_1trend_looic,3) -
+                  round(HMM_model_DFA_2trends_looic,3),'\n',
+                sep=''))
+
+  # Plot the regimes
+
+  pdf("output/figures/Regime_shift.pdf",height=5,width=5)
+  plot_hmm_regimes(HMM_model_DFA_2trends,years=years)
+  dev.off()
+
 }
-
-# Plot the major common trends of the community
-plot_rotate_DFA_2trends = ggplot(trends, aes_string(x = "year", y = "estimate")) +
-  geom_ribbon(aes_string(ymin = "lower", ymax = "upper"),
-              alpha = 0.4) + geom_line() + facet_wrap("trend_number") +
-  xlab("Year") + ylab("Dynamic factor") + theme_bw() + theme(panel.grid = element_blank())
-pdf("output/figures/Common_Trends_raw.pdf",height=4,width=8)
-plot_rotate_DFA_2trends
-dev.off()
-
-# Difference in looic between models
-
-message(paste0('\nThe looic for the DFA with 1 trend is ',
-               round(loocv_DFA_1trend_PS$estimates['looic','Estimate'],3), '\n',
-               'The looic for the DFA with 2 trends is ',
-               round(loocv_DFA_2trends_PS$estimates['looic','Estimate'],3), '\n',
-               'The difference is of ', round(loocv_DFA_1trend_PS$estimates['looic','Estimate'],3) -
-                 round(loocv_DFA_2trends_PS$estimates['looic','Estimate'],3),'\n',
-               sep=''))
-
-pdf("output/figures/Common_Trends_by_Species.pdf",height=6,width=7)
-ggplot(trends_by_sp) +
-  geom_ribbon(aes_string(x = "time", ymin = "lower", ymax = "upper"), alpha = 0.4) +
-  geom_line(aes_string(x = "time", y = "estimate")) +
-  geom_point(col = "royalblue", size = 1, alpha = 1, aes_string(x = "time",                                                                                                                                                    y = "y"), col = "red", size = 0.5, alpha = 0.4) +
-  facet_wrap("ID", scales = "free_y") + xlab("Time") +
-  ylab("") +
-  theme_bw() +
-  ylab('Abdundance (standardised)') + xlab('Year') +
-  theme(panel.grid = element_blank())
-dev.off()
-
-
-# Plot the factor loadings
-
-FacLoad_plot = ggplot(FacLoad, aes_string(x = "name", y = "loading", fill = "trend", alpha = "prob_diff0")) +
-  geom_violin(color = NA) +
-  scale_fill_manual(values = c("royalblue", "orange2")) +
-  scale_y_continuous(limits = c(-2.5, 5)) +
-  geom_hline(yintercept = 0, lty = 2) +
-  coord_flip() +
-  xlab("Species") + ylab("Loading")
-FacLoad_plot = FacLoad_plot + facet_wrap(~trend, scales = "free_x")
-
-pdf("output/figures/Factor_loadings.pdf",height=5,width=7)
-FacLoad_plot
-dev.off()
-
-
-# HMM with 2 regimes
-
-HMM_model_DFA_2trends <- fit_regimes(
-  y = rotate_DFA_2trends_trends_mean,
-  sds = sds,
-  n_regimes = 2,
-  iter = iter, chains = chains, refresh=iter, verbose = F)
-
-message(paste0('\nThe looic for the HMM with 1 regime is ',
-               round(HMM_model_DFA_1trend_looic,3), '\n',
-               'The looic for the HMM with 2 regimes is ',
-               round(HMM_model_DFA_2trends_looic,3), '\n',
-               'The difference is of ', round(HMM_model_DFA_1trend_looic,3) -
-                 round(HMM_model_DFA_2trends_looic,3),'\n',
-               sep=''))
-
-# Plot the regimes
-
-pdf("output/figures/Regime_shift.pdf",height=5,width=5)
-plot_hmm_regimes(HMM_model_DFA_2trends,years=years)
-dev.off()
 
 # END Bayesian DFA ####
 
