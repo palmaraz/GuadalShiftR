@@ -284,7 +284,7 @@
 	Ecological modeling has been traditionally dominated by a focus on the asymptotic behavior, but transient dynamics can have a profound effect on species and community persistence. We show a strong non-stationary coupling of ecological drivers in one of the world's major Mediterranean ecosystems, Doñana wetlands, which is currently threatened by many stressors. Recurrent changes in precipitation fluctuations triggered sudden reorganizations in community trends and population dynamics of a guild of ten wintering waterfowl species during a 36-year period. An anomalously dry and cold transient period in the Northern Hemisphere, induced by the volcanic eruption of Mt. Pinatubo in 1991, prompted an abrupt shift to an alternative regime of fluctuating species densities. Most species did not recover previous values even though local weather patterns and large-scale climatic conditions returned to normal values. Although the dynamical stability of the community is similar in both regimes, structural stability declined: the probability of feasibility dropped across time due to depressed population densities at equilibrium. A stochastic cusp catastrophe model fitted to the time series data suggests that the spatio-temporal persistence of cold and dry conditions in the wintering areas, coupled with warm and wet conditions in the breeding grounds, modulated local ecological conditions and induced hysteresis through behavioral shifts to alternative wintering sites. Our study provides empirical evidence for the existence of a catastrophic bifurcation triggered by a tipping point in the dynamics of an imperiled vertebrate community, highlighting the relevance of history and multi-stability in explaining current patterns in biological conservation.\\
 
 	\subsubsection*{Keywords} Alternative stable states; Doñana wetlands; Stochastic cusp catastrophe; Tipping point; Transient dynamics; Volcanism.
-	
+
 \end{abstract}
 
 \markboth{Abstract}{}
@@ -358,7 +358,7 @@ We used flexible P-Spline functions for constructing the terms $ \mathbf{S} $ (\
 After characterizing the existence and location of the regime shift, we fitted a state-space Lotka-Volterra-Ricker (LVR) model to each of the regimes to evaluate their relative stability and feasibility properties (\cite{Almaraz2011,Almaraz2012,Mutshinda2011}). We denote the first regime identified by the DFA in the dominant common trend, or dynamic factor (Fig. \ref{fig:Common_Trends}) with the subscript 1 for each of the parameters, and the second regime with the subscript 2. The LVR regime-dependent state-space model can be written as:
 
 \begin{equation}\label{LVR_State_Equation_form}
-	n_{i,t+1} = 
+	n_{i,t+1} =
 	\begin{cases}
 		n_{i,t} + r_{1,i}\left(1 - \frac{\sum_{j=1}^{s}\alpha_{1,ij}N_{j,t}}{K_{1,i}} \right) + \gamma_{1,i}F_{t} + \epsilon_{1,i,t} & \text{for $ 1978 < t < 1992 $}\\
 		n_{i,t} + r_{2,i}\left(1 - \frac{\sum_{j=1}^{s}\alpha_{2,ij}N_{j,t}}{K_{2,i}} \right) + \gamma_{2,i}F_{t} + \epsilon_{2,i,t} & \text{for $ 1995 < t < 2013 $}\\
@@ -366,7 +366,7 @@ After characterizing the existence and location of the regime shift, we fitted a
 \end{equation}
 
 \begin{equation}\label{LVR_Initial_State}
-	n_{i,0} = 
+	n_{i,0} =
 	\begin{cases}
 		\mu_{1,i,0} + \epsilon_{1,i,0} & \text{for $ 1978 < t < 1992 $}\\
 		\mu_{2,i,0} + \epsilon_{2,i,0} & \text{for $ 1995 < t < 2013 $}\\
@@ -374,7 +374,7 @@ After characterizing the existence and location of the regime shift, we fitted a
 \end{equation}
 
 \begin{equation}\label{LVR_Obs_Equation_form}
-	y_{i,k,t} = 
+	y_{i,k,t} =
 	\begin{cases}
 		n_{i,t} + b_{1,i,k} + \tau_{1,t,i} & \text{for $ 1978 < t < 1992 $}\\
 		n_{i,t} + b_{2,i,k} + \tau_{2,t,i} & \text{for $ 1995 < t < 2013 $}\\
@@ -396,7 +396,7 @@ We used Bayesian Markov Chain Monte Carlo (MCMC) through Gibbs sampling to fit t
 To evaluate the stability of the equilibrium for each community abundance regime detected by the DFA, we constructed the Jacobian matrix of the LVR model (e.g., \cite{Ranta2006}); for simplicity, we omit the subscript for each regime, but we recall that there are two Jacobians. In the LVR discrete-time model the equilibrium abundance vector, $ \mathbf{N}^* $, is given by $ \mathbf{N}^* = \mathbf{A}^{-1} \mathbf{K} $. The Jacobian matrix is then written as:
 
 \begin{equation}\label{LVR_Jacobian_RS}
-	\textbf{J} = 
+	\textbf{J} =
 	\begin{pmatrix}
 		1 - \dfrac{r_{1}}{k_{1}}{N}_{1}^* & \cdots & - \dfrac{\alpha_{1s}r_{1}}{k_{1}}{N}_{1}^*\\
 		\vdots & \ddots & \vdots\\
@@ -496,7 +496,7 @@ The comments from two anonymous reviewers greatly improved a previous version of
 \markboth{Data and code availability}{}
 \addcontentsline{toc}{section}{Data and code availability}
 
-All data and reproducible code is available in GitHub \url{https://github.com/palmaraz/GuadalShiftR} and Zenodo \url{https://zenodo.org/records}.\\
+All data and reproducible code is available in GitHub \url{https://github.com/palmaraz/GuadalShiftR} and Zenodo \url{https://zenodo.org/doi/10.5281/zenodo.10637066}.\\
 
 \addcontentsline{toc}{section}{References}
 \printbibliography
@@ -517,8 +517,8 @@ All data and reproducible code is available in GitHub \url{https://github.com/pa
 		\centering
 		\caption[Comparison of model fits between a linear model, a logistic model and the cusp catastrophe model]{Comparison of model fits between a linear model, a logistic model and the cusp catastrophe model. $ n_{p} $ is the number of parameters; $ \text{pseudo}-R^2 $ specifies the proportion of variance explained by each model; \textit{log}Lik is the minimized log-likelihood function; AIC is the small-sample corrected Akaike Information Criterion, and BIC the Bayesian Information Criterion.}
 		\label{tab:TableCuspComp}
-		%\small 
-		%\scriptsize 
+		%\small
+		%\scriptsize
 		%\footnotesize
 		\begin{tabular}{lccccc}% use \linewidth
 			\toprule
@@ -531,42 +531,42 @@ All data and reproducible code is available in GitHub \url{https://github.com/pa
 			& & & & & \\
 		\end{tabular}
 	\end{table}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=0.6\linewidth]{processed_figs/Environ_clim_ts}
 		\caption[Environmental and stratospheric aerosol optical depth time series]{Temporal evolution at monthly steps of the environmental variables used in this study. \textbf{A)} Time series for the stratospheric aerosol optical depth (adim.) in the Northern hemisphere, in yellow and green at two different latitudes (\cite{Booth2012}). The massive stratospheric aerosol injection events of the two largest volcanic eruptions of the study period, El Chichón (Mexico) and Mt. Pinatubo (Philippines), are located with arrows. The inset figure shows the box-plots for the average (horizontal line within each box), Standard Error (Box size) and Standard Deviation (whiskers) of the standardized variables of temperature, precipitation and spatial flooding extension, during volcanic years (1982-1983 and 1992-1995) and non-volcanic years. \textbf{B)} Monthly time series of temperature ($^\circ \mathrm{C}$) in the study area (\cite{Almaraz2012}, in purple), with smoothed loess fitting in yellow. \textbf{C)} Rainfall (mm.) in the study area in blue, with smoothed loess fitting in red. \textbf{D)} Spatial flooding extension (\textit{Ln}Has.) in the Doñana wetlands, including all types of flooded surfaces in orange, with smoothed loess fitting in green. \textbf{E)} Wavelet spectrum for the precipitation time series (\cite{Cazelles2008}). Power values within black contours indicate statistically significant periodicity.}
 		\label{fig:StructChanFullDoniana}
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=\linewidth]{processed_figs/NOAA_CAR.pdf}
 		\caption[Synoptic fields of composite anomalies obtained from the V3 of the Twentieth Century Reanalysis Project]{Synoptic fields of composite anomalies obtained from the V3 of the Twentieth Century Reanalysis Project (\url{https://psl.noaa.gov/data/20thC_Rean/}). The composite anomaly from 1978 to 2013, excluding the transient period 1992-1995, is shown for air temperature (\textbf{A}) and precipitation rate (\textbf{C}). The composite anomaly for the transient period, 1992-1995, is shown for air temperature (\textbf{B}) and precipitation rate (\textbf{D}). The seasonal period considered excludes the summer months. }
 		\label{fig:CRP_NASA_V3}
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=1\linewidth]{processed_figs/Common_Trends}
 		\caption[Posterior estimated community common DFA trends]{Posterior estimated community common trends in abundance of the state-space Dynamic Factor Analysis (\cite{Ward2022}) applied to the wintering waterfowl community, and 95 \% credible intervals. The inset figure in the common trend 1 shows the posterior regime shift identified by a Hidden Markov Model applied to the first common trend of the state-space DFA. The values of the common trend are depicted as red axes, and the average (and 95\% Credible Intervals) of each regime is denote in gray.}
 		\label{fig:Common_Trends}
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=1\linewidth]{../output/figures/Common_Trends_by_Species.pdf}
 		\caption[Posterior estimated common trends of the state-space DFA]{Posterior estimated common trends of the state-space Dynamic Factor Analysis for each wintering waterfowl species in Doñana wetlands, 1978-2021. The red dots denote the aerial count estimate for December and January of each wintering season. The solid line is the average posterior value of the common trend in Figure \ref{fig:Common_Trends} yielding the largest factor loading for each species (Figure \ref{fig:Factor_loadings}), and the shaded region is 95 \% credible intervals.}
 		\label{fig:Common_Trends_by_Species}
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=1\linewidth]{../output/figures/Factor_loadings.pdf}
 		\caption[Factors loadings of the state-space DFA]{Factors loadings of the state-space Dynamic Factor Analysis for each wintering waterfowl species and each dynamic common trend (shown in Figs. \ref{fig:Common_Trends} and \ref{fig:Common_Trends_by_Species}). Violin plots include the posterior density for each loading and species, and the gray shading (prob diff0) is proportional to the probability that the loading is different from 0.}
 		\label{fig:Factor_loadings}
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=\textwidth]{../output/figures/Wrapped_stability}
@@ -575,14 +575,14 @@ All data and reproducible code is available in GitHub \url{https://github.com/pa
 		% \setfloatalignment{b}  %b/t
 		% \forceversofloat  % \forcerectofloat
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../output/figures/Prob_of_extinction}
 		\caption[Change in probability of species extinction between two periods]{Change in the estimated probability of extinction at equilibrium for each waterfowl species in Doñana wetlands before (purple dots) and after the eruption of Mt. Pinatubo (green dots). From the posterior of the Bayesian regime-dependent state-space LVR model (Eqns. \ref{LVR_State_Equation_form}-\ref{LVR_Obs_Equation_form}) fitted to the time-series of community abundance, this probability is calculated, for each species and alternative stable state, as the fraction of posterior estimated population abundances at equilibrium that are not strictly positive. Note the \textit{sqrt}-transformation of the \textit{x}-axis.}
 		\label{fig:Extinction}
 	\end{figure}
-	
+
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=\linewidth]{processed_figs/Cusp_diagram}
