@@ -2,7 +2,11 @@
 
 <br />
 
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10637067.svg)](https://doi.org/10.5281/zenodo.10637067)
+<!-- <a href="" target="_blank"><img src="" alt=""></a> -->
+<!-- <a href="https://scholar.google.es/citations?user=GDFS1v0AAAAJ&hl" target="_blank">Pablo Almaraz</a> -->
+
+<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank"><img src="https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg" alt="License: CC BY-NC 4.0"></a> <a href="https://doi.org/10.5281/zenodo.10637067" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10637067.svg" alt="DOI"></a>
+
 
 <br />
 
@@ -78,9 +82,9 @@ This is the GitHub hosting of the project [GuadalShiftR](https://github.com/palm
 
 This project was conducted by:
 
-· [Pablo Almaraz](https://scholar.google.es/citations?user=GDFS1v0AAAAJ&hl) (see [contact](#contact) below), which conceived the study, designed and conducted the analyses, and led manuscript writing.
+· <a href="https://scholar.google.es/citations?user=GDFS1v0AAAAJ&hl" target="_blank">Pablo Almaraz</a> (see [contact](#contact) below), which conceived the study, designed and conducted the analyses, and led manuscript writing.
 
-· [Andrew J. Green](https://scholar.google.es/citations?user=wTg9HCcAAAAJ&hl=es), which participated in study conception and participated in manuscript writing.
+· <a href="https://scholar.google.es/citations?user=wTg9HCcAAAAJ&hl" target="_blank">Andrew J. Green</a>, which participated in study conception and participated in manuscript writing.
 
 The major goal of the project is to explore the existence of tipping points, a catastrophic bifurcation and alternative stable states throughout a 36-year period of wintering waterfowl community dynamics in the Guadalquivir marshes, SW Spain, induced by the explosion of Mt. Pinatubo, Philippines, in 1991.
 
@@ -105,7 +109,7 @@ Ecological modeling has been traditionally dominated by a focus on the asymptoti
 </p>
 
 <p align="center">
-<a href="https://www.copernicus.eu/"> <img src="docs/imgs/copernicus.jpeg" title="The wild environmental variability of Doñana. Attribution: https://www.copernicus.eu/ Source: Copernicus" width="550"/> </a>
+<a href="https://www.copernicus.eu/" target="_blank"> <img src="docs/imgs/copernicus.jpeg" title="The wild environmental variability of Doñana. Attribution: https://www.copernicus.eu/ Source: Copernicus" width="550"/> </a>
 </p>
 
 (<a href="#top">back to top</a>)
