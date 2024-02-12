@@ -883,7 +883,7 @@ for(period in Period) {
       panel.grid.major = element_blank(),
       panel.background = element_blank(),
       plot.background = element_rect(fill = "transparent", colour = NA)) +
-    ggtitle(paste0("Resilience: ", round(map_estimate(Resilience), 3),
+    ggtitle(paste0("Resilience: ", round(map_estimate(Resilience)$MAP_Estimate, 3),
                    " (", round(bayestestR::hdi(Resilience, credMass = 0.9, allowSplit = TRUE)[["CI_low"]], 3),",",
                    round(bayestestR::hdi(Resilience, credMass = 0.9, allowSplit = TRUE)[["CI_high"]],3), ") MAP, 90% HDI", sep=""),
             paste0("Probability of dynamic stability: ", round(EmpProbDynStab, 4),"\n", sep=""))
@@ -910,10 +910,10 @@ for(period in Period) {
 
   (EmpProbFeas = (dim(EquilAbund)[1] - length(which(apply(EquilAbund, 1, function(row) any(row < 0)))))/dim(EquilAbund)[1])
 
-  k_posterior = as.data.frame(map_estimate(k_vec))
+  k_posterior = as.data.frame(map_estimate(k_vec)$MAP_Estimate)
   rownames(k_posterior) = Sp_names_long
 
-  k_posterior = as.data.frame(cbind(rownames(k_posterior),as.data.frame(k_posterior$MAP_Estimate)))
+  k_posterior = as.data.frame(cbind(rownames(k_posterior),as.data.frame(k_posterior)))
   colnames(k_posterior) = c("variable","value")
 
   plot_feasibility = ggplot(reshape2::melt(EquilAbund), aes(x=value, y=reorder(variable, desc(variable)), fill = after_stat(x))) +
