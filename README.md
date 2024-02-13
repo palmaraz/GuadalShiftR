@@ -155,7 +155,11 @@ A list of these packages is placed at the end of this document.
 
 Here I will include the errors detected in the code and in the published paper
 
-  - **Updated Figure 8**:  In the published version, a small error slipped into production. In particular, the direction of the arrow depicting the impact of **Aerosol optical depth** is reversed. The corrected figure is included in this repository:
+- **13/02/2024**
+
+    - **Updated code**: the most recent release of the [bayestestR](https://easystats.github.io/bayestestR/) package, [0.13.2](https://easystats.github.io/bayestestR/news/index.html#breaking-changes-0-13-2), broke some lines of the first version of the code when using the `map_estimate()` function. This is now corrected.
+
+    - **Updated Figure 8**:  In the published version, a small error slipped into production. In particular, the direction of the   arrow depicting the impact of **Aerosol optical depth** is reversed. The corrected figure is included in this repository:
   
 <br />
   
