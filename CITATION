@@ -1,8 +1,13 @@
 @article{Almaraz2024,
-    title = {{Catastrophic Bifurcation in the Dynamics of a Threatened Bird Community Triggered by a Planetary-Scale Environmental Perturbation}},   
-    author = {Almaraz, Pablo and Green, Andy J},
+    title = {Catastrophic bifurcation in the dynamics of a threatened bird community triggered by a planetary-scale environmental perturbation},
     journal = {Biological Conservation},
-    year = {2024},
+    volume = {291},
     pages = {110466},
-    doi = {https://doi.org/10.1016/j.biocon.2024.110466}
+    year = {2024},
+    issn = {0006-3207},
+    doi = {https://doi.org/10.1016/j.biocon.2024.110466},
+    url = {https://www.sciencedirect.com/science/article/pii/S0006320724000272},
+    author = {Pablo Almaraz and Andy J. Green},
+    keywords = {Alternative stable states, Doñana wetlands, Stochastic cusp catastrophe, Tipping point, Transient dynamics, Volcanism},
+    abstract = {Ecological modeling has been traditionally dominated by a focus on the asymptotic behaviour, but transient dynamics can have a profound effect on species and community persistence. We show a strong non-stationary coupling of ecological drivers in one of the world's major Mediterranean ecosystems, Doñana wetlands, which is currently threatened by many stressors. Recurrent changes in precipitation fluctuations triggered sudden reorganizations in community trends and population dynamics of a guild of ten wintering waterfowl species during a 36-year period. An anomalously dry and cold transient period in the Northern Hemisphere, induced by the volcanic eruption of Mt. Pinatubo in 1991, prompted an abrupt shift to an alternative regime of fluctuating species densities. Most species did not recover previous values even though local weather patterns and large-scale climatic conditions returned to normal values. Although the dynamical stability of the community is similar in both regimes, structural stability declined: the probability of feasibility dropped across time due to depressed population densities at equilibrium. A stochastic cusp catastrophe model fitted to the time series data suggests that the spatio-temporal persistence of cold and dry conditions in the wintering areas, coupled with warm and wet conditions in the breeding grounds, modulated local ecological conditions and induced hysteresis through behavioral shifts to alternative wintering sites. Our study provides empirical evidence for the existence of a catastrophic bifurcation triggered by a tipping point in the dynamics of an imperiled vertebrate community, highlighting the relevance of history and multi-stability in explaining current patterns in biological conservation.}
 }

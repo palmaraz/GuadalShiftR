@@ -46,11 +46,9 @@
 
 </ul>
 
-</li>
+<li><a href="#corrections">CORRECTIONS</a></li>
 
-<li>
-
-<a href="#reproducible-workflow">Reproducible workflow</a>
+<li><a href="#reproducible-workflow">Reproducible workflow</a>
 
 <ul>
 
@@ -76,7 +74,7 @@
 
 ## About
 
-This is the GitHub hosting of the project [GuadalShiftR](https://github.com/palmaraz/GuadalShiftR). The paper associated to the project is published in the journal [Biological Conservation](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV). See the `CITATION` file for a BibTex entry to the article. This folder contains the files needed to reproduce all the results of the project, and compile the manuscript of the associated paper.
+This is the GitHub hosting of the project [GuadalShiftR](https://github.com/palmaraz/GuadalShiftR). The [paper](https://www.sciencedirect.com/science/article/pii/S0006320724000272) associated to the project is published in the journal [Biological Conservation](https://www.sciencedirect.com/journal/biological-conservation/special-issue/10DNPT6S9QV). See the `CITATION` file for a BibTex entry to the article. This folder contains the files needed to reproduce all the results of the project, and compile the manuscript of the associated paper.
 
 ### CRediT authorship
 
@@ -96,10 +94,6 @@ The major goal of the project is to explore the existence of tipping points, a c
 
 <br />
 
-<p align="center">
-<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/Cusp_diagram_grabs.png" title="Cusp catastrophe in the Guadalquivir marshes." width="550"/> </a>
-</p>
-
 ### Abstract
 
 Ecological modeling has been traditionally dominated by a focus on the asymptotic behavior, but transient dynamics can have a profound effect on species and community persistence. We show a strong non-stationary coupling of ecological drivers in one of the world's major Mediterranean ecosystems, Doñana wetlands, which is currently threatened by many stressors. Recurrent changes in precipitation fluctuations triggered sudden reorganizations in community trends and population dynamics of a guild of ten wintering waterfowl species during a 36-year period. An anomalously dry and cold transient period in the Northern Hemisphere, induced by the volcanic eruption of Mt. Pinatubo in 1991, prompted an abrupt shift to an alternative regime of fluctuating species densities. Most species did not recover previous values even though local weather patterns and large-scale climatic conditions returned to normal values. Although the dynamical stability of the community is similar in both regimes, structural stability declined: the probability of feasibility dropped across time due to depressed population densities at equilibrium. A stochastic cusp catastrophe model fitted to the time series data suggests that the spatio-temporal persistence of cold and dry conditions in the wintering areas, coupled with warm and wet conditions in the breeding grounds, modulated local ecological conditions and induced hysteresis through behavioral shifts to alternative wintering sites. Our study provides empirical evidence for the existence of a catastrophic bifurcation triggered by a tipping point in the dynamics of an imperiled vertebrate community, highlighting the relevance of history and multi-stability in explaining current patterns in biological conservation.
@@ -115,6 +109,14 @@ Ecological modeling has been traditionally dominated by a focus on the asymptoti
 (<a href="#top">back to top</a>)
 
 </p>
+
+<!-- ROADMAP -->
+
+<!-- -   [ ] Add links to the final files and web addresses. -->
+
+<!-- -   [ ] Obtain the DOIs. -->
+
+<!-- -   [x] Add back to top links -->
 
 ### Built With
 
@@ -149,7 +151,27 @@ A list of these packages is placed at the end of this document.
 
 </p>
 
-<!-- GETTING STARTED -->
+## **CORRECTIONS**
+
+Here I will include the errors detected in the code and in the published paper
+
+  - **Updated Figure 8**:  In the published version, a small error slipped into production. In particular, the direction of the arrow depicting the impact of **Aerosol optical depth** is reversed. The corrected figure is included in this repository:
+  
+<br />
+  
+<p align="center">
+<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/Cusp_diagram_grabs.png" title="Cusp catastrophe in the Guadalquivir marshes." width="650"/> </a>
+</p>
+
+<br />
+
+</p>
+
+<p align="right">
+
+(<a href="#top">back to top</a>)
+
+</p>
 
 ## Reproducible workflow
 

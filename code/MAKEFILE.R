@@ -1008,6 +1008,11 @@ Cusp_db <- read_delim("data/Environmental_data.csv", delim = ";", escape_double 
 trend_main = trends %>% dplyr::filter(trend_number == 'Trend 1')
 Cusp_db$DFA_trend = trend_main$estimate
 
+# Standardise data
+Cusp_db = Cusp_db %>%
+  mutate(Flood = scale(Flood)[,1],
+         SAOD = scale(SAOD)[,1])
+
 pdf("output/figures/Transition.pdf",height=4,width=5)
 Cusp_db %>%
   mutate(Period = factor(Period,
@@ -1027,11 +1032,6 @@ Cusp_db %>%
   theme_bw() +
   theme(panel.grid = element_blank())
 dev.off()
-
-# Standardise data
-Cusp_db = Cusp_db %>%
-  mutate(Flood = scale(Flood)[,1],
-         SAOD = scale(SAOD)[,1])
 
 # Fit the stochastic cusp catastrophe model
 fit <- cusp(
