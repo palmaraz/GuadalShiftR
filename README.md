@@ -153,7 +153,7 @@ A list of these packages is placed at the end of this document.
 
 ## **CORRECTIONS**
 
-This section will include the errors detected in the code and in the published paper.
+This section will include the problems detected in the code and in the published paper.
 
 - **13/02/2024**
 
