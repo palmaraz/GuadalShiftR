@@ -159,14 +159,6 @@ This section will include the problems detected in the code and in the published
 
     - **Updated code**: the most recent release of the [bayestestR](https://easystats.github.io/bayestestR/) package, [0.13.2](https://easystats.github.io/bayestestR/news/index.html#breaking-changes-0-13-2), broke some lines of the first version of the code when using the `map_estimate()` function. This is now corrected.
 
-    - **Updated Figure 8**:  In the published version, a small error slipped into production. In particular, the direction of the   arrow depicting the impact of **Aerosol optical depth** is reversed. The corrected figure is included in this repository:
-  
-<br />
-  
-<p align="center">
-<a href="https://github.com/palmaraz/GuadalShiftR"> <img src="docs/imgs/Cusp_diagram_grabs.png" title="Cusp catastrophe in the Guadalquivir marshes." width="650"/> </a>
-</p>
-
 <br />
 
 </p>
