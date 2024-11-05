@@ -171,7 +171,7 @@ This section will include the problems detected in the code and, potentially, in
 
 ## Reproducible workflow
 
-This section shows how to reproduce the results of the accompanying paper. The [code](https://github.com/palmaraz/GuadalShiftR/tree/master/code) folder has the following structure:
+This section shows how to reproduce the results of the accompanying paper. A [workflowr](https://workflowr.github.io/workflowr/) compiled website is found in folder `./docs/index.html`. The [code](https://github.com/palmaraz/GuadalShiftR/tree/master/code) folder has the following structure:
 
 ``` bash
 .

@@ -36,10 +36,7 @@ elsewhere. Keep in mind the issue with initial and prior values described above!
 do not modify the random seeds used in this project. Otherwise, expect slightly diverging
 numerical results. In particular, the estimation of the empirical probability of feasibility is
 particularly sensitive to these issues. Even depending on the particular version of R, Stan,
-JAGS, gcc, etc., slightly different results are expected. This is annoying.\n
-
-3. Finally, keep in mind that the chuncks of this Rmarkdown are set to `eval=FALSE`, if you want
-to run the chuncks, set to `eval=TRUE`.\n')
+JAGS, gcc, etc., slightly different results are expected. This is annoying.\n')
 
 # Load functions
 
