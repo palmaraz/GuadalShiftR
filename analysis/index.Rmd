@@ -8,6 +8,8 @@ editor_options:
   chunk_output_type: console
 ---
 
+<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank"><img src="https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg" alt="License: CC BY-NC 4.0"></a> <a href="https://doi.org/10.5281/zenodo.10637067" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10637067.svg" alt="DOI"></a>
+
 <br />
 
 <span style="font-size: 22px;">This is the GuadalShiftR project repository, exploring tipping points, catastrophic bifurcations and alternative stable states in the Guadalquivir marshes</span>
