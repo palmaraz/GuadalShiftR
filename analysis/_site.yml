@@ -18,6 +18,12 @@ navbar:
   - icon: fas fa-z
     text: Source code
     href: https://doi.org/10.5281/zenodo.10637067
+  - icon: fas fa-z
+    text: Source code
+    href: https://doi.org/10.5281/zenodo.10637067
+  - icon: ../docs/imgs/favicon.png
+    text: Robust Ecologies Lab
+    href: https://robustecologies.github.io
 output:
   workflowr::wflow_html:
     toc: yes
