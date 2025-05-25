@@ -12,12 +12,14 @@ editor_options:
 
 <br />
 
-<span style="font-size: 22px;">This is the GuadalShiftR project repository, exploring tipping points, catastrophic bifurcations and alternative stable states in the Guadalquivir marshes</span>
+<span style="font-size: 22px;">This is the GuadalShiftR project repository, exploring tipping points, catastrophic bifurcations and alternative stable states in the Guadalquivir marshes. Get the paper [here](https://www.sciencedirect.com/science/article/pii/S0006320724000272){target="blank" rel="noopener noreferrer"}</span>
 
 <br />
 
 <p align="center">
-<img src="imgs/hexGuadalShiftR.png" alt="hex sticker for the GuadalShiftR project" width="400px"/>
+  <a href="https://github.com/palmaraz/GuadalShiftR" target="_blank" rel="noopener noreferrer">
+    <img src="imgs/hexGuadalShiftR.png" width="450" alt="hex sticker for the GuadalShiftR project" width="400px"/>
+  </a>
 </p>
 
 <br />
